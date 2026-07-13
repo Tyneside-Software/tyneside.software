@@ -7,260 +7,152 @@
   <meta name="description" content="Logistics and work-management software for field services. Starting with cleaning — free for local businesses. Charity for new parents. Built from the North East.">
   <link rel="canonical" href="https://tyneside.software/">
   <link rel="icon" href="logo.svg" type="image/svg+xml">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            tyne: {
-              DEFAULT: '#0A2540',
-              deep: '#071a2e',
-              soft: '#143454',
-            },
-            amber: {
-              brand: '#F59E0B',
-            },
-          },
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif'],
-          },
-          borderRadius: {
-            '3xl': '1.5rem',
-          },
-        },
-      },
-    };
-  </script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-    body { font-family: 'Inter', system-ui, sans-serif; }
-    .tyne-blue { color: #0A2540; }
-    .hero {
-      background:
-        linear-gradient(rgba(10, 37, 64, 0.92), rgba(10, 37, 64, 0.96)),
-        url('https://picsum.photos/id/1015/2000/1200');
-      background-size: cover;
-      background-position: center;
-    }
-    a.no-underline { text-decoration: none; }
-  </style>
+  <link rel="stylesheet" href="arcade.css">
 </head>
-<body class="bg-zinc-50 text-zinc-900 antialiased">
+<body class="arcade">
 
-<nav class="bg-white border-b border-zinc-200 sticky top-0 z-50">
-  <div class="max-w-7xl mx-auto px-6 py-4 sm:py-5 flex justify-between items-center gap-4">
-    <a href="index.html" class="flex items-center gap-3 min-w-0 no-underline">
-      <img src="logo.svg" alt="Tyneside Software" class="h-10 sm:h-12 w-auto shrink-0">
-      <span class="text-2xl sm:text-3xl font-bold tracking-tighter tyne-blue">TYNESIDE</span>
-      <span class="text-lg sm:text-2xl font-medium text-zinc-400 hidden sm:inline tracking-tight">SOFTWARE</span>
+<nav class="site-nav" aria-label="Primary">
+  <div class="inner">
+    <a href="index.html" class="brand-link">
+      <img src="logo.svg" alt="Tyneside Software">
+      <span class="brand-word">TYNESIDE</span>
+      <span class="brand-sub">SOFTWARE</span>
     </a>
-    <div class="flex items-center gap-3 sm:gap-6">
-      <div class="hidden md:flex items-center gap-5 text-sm font-medium text-zinc-500">
-            <a href="https://tyneside.cleaning/" class="hover:text-tyne transition no-underline">Cleaning</a>
-            <a href="https://tyneside.charity/" class="hover:text-tyne transition no-underline">Charity</a>
-            <a href="https://tyneside.group/" class="hover:text-tyne transition no-underline">Group</a>
-            <a href="https://tyneside.games/" class="hover:text-tyne transition no-underline">Games</a>
-      </div>
-      <a href="mailto:michael@tyneside.software"
-         class="shrink-0 bg-tyne text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl text-sm sm:text-base font-semibold hover:bg-amber-600 transition no-underline">
-        Talk to Michael
-      </a>
+    <div class="nav-links">
+          <a href="https://tyneside.cleaning/">CLEANING</a>
+          <a href="https://tyneside.charity/">CHARITY</a>
+          <a href="https://tyneside.group/">GROUP</a>
+          <a href="https://tyneside.games/">GAMES</a>
     </div>
+    <a class="btn btn-fill" href="mailto:michael@tyneside.software">Talk to Michael</a>
   </div>
 </nav>
-  <!-- HERO -->
-  <header class="hero text-white py-24 sm:py-28 text-center">
-    <div class="max-w-4xl mx-auto px-6">
-      <p class="text-sm uppercase tracking-[0.2em] text-amber-brand font-semibold mb-4">Tyneside Software</p>
-      <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tighter">TYNESIDE SOFTWARE</h1>
-      <p class="mt-4 text-2xl sm:text-3xl font-light">
+  <header class="hero">
+    <div class="wrap">
+      <p class="hero-kicker">Player 1 · Tyneside Software</p>
+      <h1>TYNESIDE<br>SOFTWARE</h1>
+      <p class="hero-tag">
         Software with purpose.<br>
         Jobs with legacy.<br>
         Built from the North East.
       </p>
-      <p class="mt-10 text-lg sm:text-xl max-w-2xl mx-auto text-zinc-200">
-        Logistics &amp; work-management software for field services.<br>
+      <p class="hero-lead">
+        Logistics &amp; work-management software for field services.
         Starting with cleaning — free for local businesses. Charity for new parents.
       </p>
-      <div class="mt-12 flex flex-wrap justify-center gap-4">
-        <a href="#contact"
-           class="bg-white text-tyne px-8 sm:px-10 py-4 sm:py-5 rounded-3xl font-semibold text-lg sm:text-xl hover:scale-105 transition no-underline">
-          Let's build it →
-        </a>
-        <a href="#vision"
-           class="border border-white/40 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-3xl font-semibold text-lg sm:text-xl hover:bg-white/10 transition no-underline">
-          The plan
-        </a>
+      <div class="hero-actions">
+        <a class="btn btn-fill btn-lg" href="#contact">Let's build it →</a>
+        <a class="btn btn-magenta btn-lg" href="#vision">The plan</a>
       </div>
-      <p class="mt-8 text-sm opacity-75">
-        Company #17326934 • Incorporated 8 July 2026 • Newcastle upon Tyne
-      </p>
+      <p class="hero-meta">Company #17326934 • Inc. 8 July 2026 • Newcastle upon Tyne</p>
     </div>
   </header>
 
-  <!-- PRODUCT -->
-  <section class="py-20 bg-white" id="product">
-    <div class="max-w-4xl mx-auto px-6 text-center">
-      <h2 class="text-3xl sm:text-4xl font-bold tyne-blue mb-6">Field-service software that runs like clockwork</h2>
-      <p class="text-lg text-zinc-600 max-w-3xl mx-auto">
+  <section class="section" id="product">
+    <div class="wrap center">
+      <h2>// Field-service software</h2>
+      <p class="lede">
         Vertical logistics and work-management for any business that sends people out to jobs —
-        scheduling, routing, customer portals, invoicing, the works. Built to save hours every day.
+        scheduling, routing, customer portals, invoicing. Built to save hours every day.
       </p>
-      <ul class="mt-12 grid sm:grid-cols-2 gap-4 text-left max-w-2xl mx-auto">
-          <li class="flex items-start gap-3 bg-zinc-50 rounded-2xl px-5 py-4 text-zinc-700">
-            <span class="text-amber-brand font-bold" aria-hidden="true">✓</span>
-            <span>Job scheduling &amp; dispatch</span>
-          </li>
-          <li class="flex items-start gap-3 bg-zinc-50 rounded-2xl px-5 py-4 text-zinc-700">
-            <span class="text-amber-brand font-bold" aria-hidden="true">✓</span>
-            <span>Routing for travelling teams</span>
-          </li>
-          <li class="flex items-start gap-3 bg-zinc-50 rounded-2xl px-5 py-4 text-zinc-700">
-            <span class="text-amber-brand font-bold" aria-hidden="true">✓</span>
-            <span>Customer portals</span>
-          </li>
-          <li class="flex items-start gap-3 bg-zinc-50 rounded-2xl px-5 py-4 text-zinc-700">
-            <span class="text-amber-brand font-bold" aria-hidden="true">✓</span>
-            <span>Invoicing &amp; admin</span>
-          </li>
-          <li class="flex items-start gap-3 bg-zinc-50 rounded-2xl px-5 py-4 text-zinc-700">
-            <span class="text-amber-brand font-bold" aria-hidden="true">✓</span>
-            <span>Free for local cleaners (v1)</span>
-          </li>
-          <li class="flex items-start gap-3 bg-zinc-50 rounded-2xl px-5 py-4 text-zinc-700">
-            <span class="text-amber-brand font-bold" aria-hidden="true">✓</span>
-            <span>Proven on real North East jobs</span>
-          </li>
+      <ul class="list-neon">
+          <li>Job scheduling &amp; dispatch</li>
+          <li>Routing for travelling teams</li>
+          <li>Customer portals</li>
+          <li>Invoicing &amp; admin</li>
+          <li>Free for local cleaners (v1)</li>
+          <li>Proven on real North East jobs</li>
       </ul>
     </div>
   </section>
 
-  <!-- VISION -->
-  <section class="py-20 bg-zinc-50" id="vision">
-    <div class="max-w-7xl mx-auto px-6">
-      <h2 class="text-3xl sm:text-4xl font-bold tyne-blue text-center mb-4">The three-pronged plan</h2>
-      <p class="text-center text-zinc-600 max-w-2xl mx-auto mb-12">
-        Serious tech, real local business support, and genuine social impact — one family of brands.
-      </p>
-<div class="grid md:grid-cols-3 gap-8">
-    <div class="rounded-3xl p-8 bg-tyne text-white ring-2 ring-amber-brand">
-      <div class="text-5xl mb-6 font-bold text-amber-brand" aria-hidden="true">1</div>
-      <h3 class="font-semibold text-2xl mb-3 ">Software</h3>
-      <p class="text-zinc-200">Vertical logistics and work-management for any business that sends people out to jobs. Free for local cleaners while we prove the product.</p>
-      <p class="mt-4">
-        <a href="https://tyneside.software/"
-           class="font-semibold underline-offset-2 hover:underline no-underline text-white">
-          tyneside.software
-        </a>
+  <section class="section section-alt" id="vision">
+    <div class="wrap-wide">
+      <h2>// Three-pronged plan</h2>
+      <p class="lede">Serious tech, local business support, social impact — one family of brands.</p>
+<div class="grid-3">
+    <div class="panel active">
+      <p class="pixel-label" style="text-align:left;margin:0 0 0.5rem">STAGE 01</p>
+      <h3>Software</h3>
+      <p>Vertical logistics and work-management for any business that sends people out to jobs. Free for local cleaners while we prove the product.</p>
+      <p style="margin-top:1rem">
+        <a href="https://tyneside.software/">tyneside.software →</a>
       </p>
     </div>
-    <div class="rounded-3xl p-8 bg-zinc-100">
-      <div class="text-5xl mb-6 font-bold text-zinc-300" aria-hidden="true">2</div>
-      <h3 class="font-semibold text-2xl mb-3 tyne-blue">Cleaning ecosystem</h3>
-      <p class="text-zinc-600">Backing local entrepreneurs with free software, a proper website, and paid work. A living case study from day one.</p>
-      <p class="mt-4">
-        <a href="https://tyneside.cleaning/"
-           class="font-semibold underline-offset-2 hover:underline no-underline tyne-blue">
-          tyneside.cleaning
-        </a>
+    <div class="panel panel-m">
+      <p class="pixel-label" style="text-align:left;margin:0 0 0.5rem">STAGE 02</p>
+      <h3>Cleaning</h3>
+      <p>Backing local entrepreneurs with free software, a proper website, and paid work. A living case study from day one.</p>
+      <p style="margin-top:1rem">
+        <a href="https://tyneside.cleaning/">tyneside.cleaning →</a>
       </p>
     </div>
-    <div class="rounded-3xl p-8 bg-zinc-100">
-      <div class="text-5xl mb-6 font-bold text-zinc-300" aria-hidden="true">3</div>
-      <h3 class="font-semibold text-2xl mb-3 tyne-blue">Charity</h3>
-      <p class="text-zinc-600">Free welcome-home deep cleans for new parents in the North East. Cleaners get paid. Families get help. Software runs the work.</p>
-      <p class="mt-4">
-        <a href="https://tyneside.charity/"
-           class="font-semibold underline-offset-2 hover:underline no-underline tyne-blue">
-          tyneside.charity
-        </a>
+    <div class="panel panel-c">
+      <p class="pixel-label" style="text-align:left;margin:0 0 0.5rem">STAGE 03</p>
+      <h3>Charity</h3>
+      <p>Free welcome-home deep cleans for new parents in the North East. Cleaners get paid. Families get help. Software runs the work.</p>
+      <p style="margin-top:1rem">
+        <a href="https://tyneside.charity/">tyneside.charity →</a>
       </p>
     </div>
 </div>    </div>
   </section>
 
-  <!-- JULIE -->
-  <section class="py-20 bg-white" id="julie">
-    <div class="max-w-4xl mx-auto px-6 text-center">
-      <h2 class="text-3xl sm:text-4xl font-bold tyne-blue mb-8">In conversation with Julie Marriott</h2>
-      <blockquote class="bg-zinc-50 rounded-3xl p-8 sm:p-10 italic text-xl leading-relaxed border border-zinc-200 text-zinc-700">
+  <section class="section" id="julie">
+    <div class="wrap">
+      <h2>// High score quote</h2>
+      <blockquote class="quote">
         “You have a real story… you want to share and give back. I see your speed and the directions your brain moves in.”
-        <footer class="mt-6 not-italic text-base text-zinc-500">
-          — Julie Marriott, CEO Family Gateway
-        </footer>
+        <footer>— Julie Marriott, CEO Family Gateway</footer>
       </blockquote>
-      <p class="mt-8 text-zinc-600">
+      <p class="lede" style="margin-top:1.5rem">
         Exploring collaboration on software, jobs, and community impact in the North East.
       </p>
     </div>
   </section>
 
-  <!-- STORY -->
-  <section class="py-20 bg-zinc-50" id="story">
-    <div class="max-w-4xl mx-auto px-6">
-      <h2 class="text-3xl sm:text-4xl font-bold tyne-blue text-center mb-10">Built by Michael Thomson</h2>
-      <p class="text-lg text-zinc-600 text-center max-w-3xl mx-auto">
-        Ex-Head of Engineering at Advanced • Scaled CloudTrade to £25.8m acquisition •
-        Now CTO &amp; Co-Founder of Cloud Connect (£600k ARR, 40% growth).
+  <section class="section section-alt" id="story">
+    <div class="wrap center">
+      <h2>// Built by Michael Thomson</h2>
+      <p class="lede">
+        Ex-Head of Engineering at Advanced • CloudTrade £25.8m acquisition •
+        CTO &amp; Co-Founder of Cloud Connect (£600k ARR, 40% growth).
       </p>
-      <p class="mt-6 text-lg text-zinc-600 text-center max-w-3xl mx-auto">
-        Born in Seaham 1992. Neurodivergent founder with a 10-year plan to create a jobs engine in Tyneside —
+      <p class="lede">
+        Born Seaham 1992. Neurodivergent founder. 10-year plan: a jobs engine in Tyneside —
         generational wealth, capability, and prosperity for the region.
       </p>
     </div>
   </section>
 
-  <!-- CONTACT -->
-  <section id="contact" class="py-24 bg-tyne text-white text-center">
-    <div class="max-w-2xl mx-auto px-6">
-      <h2 class="text-4xl sm:text-5xl font-bold mb-6">Ready to talk?</h2>
-      <p class="text-xl sm:text-2xl mb-10 text-zinc-200">
-        Coffee in West Moor or Sands of Tyne? Or just drop me a message.
+  <section class="section-cta" id="contact">
+    <div class="wrap">
+      <h2>Ready to talk?</h2>
+      <p class="lede" style="color:var(--text)">
+        Coffee in West Moor or Sands of Tyne? Or just drop a message.
       </p>
-      <a href="mailto:michael@tyneside.software"
-         class="inline-block bg-white text-tyne px-10 sm:px-12 py-5 sm:py-6 rounded-3xl text-xl sm:text-2xl font-semibold hover:bg-amber-400 transition no-underline">
-        michael@tyneside.software
-      </a>
-      <p class="mt-12 text-sm opacity-75">
-        10-year vision already in motion • Lewis starts part-time coding at 13 •
-        Legacy for the family and the North East.
+      <a class="btn btn-fill btn-lg" href="mailto:michael@tyneside.software">michael@tyneside.software</a>
+      <p class="hero-meta">
+        10-year vision in motion • Lewis starts coding at 13 • Legacy for family &amp; North East
       </p>
     </div>
   </section>
 
-<footer class="bg-zinc-900 text-zinc-400 py-10 text-center text-sm px-6">
-  <div class="max-w-4xl mx-auto">
-    <p class="flex flex-wrap justify-center gap-x-3 gap-y-2 text-zinc-300 font-medium mb-6">
-        <a href="https://tyneside.software/"
-           class="text-white transition no-underline">
-          Tyneside Software
-        </a>
-<span class="text-zinc-600" aria-hidden="true">·</span>        <a href="https://tyneside.cleaning/"
-           class="text-zinc-400 hover:text-white transition no-underline">
-          Tyneside Cleaning
-        </a>
-<span class="text-zinc-600" aria-hidden="true">·</span>        <a href="https://tyneside.charity/"
-           class="text-zinc-400 hover:text-white transition no-underline">
-          Tyneside Charity
-        </a>
-<span class="text-zinc-600" aria-hidden="true">·</span>        <a href="https://tyneside.group/"
-           class="text-zinc-400 hover:text-white transition no-underline">
-          Tyneside Group
-        </a>
-<span class="text-zinc-600" aria-hidden="true">·</span>        <a href="https://tyneside.games/"
-           class="text-zinc-400 hover:text-white transition no-underline">
-          Tyneside Games
-        </a>
-    </p>
-    <p>
-      Tyneside Software Ltd • 10 Abbey Terrace, Newcastle upon Tyne, NE27 0QP<br>
-      Company #17326934 • SIC 58290 • Proudly made on the banks of the Tyne
-    </p>
-    <p class="mt-4 opacity-70">
-      &copy; Tyneside Software · Part of the Tyneside family
-    </p>
+<footer class="site-footer">
+  <div class="footer-brands">
+      <a href="https://tyneside.software/" class="is-current">SOFTWARE</a>
+      <a href="https://tyneside.cleaning/" class="">CLEANING</a>
+      <a href="https://tyneside.charity/" class="">CHARITY</a>
+      <a href="https://tyneside.group/" class="">GROUP</a>
+      <a href="https://tyneside.games/" class="">GAMES</a>
   </div>
+  <p class="legal">
+    Tyneside Software Ltd • 10 Abbey Terrace, Newcastle upon Tyne, NE27 0QP<br>
+    Company #17326934 • SIC 58290 • <span class="blink">█</span> Proudly made on the banks of the Tyne
+  </p>
+  <p class="legal" style="margin-top:0.75rem;opacity:0.7">
+    &copy; Tyneside Software · INSERT COIN TO CONTINUE
+  </p>
 </footer>
 </body>
 </html>
