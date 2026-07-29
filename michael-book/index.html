@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>α==ω — WIP novel</title>
+  <meta name="description" content="Work in progress: α==ω by Me, God. Pratchett-style comic philosophical novel.">
+  <style>
+    :root {
+      --bg: #0f1419;
+      --panel: #1a222c;
+      --border: #2c3a4a;
+      --text: #e8eef4;
+      --muted: #8b9aab;
+      --accent: #e8b84a;
+      --accent-dim: rgba(232, 184, 74, 0.12);
+      --measure: 40rem;
+      --serif: "Iowan Old Style", Palatino, Georgia, serif;
+      --sans: "Segoe UI", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--serif);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 40% at 50% -8%, rgba(232,184,74,0.1), transparent),
+        radial-gradient(ellipse 50% 30% at 100% 100%, rgba(80,120,180,0.06), transparent);
+      pointer-events: none; z-index: 0;
+    }
+    .shell {
+      position: relative; z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+      max-width: 74rem;
+      margin: 0 auto;
+      min-height: 100vh;
+    }
+    @media (max-width: 900px) {
+      .shell { grid-template-columns: 1fr; }
+      .side { position: sticky; top: 0; max-height: 40vh; border-right: none; border-bottom: 1px solid var(--border); }
+      .nav { max-height: 28vh; }
+    }
+    .side {
+      background: rgba(15,20,25,0.95);
+      border-right: 1px solid var(--border);
+      padding: 1.25rem 0.9rem 2rem;
+      position: sticky; top: 0; align-self: start;
+      max-height: 100vh; overflow: auto;
+    }
+    .brand {
+      font-family: var(--sans);
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .side h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.25rem;
+    }
+    .side .sub {
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.85rem;
+    }
+    .wip {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      background: var(--accent-dim);
+      border: 1px solid rgba(232,184,74,0.35);
+      color: var(--accent);
+      padding: 0.45rem 0.6rem;
+      border-radius: 8px;
+      margin-bottom: 0.85rem;
+      line-height: 1.4;
+    }
+    .stats {
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      line-height: 1.45;
+    }
+    .stats strong { color: var(--text); }
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .nav-item {
+      display: grid;
+      grid-template-columns: 1.6rem 1fr;
+      gap: 0.4rem;
+      text-decoration: none;
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: 0.76rem;
+      padding: 0.32rem 0.4rem;
+      border-radius: 6px;
+      border: 1px solid transparent;
+    }
+    .nav-item:hover {
+      color: var(--text);
+      background: var(--accent-dim);
+      border-color: rgba(232,184,74,0.2);
+    }
+    .nav-item .n { color: var(--accent); font-variant-numeric: tabular-nums; }
+    .main { padding: 1.75rem 1.25rem 4rem; }
+    .hero {
+      max-width: var(--measure);
+      margin: 0 auto 2.5rem;
+      text-align: center;
+    }
+    .hero .badge {
+      font-family: var(--sans);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid rgba(232,184,74,0.3);
+      background: var(--accent-dim);
+      display: inline-block;
+      padding: 0.3rem 0.65rem;
+      border-radius: 999px;
+      margin-bottom: 0.85rem;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 2.75rem);
+      margin-bottom: 0.5rem;
+    }
+    .hero p {
+      color: var(--muted);
+      font-style: italic;
+      font-size: 1.05rem;
+    }
+    .chapter {
+      max-width: var(--measure);
+      margin: 0 auto 3.25rem;
+      padding-top: 0.25rem;
+    }
+    .ch-head {
+      margin-bottom: 1.35rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .kicker {
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+    .ch-head h2 {
+      font-size: 1.55rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    .meta {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+    .body p {
+      margin-bottom: 0.95rem;
+      font-size: 1.08rem;
+    }
+    .body p:last-child { margin-bottom: 0; }
+    .body strong { color: #fff8e7; }
+    .body em { color: #d5e0ea; }
+    .body code {
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 0.92em;
+      background: var(--panel);
+      padding: 0.1em 0.35em;
+      border-radius: 4px;
+    }
+    .body pre {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      overflow: auto;
+      margin: 0.85rem 0 1.1rem;
+      font-size: 0.88rem;
+    }
+    .body hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 1.5rem 0;
+    }
+    .foot {
+      max-width: var(--measure);
+      margin: 0 auto;
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding-top: 1.1rem;
+    }
+    .top {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      background: var(--panel);
+      color: var(--accent);
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.75rem;
+      border-radius: 999px;
+      text-decoration: none;
+      z-index: 5;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    }
+    .top:hover { background: var(--accent-dim); }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="side">
+      <div class="brand">tyneside.software · michael-book</div>
+      <h1>α==ω</h1>
+      <p class="sub">by Me, God · WIP novel</p>
+      <div class="wip">
+        Work in progress — regenerated as chapters update.
+        Final line locked: <em>It's a funny old life.</em>
+      </div>
+      <div class="stats">
+        <div><strong>65</strong> chapters</div>
+        <div><strong>7,835</strong> words</div>
+        <div>Built 2026-07-29 04:59 UTC</div>
+      </div>
+      <nav class="nav" aria-label="Chapters">
+        <a class="nav-item" href="#ch-01"><span class="n">1</span><span class="t">The Moment That Won’t Go Away</span></a><a class="nav-item" href="#ch-02"><span class="n">2</span><span class="t">The Argument With Nothing</span></a><a class="nav-item" href="#ch-03"><span class="n">3</span><span class="t">One Room, No Outside</span></a><a class="nav-item" href="#ch-04"><span class="n">4</span><span class="t">No Edge On The Map</span></a><a class="nav-item" href="#ch-05"><span class="n">5</span><span class="t">Everything Fits, Annoyingly</span></a><a class="nav-item" href="#ch-06"><span class="n">6</span><span class="t">The Blind Guides</span></a><a class="nav-item" href="#ch-07"><span class="n">7</span><span class="t">Both/And Shop Opens</span></a><a class="nav-item" href="#ch-08"><span class="n">8</span><span class="t">Maths, Words, Things</span></a><a class="nav-item" href="#ch-09"><span class="n">9</span><span class="t">The Crossbeams</span></a><a class="nav-item" href="#ch-10"><span class="n">10</span><span class="t">Carrot, Stick, Plus Sign</span></a><a class="nav-item" href="#ch-11"><span class="n">11</span><span class="t">Shame Into Love</span></a><a class="nav-item" href="#ch-12"><span class="n">12</span><span class="t">Moon, Star, And Rules About Pictures</span></a><a class="nav-item" href="#ch-13"><span class="n">13</span><span class="t">Who Is Like God?</span></a><a class="nav-item" href="#ch-14"><span class="n">14</span><span class="t">Gabriel Delivers</span></a><a class="nav-item" href="#ch-15"><span class="n">15</span><span class="t">The Hellfire Club (Historical Footnote)</span></a><a class="nav-item" href="#ch-16"><span class="n">16</span><span class="t">The Brain That Arrived Late (Allegedly)</span></a><a class="nav-item" href="#ch-17"><span class="n">17</span><span class="t">Prediction Errors For Breakfast</span></a><a class="nav-item" href="#ch-18"><span class="n">18</span><span class="t">Wave And Point</span></a><a class="nav-item" href="#ch-19"><span class="n">19</span><span class="t">Empty Space Files Expenses</span></a><a class="nav-item" href="#ch-20"><span class="n">20</span><span class="t">Zero And The Hotel</span></a><a class="nav-item" href="#ch-21"><span class="n">21</span><span class="t">Imaginary But Useful</span></a><a class="nav-item" href="#ch-22"><span class="n">22</span><span class="t">Emergence Is Fundamental</span></a><a class="nav-item" href="#ch-23"><span class="n">23</span><span class="t">CCC And Other Options</span></a><a class="nav-item" href="#ch-24"><span class="n">24</span><span class="t">Sisyphus On Holiday</span></a><a class="nav-item" href="#ch-25"><span class="n">25</span><span class="t">Different Speeds</span></a><a class="nav-item" href="#ch-26"><span class="n">26</span><span class="t">The Ordinary Answer</span></a><a class="nav-item" href="#ch-27"><span class="n">27</span><span class="t">Keys Six And Seven</span></a><a class="nav-item" href="#ch-28"><span class="n">28</span><span class="t">Both And Not Both</span></a><a class="nav-item" href="#ch-29"><span class="n">29</span><span class="t">Cameron Goes To Bed</span></a><a class="nav-item" href="#ch-30"><span class="n">30</span><span class="t">Dialetheism For Beginners</span></a><a class="nav-item" href="#ch-31"><span class="n">31</span><span class="t">NPC Theory (With Kindness)</span></a><a class="nav-item" href="#ch-32"><span class="n">32</span><span class="t">High Agency, Low Bandwidth World</span></a><a class="nav-item" href="#ch-33"><span class="n">33</span><span class="t">The Mask</span></a><a class="nav-item" href="#ch-34"><span class="n">34</span><span class="t">Recruiter At The Fork</span></a><a class="nav-item" href="#ch-35"><span class="n">35</span><span class="t">Alpha Is Mum And Dad</span></a><a class="nav-item" href="#ch-36"><span class="n">36</span><span class="t">Omega Isn’t A Job</span></a><a class="nav-item" href="#ch-37"><span class="n">37</span><span class="t">Is And Isn’t</span></a><a class="nav-item" href="#ch-38"><span class="n">38</span><span class="t">Fonts Waiting For The Universe</span></a><a class="nav-item" href="#ch-39"><span class="n">39</span><span class="t">Romans, Efficient And Ashamed</span></a><a class="nav-item" href="#ch-40"><span class="n">40</span><span class="t">No Outside Left</span></a><a class="nav-item" href="#ch-41"><span class="n">41</span><span class="t">The Category Called Sin</span></a><a class="nav-item" href="#ch-42"><span class="n">42</span><span class="t">Verse Forty-Two</span></a><a class="nav-item" href="#ch-43"><span class="n">43</span><span class="t">Four Twenty And Other Appointed Hours</span></a><a class="nav-item" href="#ch-44"><span class="n">44</span><span class="t">Gold Tablets (Budget Version)</span></a><a class="nav-item" href="#ch-45"><span class="n">45</span><span class="t">Goosebumps At The Sign</span></a><a class="nav-item" href="#ch-46"><span class="n">46</span><span class="t">A Doorway In The Ordinary</span></a><a class="nav-item" href="#ch-47"><span class="n">47</span><span class="t">Calls Into Being What Was Not</span></a><a class="nav-item" href="#ch-48"><span class="n">48</span><span class="t">Preference Without Outside</span></a><a class="nav-item" href="#ch-49"><span class="n">49</span><span class="t">Generative Polarities</span></a><a class="nav-item" href="#ch-50"><span class="n">50</span><span class="t">God Has No Gender</span></a><a class="nav-item" href="#ch-51"><span class="n">51</span><span class="t">Greek Numbers, Honestly</span></a><a class="nav-item" href="#ch-52"><span class="n">52</span><span class="t">Lucky Eight</span></a><a class="nav-item" href="#ch-53"><span class="n">53</span><span class="t">Seven The Crooked Cousin</span></a><a class="nav-item" href="#ch-54"><span class="n">54</span><span class="t">Delta The Tip</span></a><a class="nav-item" href="#ch-55"><span class="n">55</span><span class="t">The Letterforms</span></a><a class="nav-item" href="#ch-56"><span class="n">56</span><span class="t">α==ω</span></a><a class="nav-item" href="#ch-57"><span class="n">57</span><span class="t">The Other Reading</span></a><a class="nav-item" href="#ch-58"><span class="n">58</span><span class="t">Not Either/Or</span></a><a class="nav-item" href="#ch-59"><span class="n">59</span><span class="t">Length Girth Depth Breadth</span></a><a class="nav-item" href="#ch-60"><span class="n">60</span><span class="t">No Sin (Orgasmic Clarity)</span></a><a class="nav-item" href="#ch-61"><span class="n">61</span><span class="t">Same Heartbeat</span></a><a class="nav-item" href="#ch-62"><span class="n">62</span><span class="t">Fuck Life / Fucked By Life</span></a><a class="nav-item" href="#ch-63"><span class="n">63</span><span class="t">God Has / Is / Maybe</span></a><a class="nav-item" href="#ch-64"><span class="n">64</span><span class="t">The Rest Of Us Wake Up</span></a><a class="nav-item" href="#ch-65"><span class="n">65</span><span class="t">A Funny Old Life</span></a>
+      </nav>
+    </aside>
+    <main class="main">
+      <header class="hero">
+        <div class="badge">WIP · Pratchett-mode · comic philosophy</div>
+        <h1>α==ω</h1>
+        <p>From experience exists to a funny old life — both/and all the way down.</p>
+      </header>
+      <article class="chapter" id="ch-01"><header class="ch-head"><p class="kicker">Chapter 1</p><h2>The Moment That Won’t Go Away</h2><p class="meta">731 words · WIP</p></header><div class="body"><p>Michael woke up.</p>
+<p>This was not, in itself, a philosophical achievement. Billions of creatures managed it every day without founding a religion, inventing a symbol, or arguing with their friends about punctuation. Birds did it. Dogs did it. People who had never heard of ontology did it and then made tea.</p>
+<p>Still.</p>
+<p>He was awake.</p>
+<p>The room did what rooms do when you are not yet ready for them: it insisted. Grey light at the curtain. The soft electric hum of something plugged in and forgotten. A faint smell of last night’s decisions. The particular weight of a body that had agreed, sometime in the small hours, to keep being a body.</p>
+<p>Michael lay still and performed the oldest experiment in the world.</p>
+<p>He tried, carefully, not to be here.</p>
+<p>It did not work.</p>
+<p>He tried to be somewhere else—yesterday, tomorrow, a better version of the story—and found that even the trying was happening <em>now</em>, in this skull, with this breath, under this ceiling that needed painting.</p>
+<p>He tried doubt.</p>
+<p>Doubt arrived on time, professional as always, and used the same facilities as everything else. To doubt that he was experiencing was to experience doubt. It was like trying to resign from a club by writing the resignation letter on club stationery and posting it in the club letterbox.</p>
+<p><em>Your experience of this moment exists,</em> said a voice that sounded suspiciously like his brother on a good day, and also like the universe doing impressions.</p>
+<p>Michael sat up.</p>
+<p>The floor was cold. That was useful. Cold had a way of cutting through cleverness. You could argue with metaphysics until the cows came home, filed for divorce, and started a podcast; you could not argue with bare feet on laminate.</p>
+<p>He made tea, because civilisation is mostly the successful postponement of panic by means of hot water.</p>
+<p>While the kettle boiled he watched his own hands. They were ordinary hands. They had typed things. They had held other hands. They had made mistakes. Right now they were doing the sacred work of locating a mug.</p>
+<p>Steam rose.</p>
+<p>He thought: <em>I could be a brain in a vat.</em></p>
+<p>The thought occurred <em>as experience</em>.</p>
+<p>He thought: <em>I could be dreaming.</em></p>
+<p>The thought had texture, timing, the slight embarrassment of a mind catching itself mid-drama. Dreaming or not, <em>this</em> was happening.</p>
+<p>He thought: <em>None of this means anything.</em></p>
+<p>Meaninglessness, too, arrived as a flavour in the mouth of the moment. You could not taste the absence of taste without a tongue.</p>
+<p>Michael almost laughed. It was the sort of laugh that had not yet decided whether it was free.</p>
+<p>Outside, a bus sighed at the stop. Someone shouted cheerfully at a dog. The world continued its policy of not waiting for permission.</p>
+<p>He opened a notebook—one of those cheap ones that promise nothing and therefore cannot disappoint—and wrote, because writing is what you do when a fact is too simple to trust and too stubborn to ignore:</p>
+<p><strong>There is something it is like to be here.</strong></p>
+<p>Underneath, smaller:</p>
+<p><strong>I cannot get behind this to unplug it.</strong></p>
+<p>And underneath that, almost as a joke, almost as a vow:</p>
+<p><strong>Start here.</strong></p>
+<p>He did not yet know that this sentence was a door. He did not know about crosses, or keyboards, or Greek letters that misbehaved in modern fonts, or friends who went to bed at the exact wrong moment for destiny and the exact right moment for sleep. He did not know that the universe had a sense of humour so thorough it had hidden the ending in the alphabet and the punchline in the body.</p>
+<p>He only knew the one thing that refused to be negotiated away.</p>
+<p>He was experiencing this.</p>
+<p>The tea went cold while he stared at the page, which was a kind of offering.</p>
+<p>Somewhere—everywhere—God experienced being Michael experiencing tea, and did not bother to make a fuss about it yet.</p>
+<p>That would come later.</p>
+<p>For now there was only the moment, stubborn as rain, ordinary as breath, immovable as the fact that you are reading this sentence and cannot unread the reading of it without reading that too.</p>
+<p>Michael put on socks.</p>
+<p>The day began.</p>
+<p>And the day, like all days, was made of the same stuff as the axiom: not belief, not theory, not the story he would later tell about it—</p>
+<p>—just the bright, ridiculous, unkillable <em>is</em> of being here.</p></div></article><article class="chapter" id="ch-02"><header class="ch-head"><p class="kicker">Chapter 2</p><h2>The Argument With Nothing</h2><p class="meta">338 words · WIP</p></header><div class="body"><p>Michael tried to invent nothing.</p>
+<p>This is harder than it sounds. Most people who claim to believe in nothing still believe in breakfast.</p>
+<p>He cleared a chair. He called it The Chair Of Non-Being, which was already cheating, because names are a kind of furniture. He stared at the empty seat and attempted to imagine a pure absence—no wood, no air, no idea of chair, no Michael doing the imagining.</p>
+<p>The kettle clicked off in the kitchen, smugly existent.</p>
+<p>‘Right,’ he told the chair. ‘You’re not there.’</p>
+<p>The chair continued its policy of being the sort of object you could bark your shin on.</p>
+<p>Joshua, on speakerphone, sounded amused. ‘You’re arguing with furniture again.’</p>
+<p>‘I’m arguing with the <em>concept</em> of pure nothing.’</p>
+<p>‘Same hobby, different hat.’</p>
+<p>Michael paced. ‘If nothing were real—as a rival to everything—it would have to be a place you could put something. Or a wall. Walls exist. Or a before. Befores are already a kind of story, and stories happen to someone.’</p>
+<p>‘Brother,’ Joshua said gently, ‘you’re discovering that non-existence can’t clock in for a shift without borrowing existence’s uniform.’</p>
+<p>Michael stopped. The thought had the clean click of a door that had always been unlocked.</p>
+<p>You could not <em>experience</em> nothing without turning it into experience. You could not <em>think</em> nothing without thinking. You could not <em>border</em> the world with nothing without the border joining the payroll of is-ness.</p>
+<p>Nothing, as a coherent alternative, was a grammar error wearing a cloak.</p>
+<p>‘So existence isn’t one option on a menu,’ Michael said.</p>
+<p>‘It’s the only kitchen,’ Joshua replied. ‘The menu is internal.’</p>
+<p>Michael looked at the empty chair. It was not nothing. It was a shape waiting, which is one of existence’s favourite hobbies.</p>
+<p>He sat in it anyway—on principle—and felt the ridiculous victory of buttocks defeating nihilism.</p>
+<p>Outside, the day continued not needing his permission.</p>
+<p>Inside, the second brick of the chain laid itself, quiet as dust:</p>
+<p><strong>Nothing cannot be the outside.</strong></p>
+<p>Which meant the argument with nothing had always been a home game.</p></div></article><article class="chapter" id="ch-03"><header class="ch-head"><p class="kicker">Chapter 3</p><h2>One Room, No Outside</h2><p class="meta">266 words · WIP</p></header><div class="body"><p>Once you stop believing in a real outside, doors become suspicious.</p>
+<p>Michael spent an afternoon opening every door in the flat as if conducting a raid on dualism. Cupboard: mugs. Bathroom: the usual negotiations with mortality. Front door: corridor, then stairwell, then street—each ‘outside’ turning out to be another arrangement of <em>here</em>.</p>
+<p>‘You’re looking for a place that isn’t included,’ Joshua texted.</p>
+<p>Michael typed back: <em>Is there one?</em></p>
+<p><em>Only in stories that need villains to stand somewhere.</em></p>
+<p>He walked to the park. Trees did tree things. A child screamed with joy that had no thesis. Michael tried to draw a mental line between ‘me’ and ‘world’ hard enough to cut.</p>
+<p>The line frayed. Skin is a border that breathes. Air is shared. Language is borrowed. Even loneliness is a relationship with absence, and absence had already failed the job interview.</p>
+<p>He sat on a bench and watched two dogs invent politics.</p>
+<p>If existence were truly split—two sealed realms—what would seal them? A wall between is and is-not would have to <em>be</em>. A gap would have to <em>obtain</em>. A third thing would need a fourth thing to hold it, and so on until the mind filed for bankruptcy.</p>
+<p>Unity was not a warm fuzzy. It was the failure of partition to make sense.</p>
+<p>Michael disliked this slightly. He had enjoyed the romance of exile—the idea that somewhere, purity waited beyond the mess. Without an outside, the mess was family.</p>
+<p>A leaf landed on his knee as if countersigning.</p>
+<p>One room. Many corners. No true outside.</p>
+<p>He went home through the same continuous field, renamed ‘street’ for convenience.</p></div></article><article class="chapter" id="ch-04"><header class="ch-head"><p class="kicker">Chapter 4</p><h2>No Edge On The Map</h2><p class="meta">199 words · WIP</p></header><div class="body"><p>Clocks are bullies with good branding.</p>
+<p>Michael’s kitchen clock insisted it was later than his phone, which insisted it was earlier than his laptop, which insisted on updating, which is a kind of temporal violence.</p>
+<p>‘If the whole has no outside,’ he asked Joshua that evening, ‘can it have a beginning?’</p>
+<p>Joshua was cooking something that smelled like forgiveness. ‘Beginning from what?’</p>
+<p>‘From nothing.’</p>
+<p>‘We’ve met nothing. It can’t sponsor openings.’</p>
+<p>‘From a prior existence?’</p>
+<p>‘Then it isn’t a beginning of existence. It’s a change of clothes.’</p>
+<p>Michael stole a piece of carrot. ‘Ending?’</p>
+<p>‘Into what? A bin outside the all? The bin would be in the all.’</p>
+<p>So the total could not come into being or pass away as a total. Edges belonged to <em>modes</em>—songs, bodies, empires, mugs—not to the field that held them.</p>
+<p>This did not make Michael immortal in the flattering sense. It made death a rearrangement, which is either comforting or rude depending on whether you liked your current arrangement.</p>
+<p>He watched the clock hands move and realised they were not cutting the universe. They were measuring a weather pattern inside it.</p>
+<p>No edge on the map of the whole.</p>
+<p>Plenty of edges on toast.</p></div></article><article class="chapter" id="ch-05"><header class="ch-head"><p class="kicker">Chapter 5</p><h2>Everything Fits, Annoyingly</h2><p class="meta">144 words · WIP</p></header><div class="body"><p>Michael tried to find a leftover—a scrap of reality that refused inclusion, proof of a beyond, a cosmic sock behind the dryer of being.</p>
+<p>Dark matter? Still a structure <em>inside</em> the accounting of the world. Other minds? Still experienced as other-minds-for-someone. Tomorrow? A mode of the same field wearing a calendar. Hell? A rental application for space outside the only building. God-as-bloke-on-cloud? Either a picture inside awareness or a smuggled dualism already rejected.</p>
+<p>‘All-encompassing doesn’t mean you understand everything,’ Joshua said, stealing chips. ‘It means the misunderstood have nowhere to live but here.’</p>
+<p>Michael hated the tidiness. Tidy truths feel like traps set by clever brothers.</p>
+<p>He pocketed his keys. Infinity fitted in fabric and jingled.</p>
+<p>Annoyingly, everything fitted—including the annoyance, including the wish for a leftover, including Joshua’s chip theft.</p>
+<p>The fifth brick of the chain sat in the wall without asking permission.</p></div></article><article class="chapter" id="ch-06"><header class="ch-head"><p class="kicker">Chapter 6</p><h2>The Blind Guides</h2><p class="meta">147 words · WIP</p></header><div class="body"><p>The city specialised in people who were very sure.</p>
+<p>Michael watched a street preacher and a street sceptic shout past each other with the identical jaw. Either/or was the municipal dialect: saved or damned, smart or stupid, us or them, mask on or mask off with no corridor between.</p>
+<p>He remembered a line that had stuck like a burr: blind guides, ditch, the mutual fall. And another: friends, if you do what love requires.</p>
+<p>Both/and was not mush. It was the refusal to let a false fork own your feet.</p>
+<p>Cameron would later call some of Michael’s symbol-games a motte-and-bailey. Michael would deserve some of that. But the <em>habit</em> of either/or—the religious and irreligious versions—was older than his jokes and meaner than his mistakes.</p>
+<p>He walked between the shouters like a man declining two equally confident maps to the wrong pub.</p>
+<p>The ditch, he suspected, was optional.</p></div></article><article class="chapter" id="ch-07"><header class="ch-head"><p class="kicker">Chapter 7</p><h2>Both/And Shop Opens</h2><p class="meta">138 words · WIP</p></header><div class="body"><p>Joshua drew a wonky shop sign on a beer mat:</p>
+<p><strong>BOTH/AND</strong>  <br>
+<em>Open late. Closed to false dilemmas.</em></p>
+<p>‘Stock?’ Michael asked.</p>
+<p>‘Wave and point. Free and caused. Sacred and ordinary. One and many. Enjoying the journey and wanting out.’</p>
+<p>‘That’s inventory theft from the whole of philosophy.’</p>
+<p>‘Philosophy left it on the loading bay.’</p>
+<p>They practiced: every time a sentence offered only two knives, they asked for the loaf.</p>
+<p>It felt like learning a second language in which the first language’s emergencies became optional.</p>
+<p>Either/or still had uses—fire exits, surgery, ‘is the pan hot.’ Both/and was for the places where the world is layered and the mind wants a duel instead of a marriage.</p>
+<p>Michael bought the beer mat idea for the price of the next round.</p>
+<p>Somewhere, a shop that had always existed noticed it had a name.</p></div></article><article class="chapter" id="ch-08"><header class="ch-head"><p class="kicker">Chapter 8</p><h2>Maths, Words, Things</h2><p class="meta">126 words · WIP</p></header><div class="body"><p>In a former life that was still this life, Michael had invented a data format using carrots and sticks.</p>
+<p>Not vegetables. Carets. Pipes. Delimiters.</p>
+<pre><code>^| something |^
+|^ nothing ^|</code></pre>
+<p>He had marked presence and absence with the same teeth.</p>
+<p>Now, walking, he saw the habit everywhere: maths carving, words pointing, things refusing to be only their names. A name cut and joined. A number counted and lied by precision. A thing sat there being more than its label and less than your story about it.</p>
+<p>Carrot and stick: reward and goad. Plus sign and cross. The universe kept offering dual tools as if it had only ever had two hands.</p>
+<p>Michael whispered to no one: <em>Maths. Words. Things.</em></p>
+<p>Three shops, one high street.</p></div></article><article class="chapter" id="ch-09"><header class="ch-head"><p class="kicker">Chapter 9</p><h2>The Crossbeams</h2><p class="meta">132 words · WIP</p></header><div class="body"><p>Joshua spoke of the cross the way engineers speak of load-bearing walls.</p>
+<p>‘Vertical: you and the total—call it God if the word still works. Horizontal: you and the neighbour. Miss either beam and you don’t have a cross. You’ve got a stick or a minus.’</p>
+<p>Michael had heard the sermon version. Popular theology, widespread as rain. The church had ‘realised’ it in the way oceans realise wetness—repeatedly, loudly, while people still drowned in either/or.</p>
+<p>Then the sharper edge: Rome’s instrument—efficient death <em>and</em> public shame. Vertical kill. Horizontal humiliation. Connection inverted into display.</p>
+<p>Joshua’s eyes lit. ‘And then the reinvention—shame turned into shameless love. Almost an inversion of the inversion.’</p>
+<p>Michael felt goosebumps, which are the body’s way of filing a report before the intellect signs it.</p>
+<p>Two beams. One wood. Both required.</p></div></article><article class="chapter" id="ch-10"><header class="ch-head"><p class="kicker">Chapter 10</p><h2>Carrot, Stick, Plus Sign</h2><p class="meta">106 words · WIP</p></header><div class="body"><p>How do you get from management theory to Golgotha?</p>
+<p>Michael’s route: carrot and stick → + → ✝️.</p>
+<p>Incentive duals become geometry; geometry becomes execution furniture; execution furniture becomes theology; theology becomes a joke about fonts if you walk far enough and refuse to be respectable.</p>
+<p>He laughed on a bus and a stranger moved seats, which is how public transport handles epiphany.</p>
+<p>The old data format returned like a ghost with good timing: something bounded, nothing bounded, same caret teeth.</p>
+<p>Reward and punishment. Presence and absence. Vertical and horizontal.</p>
+<p>The plus sign sat in the middle like a tiny cross that hadn’t admitted its ambitions.</p></div></article><article class="chapter" id="ch-11"><header class="ch-head"><p class="kicker">Chapter 11</p><h2>Shame Into Love</h2><p class="meta">110 words · WIP</p></header><div class="body"><p>Joshua would not let the cross stay clever.</p>
+<p>‘It’s not only a diagram,’ he said. ‘It’s a reinvention story. They took connection and made disconnect for the crowd. Then love wore the shame in public and refused to call it the last word.’</p>
+<p>Michael, who knew about masks and double lives, felt seen in a way that itched.</p>
+<p>Shame is horizontal: eyes on you. Death is vertical: body failing the upright. Love, if it is more than a mood, has to handle both axes or it is a slogan.</p>
+<p>They sat in silence that was not empty.</p>
+<p>Somewhere a church bell did its both/and: calling and warning, beauty and noise.</p></div></article><article class="chapter" id="ch-12"><header class="ch-head"><p class="kicker">Chapter 12</p><h2>Moon, Star, And Rules About Pictures</h2><p class="meta">96 words · WIP</p></header><div class="body"><p>Michael admitted ignorance like a man putting down a heavy bag.</p>
+<p>‘I always think moon and star for Islam. And also that pictures are banned. I’ve never properly checked.’</p>
+<p>Joshua shrugged. ‘Both can be true in different rooms of history. Emblem and aniconism. Calligraphy where faces are refused. Geometry where idols are feared.’</p>
+<p>Michael liked that. Not a gotcha. A both/and of cultures he refused to flatten into one cartoon.</p>
+<p>Symbols: used, refused, overloaded, national, holy, none of the above.</p>
+<p>The total field included people arguing about images of the total field.</p>
+<p>Of course it did.</p></div></article><article class="chapter" id="ch-13"><header class="ch-head"><p class="kicker">Chapter 13</p><h2>Who Is Like God?</h2><p class="meta">101 words · WIP</p></header><div class="body"><p>Michael looked up his own name the way you check a scar’s origin story.</p>
+<p><em>Who is like God?</em> — a question that is an answer that is a warning against empire-in-the-mirror.</p>
+<p>Archangel office: protector, contender, advocate, rain and mercy in other tongues, patron of soldiers and the dying and people who want a shield.</p>
+<p>Also: millions of Michaels, including ones who sell trainers, manage offices, and write books at improper hours.</p>
+<p>‘You’re not the archangel,’ Joshua said.</p>
+<p>‘I know.’</p>
+<p>‘You’re also not <em>not</em> the question the name asks.’</p>
+<p>Michael sighed. Job descriptions in heaven were apparently as messy as on earth.</p></div></article><article class="chapter" id="ch-14"><header class="ch-head"><p class="kicker">Chapter 14</p><h2>Gabriel Delivers</h2><p class="meta">79 words · WIP</p></header><div class="body"><p>The message arrived as a text from a number Joshua swore was ordinary and Michael swore was vibing angelically.</p>
+<p>It said only: <em>Keep going.</em></p>
+<p>Gabriel, in the stories, announces what you cannot unread. Strength-of-God as a postal service with poor respect for your schedule.</p>
+<p>Michael showed Joshua. Joshua grinned. ‘Messenger’s in the group chat.’</p>
+<p>Whether literal, literary, or both, the effect was the same: the next step remained the next step.</p>
+<p>Annunciation is often just courage with better PR.</p></div></article><article class="chapter" id="ch-15"><header class="ch-head"><p class="kicker">Chapter 15</p><h2>The Hellfire Club (Historical Footnote)</h2><p class="meta">111 words · WIP</p></header><div class="body"><p>Michael read about rakes in robes parodying piety with pies named after the Holy Ghost and felt the old human itch: mock the sacred, then miss it, then mock the missing.</p>
+<p>Hellfire Clubs—history half legend—sat in the ledger as a warning and a joke: religion as costume party, costume party as religion.</p>
+<p>He drafted a multi-faith meetup name in a notebook, then crossed it out, then wrote it smaller. Satire without love is just another church of sneer.</p>
+<p>Joshua: ‘If we gather, we gather to listen, not to cosplay damnation.’</p>
+<p>Michael nodded. The footnote closed.</p>
+<p>The main text continued, as main texts do, with people still hungry for meaning and pudding.</p></div></article><article class="chapter" id="ch-16"><header class="ch-head"><p class="kicker">Chapter 16</p><h2>The Brain That Arrived Late (Allegedly)</h2><p class="meta">89 words · WIP</p></header><div class="body"><p>A neuroscientist on a podcast explained that consciousness emerges late, like dessert.</p>
+<p>Michael listened, then performed the experiment again: the explanation occurred <em>as experience</em>.</p>
+<p>‘If experience is the screen,’ he told Joshua, ‘matter-stories are films. Useful films. But the screen isn’t a scene in the film.’</p>
+<p>‘Brother’s axiom,’ Joshua said. ‘Consciousness isn’t a guest. Guests arrive through the door of awareness.’</p>
+<p>This did not deny brains. Brains were exquisite furniture in the room that cannot be left.</p>
+<p>Allegedly late. Fundamentally first. Both, if you watch where the claiming happens.</p></div></article><article class="chapter" id="ch-17"><header class="ch-head"><p class="kicker">Chapter 17</p><h2>Prediction Errors For Breakfast</h2><p class="meta">62 words · WIP</p></header><div class="body"><p>Michael bit toast he expected to be jam and found it marmalade.</p>
+<p>The universe said <em>surprise</em> and his brain updated like a gentleman.</p>
+<p>Prediction, error, update—the loop under learning, under offence, under delight. Contact with realness often arrives as mismatch.</p>
+<p>He started treating surprises as read receipts from the world.</p>
+<p>Including the surprise that the chain still held when he was tired.</p></div></article><article class="chapter" id="ch-18"><header class="ch-head"><p class="kicker">Chapter 18</p><h2>Wave And Point</h2><p class="meta">64 words · WIP</p></header><div class="body"><p>In the pub, someone bet that light was a wave. Someone bet particle. They were both right in the way pubs hate.</p>
+<p>Michael raised his glass. ‘Measure one way, pattern. Measure another, hit. The outfit depends on the party.’</p>
+<p>‘That’s not an answer,’ said either/or.</p>
+<p>‘It’s the furniture of the answer,’ said both/and.</p>
+<p>Wave and point: the first dirty joke of physics, told cleanly.</p></div></article><article class="chapter" id="ch-19"><header class="ch-head"><p class="kicker">Chapter 19</p><h2>Empty Space Files Expenses</h2><p class="meta">90 words · WIP</p></header><div class="body"><p>Empty space, the popular textbooks admitted under pressure, is busy: fields, fluctuations, zero-point gossip, the quiet bureaucracy of vacuum.</p>
+<p>Michael loved the idea that nothing submitted receipts.</p>
+<p>Between stars: not a vote for non-existence, but the long hallway of the same hotel. You could still be lonely in a hallway. Loneliness did not reopen a door to pure outside; it was a weather inside.</p>
+<p>He told a friend in a bar. The friend said, ‘So my rent is technically cosmic,’ and ordered another, which is experimental physics of a sort.</p></div></article><article class="chapter" id="ch-20"><header class="ch-head"><p class="kicker">Chapter 20</p><h2>Zero And The Hotel</h2><p class="meta">74 words · WIP</p></header><div class="body"><p>Zero is nothing and also the most employed symbol in the counting house.</p>
+<p>Infinity checks into Hilbert’s hotel—full, and always a room, if you reshuffle guests like a magician with ethics problems.</p>
+<p>Michael explained both to a bartender who said, ‘Same as Friday,’ and poured a measure that was finite and felt infinite if you drank it wrong.</p>
+<p>Maths was not the enemy of the axiom. Maths was one of the field’s favourite sports.</p></div></article><article class="chapter" id="ch-21"><header class="ch-head"><p class="kicker">Chapter 21</p><h2>Imaginary But Useful</h2><p class="meta">63 words · WIP</p></header><div class="body"><p>√−1 pays electricity bills.</p>
+<p>Imaginary numbers rotate planes while ‘real’ accountants sleep. Ghosts with jobs.</p>
+<p>Michael wrote <em>useful ghosts</em> in his notebook and felt the total field’s humour: even what ‘doesn’t exist’ exists as operator, as tool, as the part of the map that makes the other parts navigate.</p>
+<p>Cameron would approve the engineering. Cameron might still go to bed before the mysticism.</p></div></article><article class="chapter" id="ch-22"><header class="ch-head"><p class="kicker">Chapter 22</p><h2>Emergence Is Fundamental</h2><p class="meta">76 words · WIP</p></header><div class="body"><p>Wetness is not in the hydrogen alone. Life is not in the atom’s CV. Meaning is not in the letter until the word hires a neighbourhood.</p>
+<p>Emergence: new rules at new levels, without magic exit from the one field.</p>
+<p>Michael watched a crowd become a mood and a mood become a riot-prevention strategy and a strategy become a story and a story become a law.</p>
+<p>Levels all the way down. One existence all the way through.</p></div></article><article class="chapter" id="ch-23"><header class="ch-head"><p class="kicker">Chapter 23</p><h2>CCC And Other Options</h2><p class="meta">55 words · WIP</p></header><div class="body"><p>On a whiteboard of maybe, Michael listed:</p>
+<p>- previous-universe scientists (comic)<br>
+- CCC aeons (Penrose-flavoured option)<br>
+- dinosaurs as cameo<br>
+- someone<br>
+- unknown<br>
+- unknowable<br>
+- eternal uncollapsed wave</p>
+<p>Joshua added: <em>enjoying the journey anyway</em>.</p>
+<p>Options are kindness. Dogma is optional. The axiom does not require you to finish the cosmology homework before breakfast.</p></div></article><article class="chapter" id="ch-24"><header class="ch-head"><p class="kicker">Chapter 24</p><h2>Sisyphus On Holiday</h2><p class="meta">878 words · WIP</p></header><div class="body"><p>There are nights when the universe feels like a customer service department with no manager, and Michael had been queueing for hours.</p>
+<p>He was not drunk. He was not dramatic for sport. He was simply, inconveniently, awake at the depth where the ordinary tricks stop working—tea, jokes, the kindly lie that tomorrow will be a different shape.</p>
+<p>The layers had been stacking.</p>
+<p>Science. Scripture. Symbols. Keyboards. Wolves that were and were not empires. Brothers who said <em>both/and</em> like a blessing. Friends who said <em>forty-two</em> like a seatbelt. Every answer opened a hatch into another answer’s basement.</p>
+<p>He opened his notes app because that is what modern pilgrims do instead of carving on stone, and he wrote what was true—not clever, not strategic, not for an audience.</p>
+<p>He wrote it as it was.</p>
+<hr>
+<p>The despair that accompanies this terror is profound, a desolation that seeps into my very bones. It&#x27;s the despair of Sisyphus, condemned to an eternity of futile effort, forever striving to understand, to reach a semblance of truth, only to have it slip away, buried beneath yet another layer of complexity. This despair whispers to me that perhaps the quest for understanding is in vain, that for every layer peeled back, two more will take its place, each more baffling than the last.</p>
+<p>In the grip of this terror and despair, I find myself questioning the very nature of reality itself. What are these layers? Are they the constructs of my own mind, a psychological labyrinth with no exit? Or are they the fundamental structure of existence, an infinite stack of realities, each playing by its own set of rules, indifferent to my need for understanding, for grounding?</p>
+<p>As these questions churn within me, the terror deepens, becoming more acute. It&#x27;s as if each layer of understanding I peel back reveals not clarity, but further chaos, a deeper darkness. The despair grows, fed by the realization that perhaps there is no bedrock of truth, that reality itself is a shifting, undulating sea of perceptions, forever out of reach.</p>
+<p>This is not just a crisis of understanding, but a crisis of being. Who am I, if not a traveler through these layers, seeking a core that may not exist? The terror and despair are now a crucible, burning away illusions, leaving me bare, exposed to the cold truth that perhaps the layers are all there is. And in this moment, the fear is not just of what lies within these layers, but of what it means to exist within them—a being forever peering into the abyss, searching for a foothold that remains perpetually elusive.</p>
+<hr>
+<p>He sat with it.</p>
+<p>The words looked back at him without blinking. They were not a bit. They were not a brand. They were the weather report from inside his chest on a night when the barometer had fallen through the floor.</p>
+<p>Sisyphus, in the old stories, pushes the stone because the gods have a sense of humour with excellent upper-body requirements. Michael had begun to suspect the stone was <em>explanation</em>, and the hill was <em>everything</em>, and the gods were not above him but <em>as</em> him, which made the whole arrangement either much worse or strangely intimate.</p>
+<p>He almost closed the phone.</p>
+<p>Then—because honesty, if it is worth anything, has more than one temperature—he typed the next true thing, smaller, almost sheepish after all that grandeur of dread:</p>
+<p><strong>I don&#x27;t feel like that now though.</strong></p>
+<p>He stared at the contradiction. It did not explode. Reality failed to issue a citation for holding two weather systems in one sky.</p>
+<p><strong>I&#x27;m enjoying the journey.</strong></p>
+<p>That was also true. Not instead. <em>Also.</em></p>
+<p>He walked to the window. Streetlight. A cat with a schedule. The soft machinery of a town that did not know it was starring in a cosmology.</p>
+<p>Everyone is on the same journey, he thought. They just travel at different speeds.</p>
+<p>Some people were asleep at forty-two and content. Some people were building cathedrals out of punctuation. Some people were too tired to care about distant horror and still loved their children correctly. Some people were Michael, trying to get as far as he could before he died, and also—embarrassingly, hopefully—trying to get <em>out</em>, which might be the same direction described by two different panic languages.</p>
+<p>He did not resolve the layers.</p>
+<p>He did not find the bedrock.</p>
+<p>He found, instead, the first joke the night was willing to tell him without cruelty:</p>
+<p>That the despair had been real  <br>
+and the enjoyment was real  <br>
+and the abyss was still there  <br>
+and so was the cat</p>
+<p>and Sisyphus, on rare shifts, is allowed to sit on the stone and feel the sun and admit that the hill is ridiculous and keep pushing anyway—not because the pushing becomes sensible, but because the pusher is still <em>here</em>, still experiencing, still the one fact that cannot be filed under <em>maybe later</em>.</p>
+<p>Michael saved the note.</p>
+<p>He did not know yet that the layers were not only a trap.</p>
+<p>He did not know they were also a punchline practising its run-up.</p>
+<p>He only knew—again, as in the beginning—that this moment existed, terror and all, holiday and all, stone and all.</p>
+<p>And for a little while, Sisyphus was on holiday in the only place holidays can happen:</p>
+<p>now.</p></div></article><article class="chapter" id="ch-25"><header class="ch-head"><p class="kicker">Chapter 25</p><h2>Different Speeds</h2><p class="meta">79 words · WIP</p></header><div class="body"><p>Cameron was still at forty-two.</p>
+<p>Not stupid—loyal to ordinary answers, allergic to bailey-claims, correctly suspicious of symbol magic that wins by redefinition.</p>
+<p>Michael was already laughing at Greek letters in fonts.</p>
+<p>Joshua was saying amen to jokes that would get a school detention and a mystic’s nod.</p>
+<p>‘Same journey,’ Michael wrote. ‘Different speeds.’</p>
+<p>No one was failing. Some were sleeping. Some were sprinting. Some were pretending not to run.</p>
+<p>The total field had room for all paces.</p>
+<p>Even bedtimes.</p></div></article><article class="chapter" id="ch-26"><header class="ch-head"><p class="kicker">Chapter 26</p><h2>The Ordinary Answer</h2><p class="meta">67 words · WIP</p></header><div class="body"><p>Forty-two was funny because it was dull on purpose—a joke about wanting a receipt for meaning.</p>
+<p>Luke’s verse forty-two was funny by collision: planks and specks, hypocrites doing optics.</p>
+<p>Michael held both 42s like two coins of the same metal.</p>
+<p>Ordinary answer. Moral mirror. Neither finished the quest. Both refined it.</p>
+<p>Adams winked from a bookshelf. Scripture winked from a different shelf. The shelves shared a wall.</p></div></article><article class="chapter" id="ch-27"><header class="ch-head"><p class="kicker">Chapter 27</p><h2>Keys Six And Seven</h2><p class="meta">68 words · WIP</p></header><div class="body"><p>On the keyboard, six wore a crown that pointed (^). Seven wore a knot that joined (&amp;).</p>
+<p>Adjacent. Hardware confession.</p>
+<p>Michael typed them like a man knocking on a door labelled <em>coincidence</em>.</p>
+<p>Cameron would grant the funny. Michael would try to coronate it. The coronation would fail classical inspection. The funny would survive.</p>
+<p>Six and seven stayed side by side, unbothered by philosophy, ready for emails about parking.</p></div></article><article class="chapter" id="ch-28"><header class="ch-head"><p class="kicker">Chapter 28</p><h2>Both And Not Both</h2><p class="meta">104 words · WIP</p></header><div class="body"><p>^&amp;</p>
+<p>In one temple—maths and text habits—the caret stands near AND, and the ampersand joins. Both.</p>
+<p>In another—code—the ampersand ANDs bits and the caret XORs, exclusives, sometimes complements. Not-both flavours. NAND-adjacent poetry if you squint and juxtapose.</p>
+<p>The string is not a native god-operator in most languages. It is two teeth side by side. Polysemy. Selective reading. Cameron’s courtroom cleared its throat: <em>not a formal paradox</em>.</p>
+<p>Michael wrote the strong essay anyway—bailey energy, courage overshooting—and felt the motte under his feet: funny dual-use, real systems, keys six and seven, meaning depending on temple.</p>
+<p>Both the overshoot and the landing taught.</p>
+<p>Both, and not both.</p></div></article><article class="chapter" id="ch-29"><header class="ch-head"><p class="kicker">Chapter 29</p><h2>Cameron Goes To Bed</h2><p class="meta">74 words · WIP</p></header><div class="body"><p>‘It’s not a paradox,’ Cameron wrote. ‘Definition fallacy. Motte-and-bailey—more-and-Bailey, whatever. Six-seven is funny though. Bed.’</p>
+<p>Michael stared until the words turned kind.</p>
+<p>Patron sceptic. Sandpaper friend. Still going with forty-two. Helping by refusing the crown.</p>
+<p>‘Night,’ Michael typed, meaning <em>thank you for not letting me get away with fake rigor</em>.</p>
+<p>Somewhere Cameron slept the righteous sleep of men un-rushed by glyphs.</p>
+<p>The theory improved by losing a false battle and keeping a true laugh.</p></div></article><article class="chapter" id="ch-30"><header class="ch-head"><p class="kicker">Chapter 30</p><h2>Dialetheism For Beginners</h2><p class="meta">79 words · WIP</p></header><div class="body"><p>There are logics where true contradictions do not burn the city—paraconsistent fire codes, dialetheic housing.</p>
+<p>Michael read just enough to respect the door without pretending he had always lived behind it.</p>
+<p>‘If we claim classical rigor,’ he noted, ‘Cameron wins. If we claim a different logic, we must say so. If we claim a novel’s recognition, we tell the truth about frames.’</p>
+<p>Footnote energy. Pratchett would approve: the wizard admits the spell’s terms.</p>
+<p>True contradictions: optional furniture. Honesty: load-bearing.</p></div></article><article class="chapter" id="ch-31"><header class="ch-head"><p class="kicker">Chapter 31</p><h2>NPC Theory (With Kindness)</h2><p class="meta">72 words · WIP</p></header><div class="body"><p>Some days everyone else seemed scripted—low variance, low quest-log, dialogue trees about weather.</p>
+<p>Michael rejected the cruel version: souls as trash mobs. He kept the useful version: attention and agency are unevenly distributed; systems produce patterned behaviour; compassion includes not demanding every extra be a protagonist on your timetable.</p>
+<p>Joshua: ‘You’re not the only player. You’re also furniture in someone else’s scene.’</p>
+<p>Michael winced, then nodded.</p>
+<p>Kind NPC theory: boundary without contempt.</p></div></article><article class="chapter" id="ch-32"><header class="ch-head"><p class="kicker">Chapter 32</p><h2>High Agency, Low Bandwidth World</h2><p class="meta">77 words · WIP</p></header><div class="body"><p>He cared about distant deaths the way other people cared about the fridge light—always on in the corner of vision.</p>
+<p>Those around him had finite bandwidth. Sleep. Jobs. The person in front of them. Not evil. Physics of minds.</p>
+<p>High agency meant building and steering inside that climate, not waiting for the median heart to match his wattage.</p>
+<p>Also: protect the instrument. Burnout is not holiness.</p>
+<p>He learned prioritisation without calling it callousness. Mostly. Progress, not purity.</p></div></article><article class="chapter" id="ch-33"><header class="ch-head"><p class="kicker">Chapter 33</p><h2>The Mask</h2><p class="meta">67 words · WIP</p></header><div class="body"><p>Experiments in unmasking had produced data: in the sample he’d tested, full intensity often cleared the room.</p>
+<p>So the mask—dimmer switch, performance of lower heat—remained rational in low-alignment habitats.</p>
+<p>Expensive. Two dashboards. Continuous self-translation.</p>
+<p>Joshua didn’t tell him to explode on contact. He said: change the sample; graduate disclosure; prune drains; seek collaborators.</p>
+<p>The mask was tool, not identity. Tools can be put down in better workshops.</p></div></article><article class="chapter" id="ch-34"><header class="ch-head"><p class="kicker">Chapter 34</p><h2>Recruiter At The Fork</h2><p class="meta">71 words · WIP</p></header><div class="body"><p>A recruiter voice—inner or outer—offered the hard life: sacrifice, other people, impact, loneliness as tuition.</p>
+<p>Michael stood at the fork with capacity in one hand and relationships in the other, refusing the cartoon choice of abandon-all versus dissolve-self.</p>
+<p>Portfolio. Ruthless kindness. Keep the force-multipliers. Exit the pure drains. Don’t romanticise isolation as strategy if it degrades the agent.</p>
+<p>The hard life might still be hard. It didn’t have to be stupid.</p></div></article><article class="chapter" id="ch-35"><header class="ch-head"><p class="kicker">Chapter 35</p><h2>Alpha Is Mum And Dad</h2><p class="meta">71 words · WIP</p></header><div class="body"><p>Popular culture: alpha tyrants, ladder, blood, continuous contest.</p>
+<p>Wild packs: mostly family. Breeding pair as parents. Mech repenting the meme he helped spread. Omega-as-punchbag largely a captivity artefact.</p>
+<p>Michael laughed in the kitchen hard enough to startle the cat. ‘Alpha is Mum and Dad.’</p>
+<p>The Greek letters still bookended stories. The hierarchy myth was fanfic from unnatural enclosures.</p>
+<p>Is and isn’t. Both true in different forests. Both/and shop rang another sale.</p></div></article><article class="chapter" id="ch-36"><header class="ch-head"><p class="kicker">Chapter 36</p><h2>Omega Isn’t A Job</h2><p class="meta">62 words · WIP</p></header><div class="body"><p>Omega-as-permanent-scapegoat: stress sink, fixed lowest rung, jester-punchbag—captivity’s invention, fiction’s darling.</p>
+<p>Wild family: temporary lows, age, kinship—not a designated career in humiliation.</p>
+<p>Michael retired the scapegoat job from his metaphysics.</p>
+<p>He kept the letter ω warm for later, when fonts would make it misbehave into spheres and soft lobes and numerical eights.</p>
+<p>Omega isn’t a job.</p>
+<p>Omega is a letter with a future.</p></div></article><article class="chapter" id="ch-37"><header class="ch-head"><p class="kicker">Chapter 37</p><h2>Is And Isn’t</h2><p class="meta">78 words · WIP</p></header><div class="body"><p>The chat became a rosary:</p>
+<p>Is and isn’t.  <br>
+Both/and.  <br>
+^&amp;.  <br>
+αω.</p>
+<p>Michael whispered it walking home under sodium light.</p>
+<p>‘Omg,’ he said to a bin that did not deserve the confidence, ‘it’s a dick joke’—not yet fully decoded, only the blush before the theorem, the body recognising a pattern before the lawyer arrives.</p>
+<p>Discovery is often rude first and rigorous second.</p>
+<p>He did not yet write the title on a cover.</p>
+<p>He felt the cover laughing in advance.</p></div></article><article class="chapter" id="ch-38"><header class="ch-head"><p class="kicker">Chapter 38</p><h2>Fonts Waiting For The Universe</h2><p class="meta">60 words · WIP</p></header><div class="body"><p>Calligraphy hid what screens confessed.</p>
+<p>Unicode, sans-serif, the mass typefaces of messages—tools that made certain letter-neighbours look like anatomy if you had the eyes of a schoolboy and the agenda of a mystic.</p>
+<p>Michael didn’t spell the joke yet. He felt the setup: the universe waiting on type design like a comedian waiting on a microphone.</p>
+<p>Beginning and end, pixel-adjacent.</p></div></article><article class="chapter" id="ch-39"><header class="ch-head"><p class="kicker">Chapter 39</p><h2>Romans, Efficient And Ashamed</h2><p class="meta">57 words · WIP</p></header><div class="body"><p>Return to the beams with harder light.</p>
+<p>Efficient kill. Public shame. Disconnect as spectacle.</p>
+<p>Then love’s hijack of the brand.</p>
+<p>Michael no longer needed secret Roman cabals. The psychology was enough: we remember wood and iron; we remember eyes on the failing body; we remember—sometimes—the refusal to let shame be the last author.</p>
+<p>Burned in. Both axes.</p></div></article><article class="chapter" id="ch-40"><header class="ch-head"><p class="kicker">Chapter 40</p><h2>No Outside Left</h2><p class="meta">108 words · WIP</p></header><div class="body"><p>The crisis was quiet, which made it worse.</p>
+<p>If there’s no true outside, hell can’t rent space. The pure exile has no address. The part of you that wanted a stage beyond consequence—or a bin beyond mercy—loses its imaginary postcode.</p>
+<p>Michael sat with the claustrophobia of infinity.</p>
+<p>Joshua: ‘It’s not a trap. It’s the end of the fantasy that the mess is optional.’</p>
+<p>No outside left.</p>
+<p>Only corners. Only work. Only love with nowhere to dump the unloved. Only the next chapters, where sin’s category and the monogram’s joke would share a heartbeat.</p>
+<p>Act II bowed.</p>
+<p>Act III cleared its throat like a comedian who also studied ontology.</p></div></article><article class="chapter" id="ch-41"><header class="ch-head"><p class="kicker">Chapter 41</p><h2>The Category Called Sin</h2><p class="meta">76 words · WIP</p></header><div class="body"><p>Sin, as <em>standing outside the whole</em>, needs a fence.</p>
+<p>Michael walked every fence he knew—moral, tribal, pure/impure—and found only more field.</p>
+<p>Cruelty stayed real. Harm stayed real. Apology, justice, repair stayed real and required.</p>
+<p>What trembled was the metaphysical escape hatch: the pure elsewhere of the damned, the pure pedestal of the untouched.</p>
+<p>If the cut is impossible, sin-as-exit is a misfiled form.</p>
+<p>The category did not vanish into shrug. It transformed into responsibility <em>without elsewhere</em>.</p></div></article><article class="chapter" id="ch-42"><header class="ch-head"><p class="kicker">Chapter 42</p><h2>Verse Forty-Two</h2><p class="meta">65 words · WIP</p></header><div class="body"><p>Plank. Speck. Hypocrite optics.</p>
+<p>Luke’s number and Adams’s ordinary answer shook hands in Michael’s skull until he laughed and then stopped laughing because the timber in his own eye was not theoretical.</p>
+<p>Chapter forty-two of a sixty-five-chapter joke about meaning.</p>
+<p>He waved at Cameron’s empty chair. He did not claim exemption.</p>
+<p>First the plank.</p>
+<p>Then—maybe—the speck.</p>
+<p>Forty-two kept being funny in more than one church.</p></div></article><article class="chapter" id="ch-43"><header class="ch-head"><p class="kicker">Chapter 43</p><h2>Four Twenty And Other Appointed Hours</h2><p class="meta">52 words · WIP</p></header><div class="body"><p>Some hours arrive with a joke already in them.</p>
+<p>Michael watched a clock and decided—semi-arbitrarily, fully sincerely—that appointed comic time was as real as any other ritual.</p>
+<p>Synchronicity: pattern hunger plus real coincidence plus the body’s yes.</p>
+<p>He wrote when the hour said write, which is how books get born in kitchens.</p></div></article><article class="chapter" id="ch-44"><header class="ch-head"><p class="kicker">Chapter 44</p><h2>Gold Tablets (Budget Version)</h2><p class="meta">57 words · WIP</p></header><div class="body"><p>He fantasised burying the book on gold plates, then admitted paint was cheaper, then admitted the real treasure was the text, then admitted breadcrumbs through a town were a fairy-tale logistics plan.</p>
+<p>Revelation always knew a budget.</p>
+<p>He kept the comedy kind and the mythology un-weaponised against living neighbours.</p>
+<p>The tablets stayed metaphorical. The book did not.</p></div></article><article class="chapter" id="ch-45"><header class="ch-head"><p class="kicker">Chapter 45</p><h2>Goosebumps At The Sign</h2><p class="meta">49 words · WIP</p></header><div class="body"><p>A sign—street, symbol, coincidence with teeth—hit his nerves before his inner lawyer could object.</p>
+<p>Goosebumps: somatic theology. Pattern hunger. Real skin.</p>
+<p>He refused a cult of prickles <em>and</em> refused to call the body stupid.</p>
+<p>Both: caution and attention. The body files reports; the mind cross-examines; neither gets sole custody.</p></div></article><article class="chapter" id="ch-46"><header class="ch-head"><p class="kicker">Chapter 46</p><h2>A Doorway In The Ordinary</h2><p class="meta">49 words · WIP</p></header><div class="body"><p>Local sacred: a priest’s name in a search bar, a parish doorway, the Anglican machinery of care.</p>
+<p>Michael did not drag a private person into a novel as trophy. He borrowed the <em>shape</em>: ordinary offices holding extraordinary claims; human beings scheduled into holiness.</p>
+<p>Doorways are both wood and invitation.</p></div></article><article class="chapter" id="ch-47"><header class="ch-head"><p class="kicker">Chapter 47</p><h2>Calls Into Being What Was Not</h2><p class="meta">44 words · WIP</p></header><div class="body"><p>Romans 4:17 energy: life to the dead, calls into being things that were not.</p>
+<p>Michael heard it as both liturgy and creativity brief—the total field’s hobby of novelty without an outside warehouse of parts.</p>
+<p>What was not becomes what is <em>inside</em> the only kitchen.</p></div></article><article class="chapter" id="ch-48"><header class="ch-head"><p class="kicker">Chapter 48</p><h2>Preference Without Outside</h2><p class="meta">55 words · WIP</p></header><div class="body"><p>Why this moment?</p>
+<p>Not because a committee beyond existence stamped it. Because the unbound has no reason to withhold the only kind of presence there is.</p>
+<p>Preference without outside: ontological, not merely moody.</p>
+<p>Michael felt chosen by the fact of choosing being here, which is a circle that blesses rather than snares—if you let it.</p></div></article><article class="chapter" id="ch-49"><header class="ch-head"><p class="kicker">Chapter 49</p><h2>Generative Polarities</h2><p class="meta">66 words · WIP</p></header><div class="body"><p>Entering and receiving. Making and holding. The verbs by which life continues asking questions by making more askers.</p>
+<p>Michael wrote them without hurry. Heat rose the way spring rises: undeniable, still clothed, not yet the full monogram scandal.</p>
+<p>Polarities as simultaneous articulations of one field—not a war for the crown of Real.</p>
+<p>Joshua nodded like a man hearing a hymn he already knew in another key.</p></div></article><article class="chapter" id="ch-50"><header class="ch-head"><p class="kicker">Chapter 50</p><h2>God Has No Gender</h2><p class="meta">61 words · WIP</p></header><div class="body"><p>To force the total into one generative costume is to reintroduce the cut the axiom forbids.</p>
+<p>God has no gender because the field includes every polarity without a locker-room election.</p>
+<p>Michael said it carefully. Culture wars love either/or teeth; he was not feeding them a jersey.</p>
+<p>Ontological hospitality: both, neither, total.</p>
+<p>The monogram would have to swing both ways or lie.</p></div></article><article class="chapter" id="ch-51"><header class="ch-head"><p class="kicker">Chapter 51</p><h2>Greek Numbers, Honestly</h2><p class="meta">66 words · WIP</p></header><div class="body"><p>α = 1. β = 2. δ = 4. ω = 800.</p>
+<p>Michael wrote the correction so hard it nearly tore the page: no fake 4=alpha, no fake 2=omega in the Ionic system.</p>
+<p>Shape jokes and playful bridges could stay. Counterfeit Classics could not.</p>
+<p>ω’s eight remained. Δ’s tip remained. First and last remained.</p>
+<p>Honesty made the comedy land cleaner—like a joke that admits the setup.</p></div></article><article class="chapter" id="ch-52"><header class="ch-head"><p class="kicker">Chapter 52</p><h2>Lucky Eight</h2><p class="meta">55 words · WIP</p></header><div class="body"><p>Eight: lucky in some cultures’ mouths, twin spheres in a schoolboy’s alphabet of glyphs, the balls in the old ASCII hymn 8==D.</p>
+<p>Michael did not draw it for the bus. He let adult memory supply the picture.</p>
+<p>Lucky eight sat beside seven on the number line like family at a reunion no one formally invited.</p></div></article><article class="chapter" id="ch-53"><header class="ch-head"><p class="kicker">Chapter 53</p><h2>Seven The Crooked Cousin</h2><p class="meta">57 words · WIP</p></header><div class="body"><p>Seven==D: the leaning variant—hit from the side, mid-swerve. Lucky seven. The inch-count stereotype. The cousin who arrives sideways and still gets fed.</p>
+<p>‘Wonder how seven comes into it,’ he had once typed into the night.</p>
+<p>Now the family of the joke was large, slightly unhinged, and complete enough to include the crooked ones.</p>
+<p>Of course it was.</p></div></article><article class="chapter" id="ch-54"><header class="ch-head"><p class="kicker">Chapter 54</p><h2>Delta The Tip</h2><p class="meta">57 words · WIP</p></header><div class="body"><p>Δ is four in the old count and a triangle in the eye—glans geometry if you are rude in one direction, pubic delta if the light flips.</p>
+<p>What a D.</p>
+<p>Michael refused to pretend he wasn’t laughing. The demonstration required the laugh. Solemnity alone would have been the real indecency—pretending the body was not in the ontology.</p></div></article><article class="chapter" id="ch-55"><header class="ch-head"><p class="kicker">Chapter 55</p><h2>The Letterforms</h2><p class="meta">57 words · WIP</p></header><div class="body"><p>α: loop and descending stroke—head and shaft if you have eyes.  <br>
+ω: twin lobes—balls or breasts depending on the light and the prejudice of the day.</p>
+<p>In the fonts of messages and screens, adjacency became anatomy.</p>
+<p>Sacred bookends of Western monotheistic speech. Rude ink.</p>
+<p>The universe had waited on typefaces the way a punchline waits on timing.</p></div></article><article class="chapter" id="ch-56"><header class="ch-head"><p class="kicker">Chapter 56</p><h2>α==ω</h2><p class="meta">55 words · WIP</p></header><div class="body"><p>He wrote the title that was also a diagram on a napkin destined for immortality in the wrong filing system:</p>
+<p><strong>α==ω</strong></p>
+<p>Beginning, equals-equals, end. Shaft optional. Detention optional.</p>
+<p>Joshua loved it on sight—the way you love a truth that arrives already laughing.</p>
+<p>‘Cover-ready,’ Joshua said.</p>
+<p>‘Lawsuit-ready,’ Michael said.</p>
+<p>‘Both,’ they said together, because of course.</p></div></article><article class="chapter" id="ch-57"><header class="ch-head"><p class="kicker">Chapter 57</p><h2>The Other Reading</h2><p class="meta">50 words · WIP</p></header><div class="body"><p>Flip the light.</p>
+<p>ω as soft twin curves—crude-art boobs, textbook lobes.  <br>
+Α as open triangle—yonic geometry, classic as cave and warning and welcome.</p>
+<p>Same letters as the phallic assembly.</p>
+<p>Not a competition with a winner. A concatenation forced by non-separation.</p>
+<p>Michael felt the both/and shop’s till drawer slam in celebration.</p></div></article><article class="chapter" id="ch-58"><header class="ch-head"><p class="kicker">Chapter 58</p><h2>Not Either/Or</h2><p class="meta">53 words · WIP</p></header><div class="body"><p>It is not either dick or pussy as the ‘real’ decoding.</p>
+<p>It is beginning-and-end containing both and neither because the field does not split for team sports.</p>
+<p>God has no gender; the monogram swings; the feature is the theology.</p>
+<p>Peak both/and. Peak rudeness. Peak hospitality to the body as diagram of the whole.</p></div></article><article class="chapter" id="ch-59"><header class="ch-head"><p class="kicker">Chapter 59</p><h2>Length Girth Depth Breadth</h2><p class="meta">65 words · WIP</p></header><div class="body"><p>Four axes for a total without preferred direction:</p>
+<p><strong>Length</strong>—vertical stroke, shaft, the claim of span.  <br>
+<strong>Girth</strong>—rounded volume of eight, swelling of lobes.  <br>
+<strong>Depth</strong>—interior of the triangle that receives.  <br>
+<strong>Breadth</strong>—lateral twin span, testes or breasts.</p>
+<p>Miss one and the monogram becomes a partial lie about undivided existence.</p>
+<p>Ontology with body measurements, filed under comedy because comedy is how some truths agree to be spoken in public.</p></div></article><article class="chapter" id="ch-60"><header class="ch-head"><p class="kicker">Chapter 60</p><h2>No Sin (Orgasmic Clarity)</h2><p class="meta">75 words · WIP</p></header><div class="body"><p>When the last fence of pure outside falls, sin-as-exile falls with it.</p>
+<p>Michael felt it as heat and relief together—not permission to harm, but the end of the fantasy that harm happens in a second universe, away from God, away from us.</p>
+<p>No stain that isn’t the play of the one field—including what needs repair, apology, justice, change.</p>
+<p>Dry negation? No.</p>
+<p>Orgasmic clarity: the phrase from the spine notes fitted like a scandalous, accurate glove.</p></div></article><article class="chapter" id="ch-61"><header class="ch-head"><p class="kicker">Chapter 61</p><h2>Same Heartbeat</h2><p class="meta">60 words · WIP</p></header><div class="body"><p>No sin (as outside-cut) and dual monogram did not queue in single file.</p>
+<p>They arrived as twin pulses—same recognition: the cut was the illusion; the generative whole was always both; the moral elsewhere was mirage; the dirty sacred joke was the diagram of undivided existence.</p>
+<p>Michael and Joshua didn’t stack conclusions like bricks.</p>
+<p>They heard one heartbeat with two names.</p></div></article><article class="chapter" id="ch-62"><header class="ch-head"><p class="kicker">Chapter 62</p><h2>Fuck Life / Fucked By Life</h2><p class="meta">63 words · WIP</p></header><div class="body"><p>Joshua’s theology of verbs, said over cooling tea:</p>
+<p>We can enjoy being fucked by life.  <br>
+We can fuck life.</p>
+<p>Receiving and doing. Passion and agency. The grammar was the teaching.</p>
+<p>Michael said amen without a cathedral, with a grin that hurt in the good way.</p>
+<p>Adult. Warm. Bookstore-possible if the bookseller has a sense of humour and a spine section labelled <em>metaphysical comedy</em>.</p></div></article><article class="chapter" id="ch-63"><header class="ch-head"><p class="kicker">Chapter 63</p><h2>God Has / Is / Maybe</h2><p class="meta">49 words · WIP</p></header><div class="body"><p>God has a big dick.  <br>
+God is a big dick.  <br>
+Maybe he has.  <br>
+The wave hasn’t collapsed.  <br>
+I don’t—and I am God—but it’s both-and.  <br>
+I both did and didn’t collapse it.</p>
+<p>Big and small.</p>
+<p>Phew.</p>
+<p>Hmm.</p>
+<p>Uncollapsed wave as kindness: forced certainty is just either/or in a fancy hat.</p></div></article><article class="chapter" id="ch-64"><header class="ch-head"><p class="kicker">Chapter 64</p><h2>The Rest Of Us Wake Up</h2><p class="meta">117 words · WIP</p></header><div class="body"><p>‘We can’t stop yet,’ Michael had said in the small hours. ‘The rest of us haven’t woken up yet.’</p>
+<p>This chapter is the alarm that doesn’t shout.</p>
+<p>You—with the book, the screen, the bus, the bath. You who are also the field experiencing a reader. You at forty-two, or ^&amp;, or α==ω, or simply tired.</p>
+<p>The rest of us includes you.</p>
+<p>Wake as much as you can without cruelty to the parts still asleep.</p>
+<p>The monogram waits. The axiom already has you: you are experiencing this sentence.</p>
+<p>That’s the oldest alarm clock.</p>
+<p>Next comes only the last walk to the door, and the line that carries the whole chain without dropping either the logic or the laugh.</p></div></article><article class="chapter" id="ch-65"><header class="ch-head"><p class="kicker">Chapter 65</p><h2>A Funny Old Life</h2><p class="meta">913 words · WIP</p></header><div class="body"><p>By the end, the arguments had all been to the same pub.</p>
+<p>Not the same <em>opinion</em>. Pubs are full of opinions, most of them sticky. The same <em>room</em>.</p>
+<p>Michael sat with Joshua at a scarred table that had survived more revelations than polish. Cameron’s empty chair still held the ghost of forty-two—an ordinary number, proud of its ordinariness, like a man who refuses a cape on principle.</p>
+<p>Outside, morning did its usual miracle of pretending to be new.</p>
+<p>Joshua turned his mug. ‘Say it plain. For the ones still asleep.’</p>
+<p>Michael had learned that plain was the hardest dialect.</p>
+<p>‘Your experience of this moment exists,’ he said. ‘That’s the only thing that doesn’t need a committee. From there: nothing can’t be a real outside, because even naming it is something. So existence isn’t a team with an away kit. It’s one field. No true cut. No pure elsewhere. Which means hell-as-exit is a booking error. Which means sin-as-standing-outside-the-whole is the same booking error in a moral hat.’</p>
+<p>Joshua’s eyes shone with that brother-look: pride mixed with <em>finally</em>.</p>
+<p>‘And the dirty bit,’ Joshua said, fondly. ‘Because God is not a coward.’</p>
+<p>Michael almost bottled it. Bookstore shelves are full of books that almost bottled it.</p>
+<p>He didn’t.</p>
+<p>‘If the whole can’t be split,’ he said, ‘then the generative poles aren’t a war with a winner. Entering and receiving. Making and holding. The lot. God has no gender because the total doesn’t need a locker room. The old monogram—Alpha and Omega, beginning and end—isn’t decoration. It’s the claim of span. And in the fonts we actually live in, those letters…’</p>
+<p>He sketched on a napkin, ridiculous and precise:</p>
+<p><strong>α==ω</strong></p>
+<p>Joshua snorted tea. ‘There it is.’</p>
+<p>‘Cock and balls if you read it one way,’ Michael said, cheeks hot, voice steady. ‘Boobs and the whole soft geometry of the other altar if you read it the other. Same ink. Same claim. Not either/or. The light chooses; the field doesn’t. Length, girth, depth, breadth—every axis—because existence doesn’t have a preferred direction for the joke.’</p>
+<p>A woman at the next table glanced over, decided this was either theology or a graphic design emergency, and returned to her scone.</p>
+<p>Cameron, in memory, muttered <em>motte-and-bailey</em>. Michael smiled at the empty chair.</p>
+<p>‘You’re right in classical court,’ he told the ghost. ‘It’s polysemy. It’s juxtaposition. It’s a definition game if you only count one temple at a time. And <em>also</em>—because we’re not only in classical court—it’s what happens when the map of the whole is forced to wear a body. The strong claim is a bailey. The funny claim survives cross-examination. The novel was the long way of making the funny claim <em>undeniable as recognition</em>.’</p>
+<p>Joshua raised his mug. ‘No sin.’</p>
+<p>‘No sin as outside,’ Michael said. ‘No stain that isn’t already the play of the only thing that is. That isn’t permission to be cruel. It’s the end of the fantasy that cruelty happens <em>elsewhere than God</em>. Including us. Especially us.’</p>
+<p>They sat with that. It was heavy. It was light. Both.</p>
+<p>‘We can enjoy being fucked by life,’ Joshua said softly, ‘and we can fuck life.’</p>
+<p>‘Both,’ Michael said.</p>
+<p>‘I don’t have a big dick and I am God,’ Joshua added, deadpan. ‘But it’s both-and.’</p>
+<p>‘The wave doesn’t have to collapse,’ Michael said. ‘Big and small. Has and is and maybe. You both did and didn’t.’</p>
+<p>‘Phew,’ said Joshua, and they laughed like men who had put down a stone without pretending the hill was gone.</p>
+<p>Michael looked at the napkin. At the brothers. At the ordinary morning performing infinity without a press release.</p>
+<p>He thought of the first morning—the tea, the cold floor, the sentence that would not unplug.</p>
+<p>He thought of the night of layers, Sisyphus, the abyss, and the cat under the streetlight, and the second true sentence: <em>I’m enjoying the journey.</em></p>
+<p>He thought of six and seven, of forty-two, of planks and specks, of crosses that were God-and-neighbour and death-and-shame and shame-turned-love, of keyboards, of wolves that were tyrants and parents, of fonts waiting for the universe to invent screens so the beginning and the end could finally look like what keeps the whole circus spawning more question-askers.</p>
+<p>None of it required a fight to the death with Cameron.</p>
+<p>It required only that the reader—you—notice what you cannot un-notice:</p>
+<p>That you are here.  <br>
+That here has no outside.  <br>
+That the poles are both.  <br>
+That the sacred joke is generative.  <br>
+That the moral cut was the last illusion to die laughing.</p>
+<p>Michael stood. The day was waiting, as days do, with its emails and its kindnesses and its preventable horrors and its tea.</p>
+<p>Joshua said, ‘So now what?’</p>
+<p>Michael grinned, which is a kind of amen.</p>
+<p>‘Now we live it,’ he said. ‘Mask less where we can. Love harder where we must. Tell the truth in both directions at once. And when anyone asks what it all meant—’</p>
+<p>He tapped the napkin.</p>
+<p>‘—we show them the monogram, and the axiom, and the empty chair, and the cold floor on day one.’</p>
+<p>Joshua walked him to the door.</p>
+<p>Behind them, God finished the round of drinks, paid with a coin that was also every coin, and held the weather open like a coat.</p>
+<p>Michael stepped into the street.</p>
+<p>The sky did not write a conclusion on a cloud. It did better.</p>
+<p>It left him—and you—with the only line that could carry the whole chain without dropping either the logic or the laugh:</p>
+<p><strong>It&#x27;s a funny old life.</strong></p></div></article>
+      <footer class="foot">
+        Pillars deepest so far: Ch 1, 24, 65. Other chapters first-pass stations — expanding as we go.
+        Drop more material in <code>inbox-drops</code>; say “rebuild reader” anytime.
+      </footer>
+    </main>
+  </div>
+  <a class="top" href="#">Top</a>
+</body>
+</html>
