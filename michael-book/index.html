@@ -194,19 +194,45 @@
       grid-template-columns: 1.6rem 1fr;
       gap: 0.4rem;
       text-decoration: none;
-      color: var(--muted);
+      color: var(--text);
       font-family: var(--sans);
       font-size: 0.76rem;
       padding: 0.32rem 0.4rem;
       border-radius: 6px;
       border: 1px solid transparent;
+      opacity: 1;
     }
-    .nav-item:hover {
+    /* Kill browser default purple/grey on visited anchors — they looked disabled */
+    .nav-item:link,
+    .nav-item:visited,
+    .nav-item:active {
       color: var(--text);
+      opacity: 1;
+    }
+    .nav-item .t {
+      color: var(--text);
+      opacity: 1;
+    }
+    .nav-item .n {
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+      opacity: 1;
+    }
+    .nav-item:hover,
+    .nav-item:focus-visible {
+      color: #fff;
       background: var(--accent-dim);
       border-color: rgba(232,184,74,0.2);
+      outline: none;
     }
-    .nav-item .n { color: var(--accent); font-variant-numeric: tabular-nums; }
+    .nav-item:hover .t,
+    .nav-item:focus-visible .t {
+      color: #fff;
+    }
+    .nav-item:hover .n,
+    .nav-item:focus-visible .n {
+      color: var(--accent);
+    }
     .main { padding: 1.75rem 1.25rem 4rem; }
     .hero {
       max-width: var(--measure);
@@ -341,7 +367,7 @@
         <div class="stats">
           <div><strong>99</strong> chapters</div>
           <div><strong>87,106</strong> words</div>
-          <div>2026-07-29 07:59 UTC</div>
+          <div>2026-07-29 08:00 UTC</div>
         </div>
       </div>
       <nav class="nav" aria-label="Chapters">
