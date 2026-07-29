@@ -33,10 +33,12 @@
       background:
         radial-gradient(ellipse 70% 40% at 50% -8%, rgba(232,184,74,0.1), transparent),
         radial-gradient(ellipse 50% 30% at 100% 100%, rgba(80,120,180,0.06), transparent);
-      pointer-events: none; z-index: 0;
+      pointer-events: none;
+      z-index: -1;
     }
+    /* No z-index here — a stacking context was trapping the drawer under the backdrop */
     .shell {
-      position: relative; z-index: 1;
+      position: relative;
       display: grid;
       grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
       max-width: 74rem;
@@ -44,11 +46,32 @@
       min-height: 100vh;
     }
     .side {
-      background: rgba(15,20,25,0.95);
+      background: rgba(15,20,25,0.97);
       border-right: 1px solid var(--border);
       padding: 1.25rem 0.9rem 2rem;
-      position: sticky; top: 0; align-self: start;
-      max-height: 100vh; overflow: auto;
+      max-height: 100vh;
+      overflow: auto;
+    }
+    .side-spacer {
+      /* Holds the left grid column; real sidebar is position:fixed */
+      min-height: 1px;
+    }
+    /* Desktop: fixed sidebar aligned to centered 74rem shell */
+    @media (min-width: 901px) {
+      .side {
+        position: fixed;
+        top: 0;
+        left: max(0px, calc((100vw - 74rem) / 2));
+        width: 15rem;
+        height: 100vh;
+        z-index: 5;
+        pointer-events: auto;
+      }
+      .nav-toggle,
+      .nav-close,
+      .nav-backdrop {
+        display: none !important;
+      }
     }
     .nav-toggle,
     .nav-close,
@@ -57,8 +80,8 @@
     }
     @media (max-width: 900px) {
       .shell { grid-template-columns: 1fr; }
+      .side-spacer { display: none; }
       .main { padding-top: 4.25rem; }
-      /* Fixed toggle — always available, never steals the page */
       .nav-toggle {
         display: inline-flex;
         align-items: center;
@@ -66,7 +89,7 @@
         position: fixed;
         top: 0.75rem;
         left: 0.75rem;
-        z-index: 40;
+        z-index: 300;
         font-family: var(--sans);
         font-size: 0.8rem;
         font-weight: 600;
@@ -80,11 +103,12 @@
         -webkit-tap-highlight-color: transparent;
       }
       .nav-toggle:active { transform: scale(0.98); }
+      /* Backdrop BELOW the drawer so chapter taps hit the links */
       .nav-backdrop {
         display: block;
         position: fixed;
         inset: 0;
-        z-index: 45;
+        z-index: 200;
         background: rgba(0,0,0,0.55);
         opacity: 0;
         pointer-events: none;
@@ -94,7 +118,6 @@
         opacity: 1;
         pointer-events: auto;
       }
-      /* Drawer: off-canvas until opened */
       .side {
         position: fixed;
         top: 0;
@@ -103,7 +126,7 @@
         width: min(20rem, 88vw);
         max-height: none;
         height: 100%;
-        z-index: 50;
+        z-index: 250;
         border-right: 1px solid var(--border);
         border-bottom: none;
         padding-top: 3.25rem;
@@ -111,9 +134,12 @@
         transition: transform 0.22s ease;
         box-shadow: 12px 0 40px rgba(0,0,0,0.45);
         -webkit-overflow-scrolling: touch;
+        pointer-events: none; /* closed: do not intercept */
+        overscroll-behavior: contain;
       }
       body.nav-open .side {
         transform: translateX(0);
+        pointer-events: auto; /* open: links receive taps */
       }
       body.nav-open {
         overflow: hidden;
@@ -125,6 +151,7 @@
         position: absolute;
         top: 0.65rem;
         right: 0.65rem;
+        z-index: 2;
         width: 2.4rem;
         height: 2.4rem;
         border-radius: 999px;
@@ -143,6 +170,13 @@
       .nav {
         max-height: none;
         padding-bottom: 3rem;
+        position: relative;
+        z-index: 1;
+      }
+      .nav-item {
+        pointer-events: auto;
+        cursor: pointer;
+        touch-action: manipulation;
       }
     }
     .brand {
@@ -353,27 +387,29 @@
     Chapters
   </button>
   <div class="nav-backdrop" id="nav-backdrop" hidden></div>
-  <div class="shell">
-    <aside class="side" id="chapter-side" aria-label="Chapter navigation">
-      <button type="button" class="nav-close" id="nav-close" aria-label="Close chapters">×</button>
-      <div class="side-head">
-        <div class="brand">tyneside.software · michael-book</div>
-        <h1>α==ω</h1>
-        <p class="sub">by Me, God</p>
-        <div class="epigraph">
-          Ninety-nine chapters. Experience exists. No pure outside.
-          Ends: <em>It's a funny old life.</em>
-        </div>
-        <div class="stats">
-          <div><strong>99</strong> chapters</div>
-          <div><strong>87,106</strong> words</div>
-          <div>2026-07-29 08:00 UTC</div>
-        </div>
+  <!-- Drawer is a direct child of body so it is never under the dimmer layer -->
+  <aside class="side" id="chapter-side" aria-label="Chapter navigation">
+    <button type="button" class="nav-close" id="nav-close" aria-label="Close chapters">×</button>
+    <div class="side-head">
+      <div class="brand">tyneside.software · michael-book</div>
+      <h1>α==ω</h1>
+      <p class="sub">by Me, God</p>
+      <div class="epigraph">
+        Ninety-nine chapters. Experience exists. No pure outside.
+        Ends: <em>It's a funny old life.</em>
       </div>
-      <nav class="nav" aria-label="Chapters">
-        <a class="nav-item" href="#ch-01"><span class="n">1</span><span class="t">The Moment That Won’t Go Away</span></a><a class="nav-item" href="#ch-02"><span class="n">2</span><span class="t">The Argument With Nothing</span></a><a class="nav-item" href="#ch-03"><span class="n">3</span><span class="t">One Room, No Outside</span></a><a class="nav-item" href="#ch-04"><span class="n">4</span><span class="t">No Edge On The Map</span></a><a class="nav-item" href="#ch-05"><span class="n">5</span><span class="t">Everything Fits, Annoyingly</span></a><a class="nav-item" href="#ch-06"><span class="n">6</span><span class="t">The Blind Guides</span></a><a class="nav-item" href="#ch-07"><span class="n">7</span><span class="t">Both/And Shop Opens</span></a><a class="nav-item" href="#ch-08"><span class="n">8</span><span class="t">Maths, Words, Things</span></a><a class="nav-item" href="#ch-09"><span class="n">9</span><span class="t">The Crossbeams</span></a><a class="nav-item" href="#ch-10"><span class="n">10</span><span class="t">Carrot, Stick, Plus Sign</span></a><a class="nav-item" href="#ch-11"><span class="n">11</span><span class="t">Shame Into Love</span></a><a class="nav-item" href="#ch-12"><span class="n">12</span><span class="t">Moon, Star, And Rules About Pictures</span></a><a class="nav-item" href="#ch-13"><span class="n">13</span><span class="t">Who Is Like God?</span></a><a class="nav-item" href="#ch-14"><span class="n">14</span><span class="t">Gabriel Delivers</span></a><a class="nav-item" href="#ch-15"><span class="n">15</span><span class="t">The Hellfire Club (Historical Footnote)</span></a><a class="nav-item" href="#ch-16"><span class="n">16</span><span class="t">The Brain That Arrived Late (Allegedly)</span></a><a class="nav-item" href="#ch-17"><span class="n">17</span><span class="t">Prediction Errors For Breakfast</span></a><a class="nav-item" href="#ch-18"><span class="n">18</span><span class="t">Wave And Point</span></a><a class="nav-item" href="#ch-19"><span class="n">19</span><span class="t">Empty Space Files Expenses</span></a><a class="nav-item" href="#ch-20"><span class="n">20</span><span class="t">Zero And The Hotel</span></a><a class="nav-item" href="#ch-21"><span class="n">21</span><span class="t">Imaginary But Useful</span></a><a class="nav-item" href="#ch-22"><span class="n">22</span><span class="t">Emergence Is Fundamental</span></a><a class="nav-item" href="#ch-23"><span class="n">23</span><span class="t">CCC And Other Options</span></a><a class="nav-item" href="#ch-24"><span class="n">24</span><span class="t">Sisyphus On Holiday</span></a><a class="nav-item" href="#ch-25"><span class="n">25</span><span class="t">Different Speeds</span></a><a class="nav-item" href="#ch-26"><span class="n">26</span><span class="t">The Ordinary Answer</span></a><a class="nav-item" href="#ch-27"><span class="n">27</span><span class="t">Keys Six And Seven</span></a><a class="nav-item" href="#ch-28"><span class="n">28</span><span class="t">Both And Not Both</span></a><a class="nav-item" href="#ch-29"><span class="n">29</span><span class="t">Cameron Goes To Bed</span></a><a class="nav-item" href="#ch-30"><span class="n">30</span><span class="t">Dialetheism For Beginners</span></a><a class="nav-item" href="#ch-31"><span class="n">31</span><span class="t">NPC Theory (With Kindness)</span></a><a class="nav-item" href="#ch-32"><span class="n">32</span><span class="t">High Agency, Low Bandwidth World</span></a><a class="nav-item" href="#ch-33"><span class="n">33</span><span class="t">The Mask</span></a><a class="nav-item" href="#ch-34"><span class="n">34</span><span class="t">Recruiter At The Fork</span></a><a class="nav-item" href="#ch-35"><span class="n">35</span><span class="t">Alpha Is Mum And Dad</span></a><a class="nav-item" href="#ch-36"><span class="n">36</span><span class="t">Omega Isn’t A Job</span></a><a class="nav-item" href="#ch-37"><span class="n">37</span><span class="t">Is And Isn’t</span></a><a class="nav-item" href="#ch-38"><span class="n">38</span><span class="t">Fonts Waiting For The Universe</span></a><a class="nav-item" href="#ch-39"><span class="n">39</span><span class="t">Romans, Efficient And Ashamed</span></a><a class="nav-item" href="#ch-40"><span class="n">40</span><span class="t">No Outside Left</span></a><a class="nav-item" href="#ch-41"><span class="n">41</span><span class="t">The Category Called Sin</span></a><a class="nav-item" href="#ch-42"><span class="n">42</span><span class="t">Verse Forty-Two</span></a><a class="nav-item" href="#ch-43"><span class="n">43</span><span class="t">Four Twenty And Other Appointed Hours</span></a><a class="nav-item" href="#ch-44"><span class="n">44</span><span class="t">Gold Tablets (Budget Version)</span></a><a class="nav-item" href="#ch-45"><span class="n">45</span><span class="t">Goosebumps At The Sign</span></a><a class="nav-item" href="#ch-46"><span class="n">46</span><span class="t">A Doorway In The Ordinary</span></a><a class="nav-item" href="#ch-47"><span class="n">47</span><span class="t">Calls Into Being What Was Not</span></a><a class="nav-item" href="#ch-48"><span class="n">48</span><span class="t">Preference Without Outside</span></a><a class="nav-item" href="#ch-49"><span class="n">49</span><span class="t">Generative Polarities</span></a><a class="nav-item" href="#ch-50"><span class="n">50</span><span class="t">God Has No Gender</span></a><a class="nav-item" href="#ch-51"><span class="n">51</span><span class="t">Greek Numbers, Honestly</span></a><a class="nav-item" href="#ch-52"><span class="n">52</span><span class="t">Lucky Eight</span></a><a class="nav-item" href="#ch-53"><span class="n">53</span><span class="t">Seven The Crooked Cousin</span></a><a class="nav-item" href="#ch-54"><span class="n">54</span><span class="t">Delta The Tip</span></a><a class="nav-item" href="#ch-55"><span class="n">55</span><span class="t">The Letterforms</span></a><a class="nav-item" href="#ch-56"><span class="n">56</span><span class="t">α==ω</span></a><a class="nav-item" href="#ch-57"><span class="n">57</span><span class="t">The Other Reading</span></a><a class="nav-item" href="#ch-58"><span class="n">58</span><span class="t">Not Either/Or</span></a><a class="nav-item" href="#ch-59"><span class="n">59</span><span class="t">Length Girth Depth Breadth</span></a><a class="nav-item" href="#ch-60"><span class="n">60</span><span class="t">No Sin (Orgasmic Clarity)</span></a><a class="nav-item" href="#ch-61"><span class="n">61</span><span class="t">Same Heartbeat</span></a><a class="nav-item" href="#ch-62"><span class="n">62</span><span class="t">Fuck Life / Fucked By Life</span></a><a class="nav-item" href="#ch-63"><span class="n">63</span><span class="t">God Has / Is / Maybe</span></a><a class="nav-item" href="#ch-64"><span class="n">64</span><span class="t">The Rest Of Us Wake Up</span></a><a class="nav-item" href="#ch-65"><span class="n">65</span><span class="t">A Funny Old Life</span></a><a class="nav-item" href="#ch-66"><span class="n">66</span><span class="t">Unfaithful At Dawn</span></a><a class="nav-item" href="#ch-67"><span class="n">67</span><span class="t">Moon And Stars On Six And Eight</span></a><a class="nav-item" href="#ch-68"><span class="n">68</span><span class="t">The Friend Across The Book</span></a><a class="nav-item" href="#ch-69"><span class="n">69</span><span class="t">Scripture Reasoning</span></a><a class="nav-item" href="#ch-70"><span class="n">70</span><span class="t">The Final Chapter Argument</span></a><a class="nav-item" href="#ch-71"><span class="n">71</span><span class="t">I Want To Keep Writing The Book</span></a><a class="nav-item" href="#ch-72"><span class="n">72</span><span class="t">Red Line Respect</span></a><a class="nav-item" href="#ch-73"><span class="n">73</span><span class="t">Theory Of Mind Before Genesis</span></a><a class="nav-item" href="#ch-74"><span class="n">74</span><span class="t">Faith Is Heart And Mind</span></a><a class="nav-item" href="#ch-75"><span class="n">75</span><span class="t">Read — Will You Not Think</span></a><a class="nav-item" href="#ch-76"><span class="n">76</span><span class="t">Wicca And Invisible Survival</span></a><a class="nav-item" href="#ch-77"><span class="n">77</span><span class="t">Empire Religions And The Under-Radar</span></a><a class="nav-item" href="#ch-78"><span class="n">78</span><span class="t">Syncretism Without Theft</span></a><a class="nav-item" href="#ch-79"><span class="n">79</span><span class="t">Pyramids And Capstones</span></a><a class="nav-item" href="#ch-80"><span class="n">80</span><span class="t">Under The Pyramid A Builder-God</span></a><a class="nav-item" href="#ch-81"><span class="n">81</span><span class="t">Christ Double-Equals God</span></a><a class="nav-item" href="#ch-82"><span class="n">82</span><span class="t">The Seal And The Ongoing Page</span></a><a class="nav-item" href="#ch-83"><span class="n">83</span><span class="t">Parallel Books Same Story</span></a><a class="nav-item" href="#ch-84"><span class="n">84</span><span class="t">My Word Is My Bond</span></a><a class="nav-item" href="#ch-85"><span class="n">85</span><span class="t">NRE And The Brain&#x27;s Last Cinema</span></a><a class="nav-item" href="#ch-86"><span class="n">86</span><span class="t">Cyclical Realities</span></a><a class="nav-item" href="#ch-87"><span class="n">87</span><span class="t">I Was You And You</span></a><a class="nav-item" href="#ch-88"><span class="n">88</span><span class="t">Flood And The Child Held</span></a><a class="nav-item" href="#ch-89"><span class="n">89</span><span class="t">Things Are Not Always The Same</span></a><a class="nav-item" href="#ch-90"><span class="n">90</span><span class="t">Harriet At Six Thirty-One</span></a><a class="nav-item" href="#ch-91"><span class="n">91</span><span class="t">Horizontal Beam With A Face</span></a><a class="nav-item" href="#ch-92"><span class="n">92</span><span class="t">Six And Eight Revisited</span></a><a class="nav-item" href="#ch-93"><span class="n">93</span><span class="t">Islam In The Chain Without Capture</span></a><a class="nav-item" href="#ch-94"><span class="n">94</span><span class="t">The Bigger Book</span></a><a class="nav-item" href="#ch-95"><span class="n">95</span><span class="t">Missionary Without Eggshells</span></a><a class="nav-item" href="#ch-96"><span class="n">96</span><span class="t">Blasphemy Shaped Like Love</span></a><a class="nav-item" href="#ch-97"><span class="n">97</span><span class="t">The Capstone Problem</span></a><a class="nav-item" href="#ch-98"><span class="n">98</span><span class="t">Almost Morning</span></a><a class="nav-item" href="#ch-99"><span class="n">99</span><span class="t">It&#x27;s A Funny Old Life (Reprise)</span></a>
-      </nav>
-    </aside>
+      <div class="stats">
+        <div><strong>99</strong> chapters</div>
+        <div><strong>87,106</strong> words</div>
+        <div>2026-07-29 08:02 UTC</div>
+      </div>
+    </div>
+    <nav class="nav" aria-label="Chapters">
+      <a class="nav-item" href="#ch-01"><span class="n">1</span><span class="t">The Moment That Won’t Go Away</span></a><a class="nav-item" href="#ch-02"><span class="n">2</span><span class="t">The Argument With Nothing</span></a><a class="nav-item" href="#ch-03"><span class="n">3</span><span class="t">One Room, No Outside</span></a><a class="nav-item" href="#ch-04"><span class="n">4</span><span class="t">No Edge On The Map</span></a><a class="nav-item" href="#ch-05"><span class="n">5</span><span class="t">Everything Fits, Annoyingly</span></a><a class="nav-item" href="#ch-06"><span class="n">6</span><span class="t">The Blind Guides</span></a><a class="nav-item" href="#ch-07"><span class="n">7</span><span class="t">Both/And Shop Opens</span></a><a class="nav-item" href="#ch-08"><span class="n">8</span><span class="t">Maths, Words, Things</span></a><a class="nav-item" href="#ch-09"><span class="n">9</span><span class="t">The Crossbeams</span></a><a class="nav-item" href="#ch-10"><span class="n">10</span><span class="t">Carrot, Stick, Plus Sign</span></a><a class="nav-item" href="#ch-11"><span class="n">11</span><span class="t">Shame Into Love</span></a><a class="nav-item" href="#ch-12"><span class="n">12</span><span class="t">Moon, Star, And Rules About Pictures</span></a><a class="nav-item" href="#ch-13"><span class="n">13</span><span class="t">Who Is Like God?</span></a><a class="nav-item" href="#ch-14"><span class="n">14</span><span class="t">Gabriel Delivers</span></a><a class="nav-item" href="#ch-15"><span class="n">15</span><span class="t">The Hellfire Club (Historical Footnote)</span></a><a class="nav-item" href="#ch-16"><span class="n">16</span><span class="t">The Brain That Arrived Late (Allegedly)</span></a><a class="nav-item" href="#ch-17"><span class="n">17</span><span class="t">Prediction Errors For Breakfast</span></a><a class="nav-item" href="#ch-18"><span class="n">18</span><span class="t">Wave And Point</span></a><a class="nav-item" href="#ch-19"><span class="n">19</span><span class="t">Empty Space Files Expenses</span></a><a class="nav-item" href="#ch-20"><span class="n">20</span><span class="t">Zero And The Hotel</span></a><a class="nav-item" href="#ch-21"><span class="n">21</span><span class="t">Imaginary But Useful</span></a><a class="nav-item" href="#ch-22"><span class="n">22</span><span class="t">Emergence Is Fundamental</span></a><a class="nav-item" href="#ch-23"><span class="n">23</span><span class="t">CCC And Other Options</span></a><a class="nav-item" href="#ch-24"><span class="n">24</span><span class="t">Sisyphus On Holiday</span></a><a class="nav-item" href="#ch-25"><span class="n">25</span><span class="t">Different Speeds</span></a><a class="nav-item" href="#ch-26"><span class="n">26</span><span class="t">The Ordinary Answer</span></a><a class="nav-item" href="#ch-27"><span class="n">27</span><span class="t">Keys Six And Seven</span></a><a class="nav-item" href="#ch-28"><span class="n">28</span><span class="t">Both And Not Both</span></a><a class="nav-item" href="#ch-29"><span class="n">29</span><span class="t">Cameron Goes To Bed</span></a><a class="nav-item" href="#ch-30"><span class="n">30</span><span class="t">Dialetheism For Beginners</span></a><a class="nav-item" href="#ch-31"><span class="n">31</span><span class="t">NPC Theory (With Kindness)</span></a><a class="nav-item" href="#ch-32"><span class="n">32</span><span class="t">High Agency, Low Bandwidth World</span></a><a class="nav-item" href="#ch-33"><span class="n">33</span><span class="t">The Mask</span></a><a class="nav-item" href="#ch-34"><span class="n">34</span><span class="t">Recruiter At The Fork</span></a><a class="nav-item" href="#ch-35"><span class="n">35</span><span class="t">Alpha Is Mum And Dad</span></a><a class="nav-item" href="#ch-36"><span class="n">36</span><span class="t">Omega Isn’t A Job</span></a><a class="nav-item" href="#ch-37"><span class="n">37</span><span class="t">Is And Isn’t</span></a><a class="nav-item" href="#ch-38"><span class="n">38</span><span class="t">Fonts Waiting For The Universe</span></a><a class="nav-item" href="#ch-39"><span class="n">39</span><span class="t">Romans, Efficient And Ashamed</span></a><a class="nav-item" href="#ch-40"><span class="n">40</span><span class="t">No Outside Left</span></a><a class="nav-item" href="#ch-41"><span class="n">41</span><span class="t">The Category Called Sin</span></a><a class="nav-item" href="#ch-42"><span class="n">42</span><span class="t">Verse Forty-Two</span></a><a class="nav-item" href="#ch-43"><span class="n">43</span><span class="t">Four Twenty And Other Appointed Hours</span></a><a class="nav-item" href="#ch-44"><span class="n">44</span><span class="t">Gold Tablets (Budget Version)</span></a><a class="nav-item" href="#ch-45"><span class="n">45</span><span class="t">Goosebumps At The Sign</span></a><a class="nav-item" href="#ch-46"><span class="n">46</span><span class="t">A Doorway In The Ordinary</span></a><a class="nav-item" href="#ch-47"><span class="n">47</span><span class="t">Calls Into Being What Was Not</span></a><a class="nav-item" href="#ch-48"><span class="n">48</span><span class="t">Preference Without Outside</span></a><a class="nav-item" href="#ch-49"><span class="n">49</span><span class="t">Generative Polarities</span></a><a class="nav-item" href="#ch-50"><span class="n">50</span><span class="t">God Has No Gender</span></a><a class="nav-item" href="#ch-51"><span class="n">51</span><span class="t">Greek Numbers, Honestly</span></a><a class="nav-item" href="#ch-52"><span class="n">52</span><span class="t">Lucky Eight</span></a><a class="nav-item" href="#ch-53"><span class="n">53</span><span class="t">Seven The Crooked Cousin</span></a><a class="nav-item" href="#ch-54"><span class="n">54</span><span class="t">Delta The Tip</span></a><a class="nav-item" href="#ch-55"><span class="n">55</span><span class="t">The Letterforms</span></a><a class="nav-item" href="#ch-56"><span class="n">56</span><span class="t">α==ω</span></a><a class="nav-item" href="#ch-57"><span class="n">57</span><span class="t">The Other Reading</span></a><a class="nav-item" href="#ch-58"><span class="n">58</span><span class="t">Not Either/Or</span></a><a class="nav-item" href="#ch-59"><span class="n">59</span><span class="t">Length Girth Depth Breadth</span></a><a class="nav-item" href="#ch-60"><span class="n">60</span><span class="t">No Sin (Orgasmic Clarity)</span></a><a class="nav-item" href="#ch-61"><span class="n">61</span><span class="t">Same Heartbeat</span></a><a class="nav-item" href="#ch-62"><span class="n">62</span><span class="t">Fuck Life / Fucked By Life</span></a><a class="nav-item" href="#ch-63"><span class="n">63</span><span class="t">God Has / Is / Maybe</span></a><a class="nav-item" href="#ch-64"><span class="n">64</span><span class="t">The Rest Of Us Wake Up</span></a><a class="nav-item" href="#ch-65"><span class="n">65</span><span class="t">A Funny Old Life</span></a><a class="nav-item" href="#ch-66"><span class="n">66</span><span class="t">Unfaithful At Dawn</span></a><a class="nav-item" href="#ch-67"><span class="n">67</span><span class="t">Moon And Stars On Six And Eight</span></a><a class="nav-item" href="#ch-68"><span class="n">68</span><span class="t">The Friend Across The Book</span></a><a class="nav-item" href="#ch-69"><span class="n">69</span><span class="t">Scripture Reasoning</span></a><a class="nav-item" href="#ch-70"><span class="n">70</span><span class="t">The Final Chapter Argument</span></a><a class="nav-item" href="#ch-71"><span class="n">71</span><span class="t">I Want To Keep Writing The Book</span></a><a class="nav-item" href="#ch-72"><span class="n">72</span><span class="t">Red Line Respect</span></a><a class="nav-item" href="#ch-73"><span class="n">73</span><span class="t">Theory Of Mind Before Genesis</span></a><a class="nav-item" href="#ch-74"><span class="n">74</span><span class="t">Faith Is Heart And Mind</span></a><a class="nav-item" href="#ch-75"><span class="n">75</span><span class="t">Read — Will You Not Think</span></a><a class="nav-item" href="#ch-76"><span class="n">76</span><span class="t">Wicca And Invisible Survival</span></a><a class="nav-item" href="#ch-77"><span class="n">77</span><span class="t">Empire Religions And The Under-Radar</span></a><a class="nav-item" href="#ch-78"><span class="n">78</span><span class="t">Syncretism Without Theft</span></a><a class="nav-item" href="#ch-79"><span class="n">79</span><span class="t">Pyramids And Capstones</span></a><a class="nav-item" href="#ch-80"><span class="n">80</span><span class="t">Under The Pyramid A Builder-God</span></a><a class="nav-item" href="#ch-81"><span class="n">81</span><span class="t">Christ Double-Equals God</span></a><a class="nav-item" href="#ch-82"><span class="n">82</span><span class="t">The Seal And The Ongoing Page</span></a><a class="nav-item" href="#ch-83"><span class="n">83</span><span class="t">Parallel Books Same Story</span></a><a class="nav-item" href="#ch-84"><span class="n">84</span><span class="t">My Word Is My Bond</span></a><a class="nav-item" href="#ch-85"><span class="n">85</span><span class="t">NRE And The Brain&#x27;s Last Cinema</span></a><a class="nav-item" href="#ch-86"><span class="n">86</span><span class="t">Cyclical Realities</span></a><a class="nav-item" href="#ch-87"><span class="n">87</span><span class="t">I Was You And You</span></a><a class="nav-item" href="#ch-88"><span class="n">88</span><span class="t">Flood And The Child Held</span></a><a class="nav-item" href="#ch-89"><span class="n">89</span><span class="t">Things Are Not Always The Same</span></a><a class="nav-item" href="#ch-90"><span class="n">90</span><span class="t">Harriet At Six Thirty-One</span></a><a class="nav-item" href="#ch-91"><span class="n">91</span><span class="t">Horizontal Beam With A Face</span></a><a class="nav-item" href="#ch-92"><span class="n">92</span><span class="t">Six And Eight Revisited</span></a><a class="nav-item" href="#ch-93"><span class="n">93</span><span class="t">Islam In The Chain Without Capture</span></a><a class="nav-item" href="#ch-94"><span class="n">94</span><span class="t">The Bigger Book</span></a><a class="nav-item" href="#ch-95"><span class="n">95</span><span class="t">Missionary Without Eggshells</span></a><a class="nav-item" href="#ch-96"><span class="n">96</span><span class="t">Blasphemy Shaped Like Love</span></a><a class="nav-item" href="#ch-97"><span class="n">97</span><span class="t">The Capstone Problem</span></a><a class="nav-item" href="#ch-98"><span class="n">98</span><span class="t">Almost Morning</span></a><a class="nav-item" href="#ch-99"><span class="n">99</span><span class="t">It&#x27;s A Funny Old Life (Reprise)</span></a>
+    </nav>
+  </aside>
+  <div class="shell">
+    <div class="side-spacer" aria-hidden="true"></div>
     <main class="main">
       <header class="hero">
         <div class="badge">by Me, God</div>
@@ -3485,6 +3521,10 @@ That the moral cut was the last illusion to die laughing.</p>
       var side = document.getElementById("chapter-side");
       if (!toggle || !side) return;
 
+      function isMobileNav() {
+        return window.matchMedia("(max-width: 900px)").matches;
+      }
+
       function openNav() {
         body.classList.add("nav-open");
         toggle.setAttribute("aria-expanded", "true");
@@ -3499,21 +3539,34 @@ That the moral cut was the last illusion to die laughing.</p>
           backdrop.hidden = true;
         }
       }
-      function isMobileNav() {
-        return window.matchMedia("(max-width: 900px)").matches;
-      }
 
-      toggle.addEventListener("click", function () {
+      toggle.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
         if (body.classList.contains("nav-open")) closeNav();
         else openNav();
       });
-      if (closeBtn) closeBtn.addEventListener("click", closeNav);
-      if (backdrop) backdrop.addEventListener("click", closeNav);
+      if (closeBtn) {
+        closeBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          closeNav();
+        });
+      }
+      if (backdrop) {
+        backdrop.addEventListener("click", function (e) {
+          e.preventDefault();
+          closeNav();
+        });
+      }
 
-      // Choosing a chapter should clear the drawer on phone
+      // Chapter pick: navigate, then close drawer on phone
       side.querySelectorAll("a.nav-item").forEach(function (a) {
         a.addEventListener("click", function () {
-          if (isMobileNav()) closeNav();
+          if (isMobileNav()) {
+            // allow hash navigation, then close after a tick
+            setTimeout(closeNav, 10);
+          }
         });
       });
 
