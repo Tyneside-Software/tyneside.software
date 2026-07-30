@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Build your first website · Grok Build · Tyneside Software</title>
+  <meta name="description" content="Zero to a clickable website fast. Use your Grok Build invite, paste one prompt, then go wild. Tyneside Software house style — static HTML like tyneside.software.">
+  <link rel="canonical" href="https://tyneside.software/">
+  <link rel="icon" href="logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="layout.css?v=20260718a">
+  <link rel="stylesheet" href="themes.css?v=20260718a">
+<style>
+  .prompt-box {
+    position: relative;
+    margin: 1.25rem 0 0;
+    border: var(--panel-border);
+    background: #070d18;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--panel-shadow);
+    overflow: hidden;
+  }
+  .prompt-box-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(15, 27, 51, 0.9);
+  }
+  .prompt-box-bar span {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .prompt-box pre {
+    margin: 0;
+    padding: 1rem 1.1rem 1.25rem;
+    max-height: min(28rem, 55vh);
+    overflow: auto;
+    font-family: ui-monospace, "Cascadia Code", "Segoe UI Mono", Consolas, monospace;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: #cbd5e1;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .prompt-box.copied .btn-copy-prompt {
+    border-color: #22c55e;
+    color: #bbf7d0;
+  }
+  #prompt-status {
+    font-size: 0.85rem;
+    color: #86efac;
+    min-height: 1.2em;
+  }
+</style>
+</head>
+<body class="site theme-software">
+
+<nav class="site-nav" aria-label="Primary">
+  <div class="inner">
+    <a href="index.html" class="brand-link">
+      <img src="logo.svg" width="38" height="38" alt="Tyneside Software">
+      <span class="brand-word">TYNESIDE</span>
+      <span class="brand-sub">SOFTWARE</span>
+    </a>
+    <div class="nav-links">
+        <a href="https://tyneside.software/"
+           class="is-current"
+aria-current="page">SOFTWARE</a>
+        <a href="https://tyneside.cleaning/"
+           class=""
+>CLEANING</a>
+        <a href="https://tyneside.charity/"
+           class=""
+>CHARITY</a>
+        <a href="https://tyneside.group/"
+           class=""
+>GROUP</a>
+        <a href="https://tyneside.technology/"
+           class=""
+>TECH</a>
+        <a href="https://tyneside.games/"
+           class=""
+>GAMES</a>
+    </div>
+    <div class="nav-cta">
+        <a class="btn btn-fill" href="https://wa.me/447411949215" rel="noopener" target="_blank">WhatsApp Michael</a>
+    </div>
+  </div>
+</nav>
+  <header class="hero">
+    <div class="wrap">
+      <p class="hero-kicker">Jobs engine · first ship</p>
+      <h1>ZERO TO<br>WEBSITE</h1>
+      <p class="hero-tag">
+        Open Grok Build.<br>
+        Paste one prompt.<br>
+        Click around your v1 — then go wild.
+      </p>
+      <p class="hero-lead">
+        You should have a <strong>Grok Build invite in your email</strong>.
+        This page is the shortest path from that invite to a real site you can open and click —
+        built in the same craft as
+        <a href="index.html"><strong>tyneside.software</strong></a>
+        (static HTML, clear sections, strong CTA, mobile-first).
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-fill btn-lg" href="https://x.ai/cli" rel="noopener" target="_blank">Open Grok Build →</a>
+        <a class="btn btn-secondary btn-lg" href="#prompt">Copy the prompt</a>
+      </div>
+      <p class="hero-meta">
+        Stuck? <a href="https://wa.me/447411949215" rel="noopener" target="_blank">WhatsApp Michael</a>
+        · <a href="mailto:michael@tyneside.software">michael@tyneside.software</a>
+        · <a href="index.html">← Software home</a>
+      </p>
+    </div>
+  </header>
+
+  <section class="section" id="steps">
+    <div class="wrap">
+      <h2>Four moves. That’s it.</h2>
+      <p class="lede">Do them in order. Don’t overthink the first pass — speed beats polish.</p>
+      <ol class="steps" style="max-width:42rem;margin-top:1.5rem">
+        <li>
+          <span class="n">1</span>
+          <div>
+            <h3>Find your invite</h3>
+            <p>Check the email we used for you. Accept the Grok Build / SuperGrok invite if you haven’t already.</p>
+          </div>
+        </li>
+        <li>
+          <span class="n">2</span>
+          <div>
+            <h3>Open Grok Build</h3>
+            <p>
+              Start here:
+              <a href="https://x.ai/cli" rel="noopener" target="_blank"><strong>x.ai/cli</strong></a>
+              — install if needed, sign in with the invited account.
+              On Windows you can run:
+              <code>irm https://x.ai/cli/install.ps1 | iex</code>
+              then open a project folder and launch Grok Build.
+            </p>
+          </div>
+        </li>
+        <li>
+          <span class="n">3</span>
+          <div>
+            <h3>Paste the starter prompt</h3>
+            <p>
+              Copy the big prompt below (or
+              <a href="build-prompt.txt" download>download build-prompt.txt</a>).
+              Fill in the <code>YOUR_…</code> client fields — or leave them blank and let Grok invent labelled placeholders.
+              Send it as the <strong>first message</strong> in a fresh Grok Build chat.
+            </p>
+          </div>
+        </li>
+        <li>
+          <span class="n">4</span>
+          <div>
+            <h3>Click around v1 — then go wild</h3>
+            <p>
+              Open the folder Grok creates. Preview locally. Click every link.
+              Then keep talking to Grok: better copy, photos, extra pages, deploy to GitHub Pages — whatever you want next.
+            </p>
+          </div>
+        </li>
+      </ol>
+      <div class="btn-row" style="margin-top:1.75rem;justify-content:center">
+        <a class="btn btn-fill btn-lg" href="https://x.ai/cli" rel="noopener" target="_blank">Launch Grok Build →</a>
+        <a class="btn btn-secondary btn-lg" href="#prompt">Jump to prompt</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="why">
+    <div class="wrap">
+      <h2>Why this shape?</h2>
+      <div class="grid-2">
+        <div class="panel panel-c">
+          <h3>Same craft as this site</h3>
+          <p>
+            Static HTML + CSS. Hero, sections, panels, footer.
+            WhatsApp-first contact. Works on a phone. No React tax on day one.
+            That’s how we ship brand sites at Tyneside.
+          </p>
+        </div>
+        <div class="panel">
+          <h3>Jobs engine, not homework</h3>
+          <p>
+            Paid client websites fund junior roles. Your first ship should feel real —
+            something you can show, improve, and put on a CV.
+          </p>
+        </div>
+      </div>
+      <p class="lede" style="margin-top:1.5rem;margin-bottom:0">
+        Reference tab while you build:
+        <a href="https://tyneside.software/">tyneside.software</a>
+        — match the <strong>quality of craft</strong>, not the Tyneside family nav
+        (client sites are their own brand).
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="prompt">
+    <div class="wrap">
+      <h2>The starter prompt</h2>
+      <p class="lede">
+        One shot → multi-page site you can click. After v1, Grok will tell you what to do next.
+        Then ignore the rails and experiment.
+      </p>
+
+      <div class="prompt-box" id="prompt-box">
+        <div class="prompt-box-bar">
+          <span>Copy all → paste into a <strong>new</strong> Grok Build session</span>
+          <div class="btn-row" style="margin:0">
+            <button type="button" class="btn btn-fill btn-copy-prompt" id="copy-prompt">Copy prompt</button>
+            <a class="btn btn-secondary" href="build-prompt.txt" download>Download .txt</a>
+          </div>
+        </div>
+        <pre id="starter-prompt" tabindex="0">You are helping me build v1 of a professional website for a real local business.
+I am learning by doing at Tyneside Software. Work the way we build our own brand sites
+(especially https://tyneside.software) — not a generic Bootstrap template or a React SPA.
+
+## Client (fill this in before you start — or leave blank for [PLACEHOLDER] copy)
+- Business name: YOUR_BUSINESS_NAME
+- One-line what they do: YOUR_ONE_LINE
+- Location / area: YOUR_AREA (e.g. North Tyneside)
+- Contact phone (WhatsApp-friendly): YOUR_PHONE
+- Contact email: YOUR_EMAIL
+- Primary CTA: e.g. WhatsApp us / Call for a quote / Book a visit
+- 3 things they want the site to say: YOUR_POINT_1 / YOUR_POINT_2 / YOUR_POINT_3
+- Any services or products to list: YOUR_SERVICES
+
+If any field is missing, invent sensible North East placeholder copy labelled
+[PLACEHOLDER] so I can replace it later — do not block on perfect content.
+
+## How Tyneside sites are done (match this craft)
+Study the public live site https://tyneside.software as the visual and structural reference.
+House style for v1:
+
+1. Static site only — plain HTML + CSS (+ tiny JS only if needed). No React/Next/Vue.
+2. GitHub Pages–ready — relative links (index.html, about.html), works via a simple local static server.
+3. Layout pattern like Tyneside Software:
+   - Top nav: logo/mark + brand word + a few section links + one strong CTA button
+   - Hero: short kicker, big H1, 1–2 line tagline, short lead, 1–2 CTAs
+   - Sections: alternate plain / alt background, clear H2s, short ledes
+   - Content cards/panels in a 2-column grid where it helps
+   - Footer: contact links, local / North East tone
+4. Look &amp; feel: clean, modern, mobile-first. Prefer a dark product feel close to
+   tyneside.software (deep navy/slate, blue accent ~#3b82f6, clear type, rounded panels)
+   unless the client is clearly better as light — if light, keep the same structure.
+5. Tone: plain English, confident, no corporate fluff.
+6. Contact: WhatsApp (https://wa.me/…) as primary when we have a phone; email secondary.
+7. No fake backends for v1 — no databases, no auth, no payment. Forms can be mailto: or WhatsApp only.
+
+## Deliverable for this session (v1 I can click around)
+Create a small multi-page static site in a single folder, e.g. website-v1/:
+
+- index.html — home (hero, what we do, services, why us, contact CTA)
+- about.html — short about the business / people
+- services.html — services list (or merge into home if very small)
+- contact.html — phone, WhatsApp, email, area covered (or strong contact on home)
+- styles.css — all styling (layout + theme variables; keep it tidy)
+- logo.svg — simple geometric mark if no real logo is provided
+- README.md — how to open locally and what to edit next
+
+## Process
+1. Scaffold the files now — do not wait for approval.
+2. Make it coherent on mobile and desktop.
+3. Start a simple local preview (e.g. python -m http.server in the folder) and tell me the exact URL.
+4. Give me a short click-path: open home → Services → Contact → try WhatsApp link.
+
+## Quality bar for v1
+- Every nav link works
+- No broken layout at ~360px width
+- Real-looking copy (or clearly marked [PLACEHOLDER])
+- Consistent buttons, spacing, section rhythm
+- Accessible basics: lang, viewport meta, alt on logo, visible focus
+
+## Out of scope for this first pass
+- Deploying to production domain
+- Matching the full multi-brand Tyneside family nav (this is a client site, not a Tyneside brand property)
+- Backend, booking engines, or monorepos
+
+## When v1 is ready — feedback I need from you
+After the site is viewable, stop and reply with:
+
+1. What you built (pages + one sentence each)
+2. How I open it (exact command / path)
+3. What looks good already
+4. What is still placeholder or weak
+5. Suggested next steps in order for a junior — then encourage me to go wild:
+   better copy, photos, GitHub Pages, extra pages, experiments I choose
+
+Do not wait for me to approve the plan — build v1 now, then give the feedback block.
+</pre>
+      </div>
+      <p id="prompt-status" class="center" style="margin-top:0.75rem" aria-live="polite"></p>
+
+      <div class="panel" style="margin-top:1.5rem">
+        <h3>After it works</h3>
+        <ul class="list-features">
+          <li>Replace any <code>[PLACEHOLDER]</code> copy with real client words</li>
+          <li>Drop in a real logo and photos</li>
+          <li>Ask Grok to put it on GitHub Pages</li>
+          <li>Show Michael — WhatsApp a link or screenshot</li>
+          <li><strong>Go wild</strong>: second page, booking idea, animation, whatever you want to learn next</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-cta" id="help">
+    <div class="wrap">
+      <h2>Need a shove?</h2>
+      <p class="lede" style="color:var(--text)">
+        Invite missing, install stuck, prompt confused you — message Michael.
+        We’d rather unblock you in five minutes than watch you thrash for an hour.
+      </p>
+<a class="btn btn-fill btn-lg" href="https://wa.me/447411949215" rel="noopener" target="_blank">
+  WhatsApp · +44 7411 949215
+</a>
+<p class="hero-meta" style="margin-top:1.15rem">
+  Message on <strong>WhatsApp</strong> — that’s where I pay most attention.<br>
+  Email is fine too, but I’m much slower:
+  <a href="mailto:michael@tyneside.software">michael@tyneside.software</a>
+</p>      <p class="hero-meta" style="margin-top:1rem">
+        <a href="index.html">← Back to tyneside.software</a>
+        · <a href="https://x.ai/cli" rel="noopener" target="_blank">Grok Build</a>
+      </p>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      var btn = document.getElementById("copy-prompt");
+      var pre = document.getElementById("starter-prompt");
+      var box = document.getElementById("prompt-box");
+      var status = document.getElementById("prompt-status");
+      if (!btn || !pre) return;
+
+      function setStatus(msg) {
+        if (status) status.textContent = msg || "";
+      }
+
+      btn.addEventListener("click", function () {
+        var text = pre.textContent || "";
+        function ok() {
+          box.classList.add("copied");
+          btn.textContent = "Copied";
+          setStatus("Copied — paste into a new Grok Build chat.");
+          setTimeout(function () {
+            box.classList.remove("copied");
+            btn.textContent = "Copy prompt";
+          }, 2200);
+        }
+        function fail() {
+          try {
+            var range = document.createRange();
+            range.selectNodeContents(pre);
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+            setStatus("Selected — press Ctrl+C (or Cmd+C) to copy.");
+          } catch (e) {
+            setStatus("Select the prompt text manually and copy.");
+          }
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(ok).catch(fail);
+        } else {
+          fail();
+        }
+      });
+    })();
+  </script>
+
+<footer class="site-footer">
+  <div class="footer-brands">
+      <a href="https://tyneside.software/" class="is-current">SOFTWARE</a>
+      <a href="https://tyneside.cleaning/" class="">CLEANING</a>
+      <a href="https://tyneside.charity/" class="">CHARITY</a>
+      <a href="https://tyneside.group/" class="">GROUP</a>
+      <a href="https://tyneside.technology/" class="">TECH</a>
+      <a href="https://tyneside.games/" class="">GAMES</a>
+  </div>
+  <p class="legal">
+    Tyneside Software Ltd • Based at <strong>Howden Community Hub</strong>, North Tyneside<br>
+    Company #17326934 • SIC 58290 • Registered office: 10 Abbey Terrace, Newcastle upon Tyne, NE27 0QP<br>
+    <a href="https://wa.me/447411949215" rel="noopener" target="_blank">WhatsApp +44 7411 949215</a>
+    · <a href="mailto:michael@tyneside.software">michael@tyneside.software</a>
+    <span style="opacity:0.85">(email is slower)</span><br>
+    Proudly made on the banks of the Tyne
+  </p>
+  <p class="legal" style="margin-top:0.75rem;opacity:0.7">
+    &copy; Tyneside Software
+ · Part of the Tyneside family  </p>
+</footer>
+</body>
+</html>
