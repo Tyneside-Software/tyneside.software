@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logistics · domain model</title>
+  <meta name="description" content="Tightened core model for Phase 1: org-scoped entities, job FSM with job_events, zones, pricing, and capacity designed for Phase 2 cleaning without a rewrite.">
+  <link rel="canonical" href="https://tyneside.software/">
+  <link rel="icon" href="../logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../layout.css?v=20260810docs">
+  <link rel="stylesheet" href="../themes.css?v=20260810docs">
+</head>
+<body class="site theme-software">
+
+<nav class="site-nav" aria-label="Primary">
+  <div class="inner">
+    <a href="../index.html" class="brand-link">
+      <img src="../logo.svg" width="38" height="38" alt="Tyneside Software">
+      <span class="brand-word">TYNESIDE</span>
+      <span class="brand-sub">SOFTWARE</span>
+    </a>
+    <div class="nav-links">
+        <a href="https://tyneside.software/"
+           class="is-current"
+aria-current="page">SOFTWARE</a>
+        <a href="https://tyneside.cleaning/"
+           class=""
+>CLEANING</a>
+        <a href="https://tyneside.charity/"
+           class=""
+>CHARITY</a>
+        <a href="https://tyneside.group/"
+           class=""
+>GROUP</a>
+        <a href="https://tyneside.technology/"
+           class=""
+>TECH</a>
+        <a href="https://tyneside.games/"
+           class=""
+>GAMES</a>
+        <a href="https://logistics.tyneside.software/"
+           class=""
+>LOGISTICS</a>
+    </div>
+    <div class="nav-cta">
+        <a class="btn btn-fill" href="https://wa.me/447411949215" rel="noopener" target="_blank">WhatsApp Michael</a>
+    </div>
+  </div>
+</nav>
+  <header class="docs-hero">
+    <div class="wrap-wide">
+      <div class="docs-hero-top">
+        <p class="docs-breadcrumb">
+          <a href="../index.html">Software</a>
+          <span class="docs-bc-sep" aria-hidden="true">/</span>
+          <a href="index.html">Logistics</a>
+            <span class="docs-bc-sep" aria-hidden="true">/</span>
+            <span>Domain model</span>
+        </p>
+        <div class="docs-hero-actions">
+          <a class="btn btn-secondary" href="../index.html">Software home</a>
+          <a class="btn btn-fill" href="https://logistics.tyneside.software/" rel="noopener" target="_blank">Product site</a>
+        </div>
+      </div>
+      <p class="hero-kicker">Entities · status machine · capacity</p>
+      <h1 class="docs-hero-title">Domain model</h1>
+        <p class="docs-hero-lead">Tightened core model for Phase 1: org-scoped entities, job FSM with job_events, zones, pricing, and capacity designed for Phase 2 cleaning without a rewrite.</p>
+    </div>
+  </header>
+
+  <section class="section docs-section">
+    <div class="wrap-wide docs-layout">
+      <aside class="docs-sidebar" aria-label="Logistics documentation">
+        <p class="docs-sidebar-label">Documentation</p>
+        <nav class="docs-side-nav">
+            <a
+              href="index.html"
+              class="docs-side-link"
+            >
+              <span class="docs-side-label">Hub</span>
+              <span class="docs-side-blurb">Start here</span>
+            </a>
+            <a
+              href="overview.html"
+              class="docs-side-link"
+            >
+              <span class="docs-side-label">Overview</span>
+              <span class="docs-side-blurb">Phases &amp; hand-off</span>
+            </a>
+            <a
+              href="domain.html"
+              class="docs-side-link is-active"
+aria-current="page"            >
+              <span class="docs-side-label">Domain model</span>
+              <span class="docs-side-blurb">Entities, FSM, capacity</span>
+            </a>
+            <a
+              href="icabbi.html"
+              class="docs-side-link"
+            >
+              <span class="docs-side-label">iCabbi research</span>
+              <span class="docs-side-blurb">Reference product</span>
+            </a>
+            <a
+              href="features.html"
+              class="docs-side-link"
+            >
+              <span class="docs-side-label">Feature map</span>
+              <span class="docs-side-blurb">MVP · P2 · later</span>
+            </a>
+            <a
+              href="roadmap.html"
+              class="docs-side-link"
+            >
+              <span class="docs-side-label">Roadmap</span>
+              <span class="docs-side-blurb">Build order</span>
+            </a>
+            <a
+              href="tasks.html"
+              class="docs-side-link"
+            >
+              <span class="docs-side-label">Tasks</span>
+              <span class="docs-side-blurb">Checklist</span>
+            </a>
+            <a
+              href="decisions.html"
+              class="docs-side-link"
+            >
+              <span class="docs-side-label">Decisions</span>
+              <span class="docs-side-blurb">ADRs</span>
+            </a>
+        </nav>
+        <div class="docs-sidebar-card">
+          <p class="docs-sidebar-card-title">Where things live</p>
+          <p class="docs-sidebar-card-body">
+            Docs (this hub): <code>tyneside.software/logistics/</code><br>
+            Product: <code>logistics.tyneside.software</code><br>
+            API: <code>tyneside-api</code> · <code>/v1/logistics/*</code><br>
+            Generator content: <code>sites/logistics/</code>
+          </p>
+          <a class="docs-sidebar-card-link" href="https://logistics.tyneside.software/app/">App shell →</a>
+        </div>
+      </aside>
+
+      <div class="docs-main">
+          <article class="docs-article panel">
+            <div class="prose"><p>Generic language on purpose: <strong>job</strong>, <strong>field_worker</strong>, <strong>service_type</strong>, <strong>zone</strong>, <strong>org</strong>.<br />
+UI copy may say “driver / cleaner / passenger / customer”; the schema stays stable.</p>
+<p>Review note (accepted): Phase 1 is an iCabbi-class spine; Phase 2 re-skins and specialises — not a second product.</p>
+<hr />
+<h2>Language mapping (taxi ↔ cleaning)</h2>
+<p>Keep UI strings localised by vertical; <strong>never fork the schema</strong>.</p>
+<div class="prose-table-scroll"><table>
+<thead>
+<tr>
+<th>Generic (schema / API)</th>
+<th>Taxi-shaped UI</th>
+<th>Cleaning UI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>org</code></td>
+<td>Fleet</td>
+<td>Cleaning business</td>
+</tr>
+<tr>
+<td><code>field_worker</code></td>
+<td>Driver</td>
+<td>Cleaner</td>
+</tr>
+<tr>
+<td><code>booker</code></td>
+<td>Passenger / customer</td>
+<td>Customer</td>
+</tr>
+<tr>
+<td><code>service_type</code></td>
+<td>Vehicle / tariff class</td>
+<td>Clean pack / SKU</td>
+</tr>
+<tr>
+<td><code>zone</code></td>
+<td>Operating area</td>
+<td>Service ward (e.g. Howden)</td>
+</tr>
+<tr>
+<td><code>job</code></td>
+<td>Trip / booking</td>
+<td>Clean / visit</td>
+</tr>
+<tr>
+<td><code>requested</code></td>
+<td>Requested</td>
+<td>Requested</td>
+</tr>
+<tr>
+<td><code>quoted</code></td>
+<td>Quote sent</td>
+<td>Quote sent (often skipped)</td>
+</tr>
+<tr>
+<td><code>confirmed</code></td>
+<td>Confirmed</td>
+<td>Confirmed / booked</td>
+</tr>
+<tr>
+<td><code>assigned</code></td>
+<td>Driver assigned</td>
+<td>Cleaner assigned</td>
+</tr>
+<tr>
+<td><code>en_route</code></td>
+<td>Driver en route</td>
+<td>Cleaner on the way</td>
+</tr>
+<tr>
+<td><code>on_site</code></td>
+<td>On scene / POB-adjacent</td>
+<td>On site / in progress</td>
+</tr>
+<tr>
+<td><code>completed</code></td>
+<td>Completed</td>
+<td>Completed</td>
+</tr>
+<tr>
+<td><code>cancelled</code></td>
+<td>Cancelled</td>
+<td>Cancelled</td>
+</tr>
+<tr>
+<td><code>no_show</code></td>
+<td>No-show</td>
+<td>No-show / access failed</td>
+</tr>
+<tr>
+<td><code>failed</code></td>
+<td>Failed</td>
+<td>Failed</td>
+</tr>
+<tr>
+<td>Ops console</td>
+<td>Dispatch desk</td>
+<td>Cleaning ops desk</td>
+</tr>
+<tr>
+<td>Booker app</td>
+<td>Passenger booker</td>
+<td>Customer booker</td>
+</tr>
+<tr>
+<td>Field app</td>
+<td>Driver app</td>
+<td>Cleaner app</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>Multi-tenant from day one</h2>
+<p>Even with a single live organisation, <strong>every tenant-owned row carries <code>org_id</code></strong>.</p>
+<div class="prose-table-scroll"><table>
+<thead>
+<tr>
+<th>Principle</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Isolation</td>
+<td>Queries and mutations always scoped by <code>org_id</code> (never trust client org alone)</td>
+</tr>
+<tr>
+<td>First org</td>
+<td>Seed “Tyneside” (or Tyneside Cleaning) as org #1</td>
+</tr>
+<tr>
+<td>Sales multi-tenant</td>
+<td>Parked until real Howden volume (Phase 3+ idea only)</td>
+</tr>
+</tbody>
+</table></div>
+<p>See <a href="decisions.html">ADR-006</a> (auth + org scoping).</p>
+<hr />
+<h2>Three front-ends, one data model</h2>
+<p>Same API and entities; <strong>three thin UIs</strong> — not one mega app.</p>
+<div class="prose-table-scroll"><table>
+<thead>
+<tr>
+<th>Front-end</th>
+<th>Actor</th>
+<th>Phase 1 priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ops</strong></td>
+<td>Dispatch / admin</td>
+<td>Build early (dog-food)</td>
+</tr>
+<tr>
+<td><strong>Field</strong></td>
+<td>Field worker</td>
+<td>Mobile web first-class</td>
+</tr>
+<tr>
+<td><strong>Booker</strong></td>
+<td>Booker / customer</td>
+<td>After ops + field can run a job</td>
+</tr>
+</tbody>
+</table></div>
+<p>See <a href="decisions.html">ADR-011</a>.</p>
+<hr />
+<h2>Core entities</h2>
+<div class="prose-table-scroll"><table>
+<thead>
+<tr>
+<th>Entity</th>
+<th>Purpose</th>
+<th>Phase 1</th>
+<th>Phase 2 notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>org</strong></td>
+<td>Tenant boundary</td>
+<td>One org</td>
+<td>Same</td>
+</tr>
+<tr>
+<td><strong>zone</strong></td>
+<td>Geographic / service area</td>
+<td>First-class early (e.g. Howden)</td>
+<td>Expand wards</td>
+</tr>
+<tr>
+<td><strong>service_type</strong></td>
+<td>What can be booked</td>
+<td>At least one type</td>
+<td>Clean packs, commercial SKUs, charity free</td>
+</tr>
+<tr>
+<td><strong>booker</strong></td>
+<td>Demand-side person</td>
+<td>Passenger / customer</td>
+<td>Same record</td>
+</tr>
+<tr>
+<td><strong>field_worker</strong></td>
+<td>Supply-side person</td>
+<td>Driver-shaped + availability</td>
+<td>Cleaner-shaped + calendar</td>
+</tr>
+<tr>
+<td><strong>job</strong></td>
+<td>Unit of work</td>
+<td>Trip-shaped + <strong>price snapshot</strong></td>
+<td>Clean / visit</td>
+</tr>
+<tr>
+<td><strong>job_event</strong></td>
+<td>Append-only audit / timeline</td>
+<td><strong>MVP</strong></td>
+<td>Same</td>
+</tr>
+<tr>
+<td><strong>job_attachment</strong></td>
+<td>Notes / files / checklist</td>
+<td>Schema + notes MVP</td>
+<td>Photos + checklists UI</td>
+</tr>
+</tbody>
+</table></div>
+<h3>service_type (catalogue pricing)</h3>
+<p>Catalogue defines <em>how</em> something is priced and how long it takes. The <strong>job</strong> stores what the customer was actually charged.</p>
+<div class="prose-table-scroll"><table>
+<thead>
+<tr>
+<th>Field (illustrative)</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code>, <code>code</code></td>
+<td>e.g. <code>saloon</code>, <code>clean_2h</code></td>
+</tr>
+<tr>
+<td><code>duration_minutes</code></td>
+<td>Null for open-ended taxi-style; set for packs</td>
+</tr>
+<tr>
+<td><code>pricing_mode</code></td>
+<td><code>estimate</code> | <code>fixed</code> | <code>free</code></td>
+</tr>
+<tr>
+<td><code>price_gbp</code></td>
+<td>Catalogue list price when fixed/free (free = 0)</td>
+</tr>
+<tr>
+<td><code>funding_flag</code></td>
+<td>e.g. charity-funded hours</td>
+</tr>
+<tr>
+<td><code>prebook_max_days</code></td>
+<td>Default <strong>14 or 30</strong> (not iCabbi’s 7)</td>
+</tr>
+<tr>
+<td><code>active</code></td>
+<td>Soft disable</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Charity free cleans:</strong> normal <code>service_type</code> with <code>price_gbp = 0</code> and <code>funding_flag</code> — no separate code path.</p>
+<h3>zone</h3>
+<div class="prose-table-scroll"><table>
+<thead>
+<tr>
+<th>Field (illustrative)</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code>, <code>code</code></td>
+<td>Howden Ward first</td>
+</tr>
+<tr>
+<td><code>org_id</code></td>
+<td>Tenant</td>
+</tr>
+<tr>
+<td>Geo later</td>
+<td>Polygon optional; Phase 1 label + postcode list is enough</td>
+</tr>
+</tbody>
+</table></div>
+<h3>field_worker — availability early</h3>
+<p>Even in Phase 1, workers need a <strong>simple availability concept</strong> so cleaning capacity is natural later:</p>
+<div class="prose-table-scroll"><table>
+<thead>
+<tr>
+<th>Field / concept</th>
+<th>Phase 1</th>
+<th>Phase 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>status</code></td>
+<td>available / busy / offline</td>
+<td>Same</td>
+</tr>
+<tr>
+<td><strong><code>busy_until</code></strong></td>
+<td>Timestamp (nullable)</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Busy intervals</td>
+<td>Optional simple list</td>
+<td>Full calendar</td>
+</tr>
+<tr>
+<td><code>last_lat</code>, <code>last_lng</code>, <code>last_seen_at</code></td>
+<td>Nullable; map-ready</td>
+<td>Tracking later</td>
+</tr>
+<tr>
+<td><code>active_job_id</code>, <code>zone_id</code></td>
+<td>For dispatch + future map</td>
+<td>Same</td>
+</tr>
+</tbody>
+</table></div>
+<p>Availability API uses zone + service duration + worker busy state. Over-book blocked server-side.</p>
+<h3>job</h3>
+<div class="prose-table-scroll"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>org_id</code>, <code>service_type_id</code>, <code>zone_id</code></td>
+<td>Required scoping</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>Enum — see FSM below</td>
+</tr>
+<tr>
+<td><code>booker_id</code>, <code>field_worker_id</code></td>
+<td>Worker null until assigned</td>
+</tr>
+<tr>
+<td><strong><code>address_text</code></strong></td>
+<td><strong>Required free-text</strong> for Phase 1</td>
+</tr>
+<tr>
+<td><strong><code>lat</code> / <code>lng</code></strong></td>
+<td><strong>Optional</strong> — no full geocoding required in Phase 1; fill when known for nav deep-links</td>
+</tr>
+<tr>
+<td><code>scheduled_start</code> / <code>scheduled_end</code></td>
+<td>Pre-book + duration</td>
+</tr>
+<tr>
+<td><strong><code>price_snapshot</code></strong></td>
+<td><strong>Frozen at booking / confirm</strong> — not live catalogue lookup later</td>
+</tr>
+<tr>
+<td><code>pricing_mode_snapshot</code></td>
+<td>Mode used at book time</td>
+</tr>
+<tr>
+<td><code>priority</code></td>
+<td>Lightweight rules</td>
+</tr>
+<tr>
+<td><code>notes</code></td>
+<td>Free-text; also see attachments</td>
+</tr>
+</tbody>
+</table></div>
+<h4>Pricing snapshot (<a href="decisions.html">ADR-009</a>)</h4>
+<p><strong>Pricing is stored on the job at booking time (snapshot), not looked up live later.</strong></p>
+<ul>
+<li>Catalogue <code>service_type.price_gbp</code> may change; historical jobs keep their snapshot.  </li>
+<li>Estimate mode: snapshot = estimate returned when booker confirmed.  </li>
+<li>Fixed / free: snapshot = catalogue value at confirm (0 for free).  </li>
+<li>Receipts and ops always show snapshot fields.</li>
+</ul>
+<h4>Address rules (<a href="decisions.html">ADR-009</a>)</h4>
+<ul>
+<li>Phase 1: <strong>free-text address is enough</strong> to run the product.  </li>
+<li><code>lat</code>/<code>lng</code> optional; when present, field app deep-links to maps.  </li>
+<li>No geocoding pipeline required for Phase 1 exit.</li>
+</ul>
+<h3>job_event (MVP)</h3>
+<p>Append-only. Every transition records:</p>
+<div class="prose-table-scroll"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>job_id</code>, <code>org_id</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>from_status</code>, <code>to_status</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>actor_type</code></td>
+<td><code>ops</code> | <code>booker</code> | <code>field_worker</code> | <code>system</code></td>
+</tr>
+<tr>
+<td><code>actor_id</code></td>
+<td>Nullable for system</td>
+</tr>
+<tr>
+<td><code>at</code></td>
+<td>Timestamp (UTC)</td>
+</tr>
+<tr>
+<td><code>note</code></td>
+<td>Optional</td>
+</tr>
+</tbody>
+</table></div>
+<p>Powers ops timeline, booker status view, audit, and (with notifications) WhatsApp copy.</p>
+<h3>job_attachment (day one)</h3>
+<p>Notes and files from day one — cleaning will need them immediately in Phase 2.</p>
+<div class="prose-table-scroll"><table>
+<thead>
+<tr>
+<th>Kind</th>
+<th>Phase 1</th>
+<th>Phase 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Text note</td>
+<td>UI + API</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Photo</td>
+<td>Storage stub OK</td>
+<td>Cleaner UI</td>
+</tr>
+<tr>
+<td>Checklist item</td>
+<td>Schema</td>
+<td>Cleaner UI</td>
+</tr>
+</tbody>
+</table></div>
+<p>Do not redesign <code>job</code> later to “add attachments”.</p>
+<hr />
+<h2>Status machine (stable enum)</h2>
+<pre><code class="language-text">requested
+  → quoted            (optional; skip for fixed-price packs)
+  → confirmed         (customer accepted / paid / deposit)  ← price_snapshot frozen by here
+  → assigned
+  → en_route
+  → on_site           (UI: in progress / on the way complete)
+  → completed
+
+Terminal / exit (validated server-side):
+  → cancelled
+  → no_show
+  → failed
+</code></pre>
+<h3>Rules</h3>
+<ol>
+<li>Enum immutable for clients.  </li>
+<li>Transitions validated <strong>server-side</strong> only.  </li>
+<li>Every transition → <code>job_event</code>.  </li>
+<li>Fixed-price packs may go <code>requested → confirmed</code> (skip <code>quoted</code>).  </li>
+<li>Status changes in Phase 1 trigger <strong>WhatsApp</strong> as primary notification channel (<a href="decisions.html">ADR-010</a>).</li>
+</ol>
+<h3>Suggested allowed transitions (MVP)</h3>
+<div class="prose-table-scroll"><table>
+<thead>
+<tr>
+<th>From</th>
+<th>To</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>requested</code></td>
+<td><code>quoted</code>, <code>confirmed</code>, <code>cancelled</code></td>
+</tr>
+<tr>
+<td><code>quoted</code></td>
+<td><code>confirmed</code>, <code>cancelled</code></td>
+</tr>
+<tr>
+<td><code>confirmed</code></td>
+<td><code>assigned</code>, <code>cancelled</code></td>
+</tr>
+<tr>
+<td><code>assigned</code></td>
+<td><code>en_route</code>, <code>confirmed</code> (unassign), <code>cancelled</code>, <code>no_show</code></td>
+</tr>
+<tr>
+<td><code>en_route</code></td>
+<td><code>on_site</code>, <code>cancelled</code>, <code>failed</code>, <code>no_show</code></td>
+</tr>
+<tr>
+<td><code>on_site</code></td>
+<td><code>completed</code>, <code>failed</code>, <code>cancelled</code></td>
+</tr>
+<tr>
+<td>terminal states</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>Capacity &amp; scheduling</h2>
+<div class="prose-table-scroll"><table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Phase 1</th>
+<th>Phase 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Worker <code>busy_until</code> / busy intervals</td>
+<td><strong>Yes</strong></td>
+<td>Richer calendar</td>
+</tr>
+<tr>
+<td>Duration on type / job window</td>
+<td><strong>Yes</strong></td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Availability API</td>
+<td>Simple</td>
+<td>Strict</td>
+</tr>
+<tr>
+<td>Over-book</td>
+<td>API rejects</td>
+<td>Same</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>Notifications (<a href="decisions.html">ADR-010</a>)</h2>
+<div class="prose-table-scroll"><table>
+<thead>
+<tr>
+<th>Channel</th>
+<th>Phase 1</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>WhatsApp</strong></td>
+<td><strong>Primary</strong> for status-change notifications</td>
+<td>Shared tyneside-api helpers</td>
+</tr>
+<tr>
+<td>In-app chat</td>
+<td>Later</td>
+<td>Do not build for MVP</td>
+</tr>
+<tr>
+<td>Email / SMS</td>
+<td>Optional later</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>Notify booker (and optionally ops/worker) on meaningful transitions: confirmed, assigned, en_route, completed, cancelled, etc.</p>
+<hr />
+<h2>Phase 1 → Phase 2 hand-off</h2>
+<div class="prose-table-scroll"><table>
+<thead>
+<tr>
+<th>Already true in Phase 1</th>
+<th>Phase 2 only adds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>org_id</code> + three role UIs</td>
+<td>Cleaning copy / theme</td>
+</tr>
+<tr>
+<td>Zones + service_types</td>
+<td>Full clean catalogue</td>
+</tr>
+<tr>
+<td>Price <strong>snapshot</strong> on job</td>
+<td>Pack catalogue depth</td>
+</tr>
+<tr>
+<td>Free-text address + optional lat/lng</td>
+<td>Same (geocode optional later)</td>
+</tr>
+<tr>
+<td>Worker availability hooks</td>
+<td>Real cleaner calendars</td>
+</tr>
+<tr>
+<td>Attachments schema</td>
+<td>Checklist + photo UI</td>
+</tr>
+<tr>
+<td>WhatsApp status notifications</td>
+<td>Same channel</td>
+</tr>
+<tr>
+<td>Seed + demo path</td>
+<td>Live Howden jobs</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Prefer one themed booker</strong> over dual UIs.</p>
+<hr />
+<h2>Related docs</h2>
+<ul>
+<li><a href="features.html">Feature map</a> · <a href="roadmap.html">Roadmap</a> · <a href="decisions.html">Decisions</a> · <a href="tasks.html">Tasks</a>  </li>
+</ul></div>
+          </article>
+
+        <nav class="docs-pager" aria-label="Adjacent docs">
+          <div class="docs-pager-inner">
+              <a class="docs-pager-link prev" href="overview.html">
+                <span class="docs-pager-dir">Previous</span>
+                <span class="docs-pager-name">Overview</span>
+              </a>
+              <a class="docs-pager-link next" href="icabbi.html">
+                <span class="docs-pager-dir">Next</span>
+                <span class="docs-pager-name">iCabbi research</span>
+              </a>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+<footer class="site-footer">
+  <div class="footer-brands">
+      <a href="https://tyneside.software/" class="is-current">SOFTWARE</a>
+      <a href="https://tyneside.cleaning/" class="">CLEANING</a>
+      <a href="https://tyneside.charity/" class="">CHARITY</a>
+      <a href="https://tyneside.group/" class="">GROUP</a>
+      <a href="https://tyneside.technology/" class="">TECH</a>
+      <a href="https://tyneside.games/" class="">GAMES</a>
+      <a href="https://logistics.tyneside.software/" class="">LOGISTICS</a>
+  </div>
+  <p class="legal">
+    Tyneside Software Ltd • Based at <strong>Howden Community Hub</strong>, North Tyneside<br>
+    Company #17326934 • SIC 58290 • Registered office: 10 Abbey Terrace, Newcastle upon Tyne, NE27 0QP<br>
+    <a href="https://wa.me/447411949215" rel="noopener" target="_blank">WhatsApp +44 7411 949215</a>
+    · <a href="mailto:michael@tyneside.software">michael@tyneside.software</a>
+    <span style="opacity:0.85">(email is slower)</span><br>
+    Proudly made on the banks of the Tyne
+  </p>
+  <p class="legal" style="margin-top:0.75rem;opacity:0.7">
+    &copy; Tyneside Software
+ · Part of the Tyneside family  </p>
+</footer>
+</body>
+</html>

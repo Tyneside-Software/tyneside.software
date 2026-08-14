@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logistics · tasks &amp; tracker</title>
+  <meta name="description" content="Build checklist for plumbing, Phase 1 clone MVP, and Phase 2 cleaning bookings.">
+  <link rel="canonical" href="https://tyneside.software/">
+  <link rel="icon" href="../logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../layout.css?v=20260810docs">
+  <link rel="stylesheet" href="../themes.css?v=20260810docs">
+</head>
+<body class="site theme-software">
+
+<nav class="site-nav" aria-label="Primary">
+  <div class="inner">
+    <a href="../index.html" class="brand-link">
+      <img src="../logo.svg" width="38" height="38" alt="Tyneside Software">
+      <span class="brand-word">TYNESIDE</span>
+      <span class="brand-sub">SOFTWARE</span>
+    </a>
+    <div class="nav-links">
+        <a href="https://tyneside.software/"
+           class="is-current"
+aria-current="page">SOFTWARE</a>
+        <a href="https://tyneside.cleaning/"
+           class=""
+>CLEANING</a>
+        <a href="https://tyneside.charity/"
+           class=""
+>CHARITY</a>
+        <a href="https://tyneside.group/"
+           class=""
+>GROUP</a>
+        <a href="https://tyneside.technology/"
+           class=""
+>TECH</a>
+        <a href="https://tyneside.games/"
+           class=""
+>GAMES</a>
+        <a href="https://logistics.tyneside.software/"
+           class=""
+>LOGISTICS</a>
+    </div>
+    <div class="nav-cta">
+        <a class="btn btn-fill" href="https://wa.me/447411949215" rel="noopener" target="_blank">WhatsApp Michael</a>
+    </div>
+  </div>
+</nav>
+  <header class="docs-hero">
+    <div class="wrap-wide">
+      <div class="docs-hero-top">
+        <p class="docs-breadcrumb">
+          <a href="../index.html">Software</a>
+          <span class="docs-bc-sep" aria-hidden="true">/</span>
+          <a href="index.html">Logistics</a>
+            <span class="docs-bc-sep" aria-hidden="true">/</span>
+            <span>Tasks &amp; tracker</span>
+        </p>
+        <div class="docs-hero-actions">
+          <a class="btn btn-secondary" href="../index.html">Software home</a>
+          <a class="btn btn-fill" href="https://logistics.tyneside.software/" rel="noopener" target="_blank">Product site</a>
+        </div>
+      </div>
+      <p class="hero-kicker">Living checklist</p>
+      <h1 class="docs-hero-title">Tasks &amp; tracker</h1>
+        <p class="docs-hero-lead">Build checklist for plumbing, Phase 1 clone MVP, and Phase 2 cleaning bookings.</p>
+    </div>
+  </header>
+
+  <section class="section docs-section">
+    <div class="wrap-wide docs-layout">
+      <aside class="docs-sidebar" aria-label="Logistics documentation">
+        <p class="docs-sidebar-label">Documentation</p>
+        <nav class="docs-side-nav">
+            <a
+              href="index.html"
+              class="docs-side-link"
+            >
+              <span class="docs-side-label">Hub</span>
+              <span class="docs-side-blurb">Start here</span>
+            </a>
+            <a
+              href="overview.html"
+              class="docs-side-link"
+            >
+              <span class="docs-side-label">Overview</span>
+              <span class="docs-side-blurb">Phases &amp; hand-off</span>
+            </a>
+            <a
+              href="domain.html"
+              class="docs-side-link"
+            >
+              <span class="docs-side-label">Domain model</span>
+              <span class="docs-side-blurb">Entities, FSM, capacity</span>
+            </a>
+            <a
+              href="icabbi.html"
+              class="docs-side-link"
+            >
+              <span class="docs-side-label">iCabbi research</span>
+              <span class="docs-side-blurb">Reference product</span>
+            </a>
+            <a
+              href="features.html"
+              class="docs-side-link"
+            >
+              <span class="docs-side-label">Feature map</span>
+              <span class="docs-side-blurb">MVP · P2 · later</span>
+            </a>
+            <a
+              href="roadmap.html"
+              class="docs-side-link"
+            >
+              <span class="docs-side-label">Roadmap</span>
+              <span class="docs-side-blurb">Build order</span>
+            </a>
+            <a
+              href="tasks.html"
+              class="docs-side-link is-active"
+aria-current="page"            >
+              <span class="docs-side-label">Tasks</span>
+              <span class="docs-side-blurb">Checklist</span>
+            </a>
+            <a
+              href="decisions.html"
+              class="docs-side-link"
+            >
+              <span class="docs-side-label">Decisions</span>
+              <span class="docs-side-blurb">ADRs</span>
+            </a>
+        </nav>
+        <div class="docs-sidebar-card">
+          <p class="docs-sidebar-card-title">Where things live</p>
+          <p class="docs-sidebar-card-body">
+            Docs (this hub): <code>tyneside.software/logistics/</code><br>
+            Product: <code>logistics.tyneside.software</code><br>
+            API: <code>tyneside-api</code> · <code>/v1/logistics/*</code><br>
+            Generator content: <code>sites/logistics/</code>
+          </p>
+          <a class="docs-sidebar-card-link" href="https://logistics.tyneside.software/app/">App shell →</a>
+        </div>
+      </aside>
+
+      <div class="docs-main">
+          <article class="docs-article panel">
+            <div class="prose"><p>Update in git. Strategy: <strong>Phase 1 iCabbi-class spine</strong> → <strong>Phase 2 cleaning</strong>.<br />
+See <a href="overview.html">Overview</a> · <a href="domain.html">Domain</a> · <a href="roadmap.html">Roadmap</a> · <a href="features.html">Features</a> · <a href="decisions.html">Decisions</a>.</p>
+<p><strong>Next execution order:</strong> auth → models/FSM/events → seed → ops → field → booker → WhatsApp → demo polish.</p>
+<hr />
+<h2>Now — plumbing &amp; docs</h2>
+<ul>
+<li>[x] Register <code>logistics</code> + site scaffold  </li>
+<li>[x] API brand package  </li>
+<li>[x] Host <code>logistics.tyneside.software</code>  </li>
+<li>[x] Docs (domain, features, ADRs, review refinements)  </li>
+<li>[ ] DNS + Pages live  </li>
+<li>[ ] CORS for logistics subdomain  </li>
+<li>[ ] Deploy generator + API  </li>
+<li>[ ] Delete unused <code>tyneside.logistics</code> repo (needs <code>delete_repo</code> scope)  </li>
+</ul>
+<hr />
+<h2>Phase 1 — execution order</h2>
+<h3>1. Auth + org</h3>
+<ul>
+<li>[ ] Implement <a href="decisions.html">ADR-006</a>: org-scoped auth  </li>
+<li>[ ] Ops: session/JWT + email password or magic link  </li>
+<li>[ ] Booker: magic link or OTP  </li>
+<li>[ ] Field: magic link or short-lived PIN/token  </li>
+<li>[ ] Enforce <code>org_id</code> on all tenant data access  </li>
+</ul>
+<h3>2. Core models + FSM + events</h3>
+<ul>
+<li>[ ] <code>org</code>, <code>zone</code>, <code>service_type</code>, <code>booker</code>, <code>field_worker</code>, <code>job</code>, <code>job_event</code>, <code>job_attachment</code>  </li>
+<li>[ ] Server-validated status transitions  </li>
+<li>[ ] Every transition → <code>job_event</code>  </li>
+<li>[ ] <strong><code>price_snapshot</code></strong> (+ mode) frozen at confirm — not live catalogue lookup  </li>
+<li>[ ] <strong><code>address_text</code> required</strong>; <code>lat</code>/<code>lng</code> optional (no geocoding required)  </li>
+<li>[ ] Worker <strong><code>busy_until</code></strong> (or simple busy intervals)  </li>
+<li>[ ] Availability endpoint (simple)  </li>
+<li>[ ] Light assign rules (priority + zone + availability)  </li>
+<li>[ ] Worker status fields map-ready  </li>
+</ul>
+<h3>3. Seed data (first-class deliverable)</h3>
+<ul>
+<li>[ ] One org, 3–5 workers, 10–15 jobs across statuses  </li>
+<li>[ ] Scripted demo path documented  </li>
+<li>[ ] Re-runnable seed command  </li>
+</ul>
+<h3>4. Ops console (minimal)</h3>
+<ul>
+<li>[ ] Day board / list: status, date, zone, worker filters  </li>
+<li>[ ] One-click assign + reassign  </li>
+<li>[ ] Job detail + full event timeline  </li>
+<li>[ ] Minimal type + zone admin  </li>
+</ul>
+<h3>5. Field worker mobile web</h3>
+<ul>
+<li>[ ] Mobile-optimised list + detail  </li>
+<li>[ ] Status buttons + confirmation  </li>
+<li>[ ] Deep-link nav from address / optional lat/lng  </li>
+<li>[ ] Today / this week completed counters  </li>
+<li>[ ] Notes; photo stub OK  </li>
+</ul>
+<h3>6. Booker flow</h3>
+<ul>
+<li>[ ] Book now + pre-book (14/30 day window config)  </li>
+<li>[ ] Estimate / fixed price → snapshot on job  </li>
+<li>[ ] Status timeline  </li>
+<li>[ ] No in-app chat  </li>
+</ul>
+<h3>7. WhatsApp status notifications</h3>
+<ul>
+<li>[ ] On meaningful transitions, notify via WhatsApp helpers  </li>
+<li>[ ] Soft-fail if credentials missing  </li>
+<li>[ ] Booker (and optional ops/worker) targets  </li>
+</ul>
+<h3>8. Demo polish</h3>
+<ul>
+<li>[ ] <strong>10 jobs E2E with zero spreadsheet use</strong>  </li>
+<li>[ ] Mobile browser happy path for field  </li>
+<li>[ ] OpenAPI for ops, booker, field  </li>
+<li>[ ] Thin payment link / Tide pattern if needed for “closed” story  </li>
+</ul>
+<hr />
+<h2>Phase 1 exit bar (must all be true)</h2>
+<ul>
+<li>[ ] Operator completes <strong>10 jobs</strong> end-to-end with <strong>zero spreadsheet use</strong>  </li>
+<li>[ ] Every status change produces a <code>job_event</code>  </li>
+<li>[ ] WhatsApp path implemented (credentials optional at runtime)  </li>
+<li>[ ] Three role UIs exist (even if thin)  </li>
+<li>[ ] OpenAPI documented for three actors  </li>
+</ul>
+<hr />
+<h2>Phase 2 — Cleaning bookings</h2>
+<ul>
+<li>[ ] Catalogue depth for packs; jobs still snapshot price  </li>
+<li>[ ] Charity free type (price 0 + funding flag)  </li>
+<li>[ ] Cleaner capacity calendar; API over-book block  </li>
+<li>[ ] Themed booker (prefer single UI)  </li>
+<li>[ ] Checklist + photos UI  </li>
+<li>[ ] <strong>First real Howden clean fully closed in system</strong> (incl. payment/receipt path)  </li>
+</ul>
+<hr />
+<h2>Later / backlog</h2>
+<ul>
+<li>[ ] Geocoding pipeline  </li>
+<li>[ ] Live map UI  </li>
+<li>[ ] In-app chat  </li>
+<li>[ ] Utilisation / no-show / time-to-assign dashboards  </li>
+<li>[ ] Multi-tenant sales readiness  </li>
+</ul>
+<hr />
+<h2>How to add a task</h2>
+<ol>
+<li>Edit <code>sites/logistics/docs/tasks.md</code>.  </li>
+<li><code>python -m site_generator logistics</code>.  </li>
+<li>Merge to <code>main</code> → CI publishes Pages.  </li>
+</ol></div>
+          </article>
+
+        <nav class="docs-pager" aria-label="Adjacent docs">
+          <div class="docs-pager-inner">
+              <a class="docs-pager-link prev" href="roadmap.html">
+                <span class="docs-pager-dir">Previous</span>
+                <span class="docs-pager-name">Roadmap</span>
+              </a>
+              <a class="docs-pager-link next" href="decisions.html">
+                <span class="docs-pager-dir">Next</span>
+                <span class="docs-pager-name">Decisions</span>
+              </a>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+<footer class="site-footer">
+  <div class="footer-brands">
+      <a href="https://tyneside.software/" class="is-current">SOFTWARE</a>
+      <a href="https://tyneside.cleaning/" class="">CLEANING</a>
+      <a href="https://tyneside.charity/" class="">CHARITY</a>
+      <a href="https://tyneside.group/" class="">GROUP</a>
+      <a href="https://tyneside.technology/" class="">TECH</a>
+      <a href="https://tyneside.games/" class="">GAMES</a>
+      <a href="https://logistics.tyneside.software/" class="">LOGISTICS</a>
+  </div>
+  <p class="legal">
+    Tyneside Software Ltd • Based at <strong>Howden Community Hub</strong>, North Tyneside<br>
+    Company #17326934 • SIC 58290 • Registered office: 10 Abbey Terrace, Newcastle upon Tyne, NE27 0QP<br>
+    <a href="https://wa.me/447411949215" rel="noopener" target="_blank">WhatsApp +44 7411 949215</a>
+    · <a href="mailto:michael@tyneside.software">michael@tyneside.software</a>
+    <span style="opacity:0.85">(email is slower)</span><br>
+    Proudly made on the banks of the Tyne
+  </p>
+  <p class="legal" style="margin-top:0.75rem;opacity:0.7">
+    &copy; Tyneside Software
+ · Part of the Tyneside family  </p>
+</footer>
+</body>
+</html>

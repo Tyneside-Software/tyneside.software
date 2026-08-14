@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logistics · product documentation</title>
+  <meta name="description" content="Phase 1: iCabbi-class dispatch platform. Phase 2: cleaning bookings on the same spine. Canonical product documentation for the Logistics programme.">
+  <link rel="canonical" href="https://tyneside.software/">
+  <link rel="icon" href="../logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../layout.css?v=20260810docs">
+  <link rel="stylesheet" href="../themes.css?v=20260810docs">
+</head>
+<body class="site theme-software">
+
+<nav class="site-nav" aria-label="Primary">
+  <div class="inner">
+    <a href="../index.html" class="brand-link">
+      <img src="../logo.svg" width="38" height="38" alt="Tyneside Software">
+      <span class="brand-word">TYNESIDE</span>
+      <span class="brand-sub">SOFTWARE</span>
+    </a>
+    <div class="nav-links">
+        <a href="https://tyneside.software/"
+           class="is-current"
+aria-current="page">SOFTWARE</a>
+        <a href="https://tyneside.cleaning/"
+           class=""
+>CLEANING</a>
+        <a href="https://tyneside.charity/"
+           class=""
+>CHARITY</a>
+        <a href="https://tyneside.group/"
+           class=""
+>GROUP</a>
+        <a href="https://tyneside.technology/"
+           class=""
+>TECH</a>
+        <a href="https://tyneside.games/"
+           class=""
+>GAMES</a>
+        <a href="https://logistics.tyneside.software/"
+           class=""
+>LOGISTICS</a>
+    </div>
+    <div class="nav-cta">
+        <a class="btn btn-fill" href="https://wa.me/447411949215" rel="noopener" target="_blank">WhatsApp Michael</a>
+    </div>
+  </div>
+</nav>
+  <header class="docs-hero">
+    <div class="wrap-wide">
+      <div class="docs-hero-top">
+        <p class="docs-breadcrumb">
+          <a href="../index.html">Software</a>
+          <span class="docs-bc-sep" aria-hidden="true">/</span>
+          <a href="index.html">Logistics</a>
+        </p>
+        <div class="docs-hero-actions">
+          <a class="btn btn-secondary" href="../index.html">Software home</a>
+          <a class="btn btn-fill" href="https://logistics.tyneside.software/" rel="noopener" target="_blank">Product site</a>
+        </div>
+      </div>
+      <p class="hero-kicker">Tyneside Software · product docs</p>
+      <h1 class="docs-hero-title">Logistics</h1>
+        <p class="docs-hero-lead">Phase 1: iCabbi-class dispatch platform. Phase 2: cleaning bookings on the same spine. Canonical product documentation for the Logistics programme.</p>
+    </div>
+  </header>
+
+  <section class="section docs-section">
+    <div class="wrap-wide docs-layout">
+      <aside class="docs-sidebar" aria-label="Logistics documentation">
+        <p class="docs-sidebar-label">Documentation</p>
+        <nav class="docs-side-nav">
+            <a
+              href="index.html"
+              class="docs-side-link is-active"
+aria-current="page"            >
+              <span class="docs-side-label">Hub</span>
+              <span class="docs-side-blurb">Start here</span>
+            </a>
+            <a
+              href="overview.html"
+              class="docs-side-link"
+            >
+              <span class="docs-side-label">Overview</span>
+              <span class="docs-side-blurb">Phases &amp; hand-off</span>
+            </a>
+            <a
+              href="domain.html"
+              class="docs-side-link"
+            >
+              <span class="docs-side-label">Domain model</span>
+              <span class="docs-side-blurb">Entities, FSM, capacity</span>
+            </a>
+            <a
+              href="icabbi.html"
+              class="docs-side-link"
+            >
+              <span class="docs-side-label">iCabbi research</span>
+              <span class="docs-side-blurb">Reference product</span>
+            </a>
+            <a
+              href="features.html"
+              class="docs-side-link"
+            >
+              <span class="docs-side-label">Feature map</span>
+              <span class="docs-side-blurb">MVP · P2 · later</span>
+            </a>
+            <a
+              href="roadmap.html"
+              class="docs-side-link"
+            >
+              <span class="docs-side-label">Roadmap</span>
+              <span class="docs-side-blurb">Build order</span>
+            </a>
+            <a
+              href="tasks.html"
+              class="docs-side-link"
+            >
+              <span class="docs-side-label">Tasks</span>
+              <span class="docs-side-blurb">Checklist</span>
+            </a>
+            <a
+              href="decisions.html"
+              class="docs-side-link"
+            >
+              <span class="docs-side-label">Decisions</span>
+              <span class="docs-side-blurb">ADRs</span>
+            </a>
+        </nav>
+        <div class="docs-sidebar-card">
+          <p class="docs-sidebar-card-title">Where things live</p>
+          <p class="docs-sidebar-card-body">
+            Docs (this hub): <code>tyneside.software/logistics/</code><br>
+            Product: <code>logistics.tyneside.software</code><br>
+            API: <code>tyneside-api</code> · <code>/v1/logistics/*</code><br>
+            Generator content: <code>sites/logistics/</code>
+          </p>
+          <a class="docs-sidebar-card-link" href="https://logistics.tyneside.software/app/">App shell →</a>
+        </div>
+      </aside>
+
+      <div class="docs-main">
+          <div class="docs-hub-intro panel">
+            <div class="prose"><p><strong>Tyneside Logistics</strong> product documentation lives here — the same pattern as <a href="../lauren/">Lauren docs</a>.</p>
+<p><strong>Strategy:</strong> Phase 1 builds a clean, generic <strong>iCabbi-class dispatch spine</strong>
+(<code>job</code>, <code>field_worker</code>, <code>service_type</code>, <code>zone</code>, <code>job_event</code>).<br />
+Phase 2 specialises the same spine for <strong>Tyneside Cleaning</strong> — not a second product.</p>
+<div class="prose-table-scroll"><table>
+<thead>
+<tr>
+<th>Surface</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>This docs hub</strong></td>
+<td><a href="https://tyneside.software/logistics/">tyneside.software/logistics/</a></td>
+</tr>
+<tr>
+<td>Product / app shell</td>
+<td><a href="https://logistics.tyneside.software">logistics.tyneside.software</a></td>
+</tr>
+<tr>
+<td>API</td>
+<td><code>tyneside-api</code> → <code>/v1/logistics/*</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Accepted refinements: <a href="domain.html">Domain</a>, <a href="features.html">Features</a>, <a href="roadmap.html">Roadmap</a>, <a href="tasks.html">Tasks</a>, <a href="decisions.html">Decisions</a>.</p>
+<p>Prefer updating these pages in git over progress that only lives in chat.</p></div>
+          </div>
+          <div class="docs-card-grid">
+              <a class="docs-card" href="overview.html">
+                <span class="docs-card-kicker">01</span>
+                <h2 class="docs-card-title">Overview</h2>
+                <p class="docs-card-blurb">Phases &amp; hand-off</p>
+                <span class="docs-card-go">Open →</span>
+              </a>
+              <a class="docs-card" href="domain.html">
+                <span class="docs-card-kicker">02</span>
+                <h2 class="docs-card-title">Domain model</h2>
+                <p class="docs-card-blurb">Entities, FSM, capacity</p>
+                <span class="docs-card-go">Open →</span>
+              </a>
+              <a class="docs-card" href="icabbi.html">
+                <span class="docs-card-kicker">03</span>
+                <h2 class="docs-card-title">iCabbi research</h2>
+                <p class="docs-card-blurb">Reference product</p>
+                <span class="docs-card-go">Open →</span>
+              </a>
+              <a class="docs-card" href="features.html">
+                <span class="docs-card-kicker">04</span>
+                <h2 class="docs-card-title">Feature map</h2>
+                <p class="docs-card-blurb">MVP · P2 · later</p>
+                <span class="docs-card-go">Open →</span>
+              </a>
+              <a class="docs-card" href="roadmap.html">
+                <span class="docs-card-kicker">05</span>
+                <h2 class="docs-card-title">Roadmap</h2>
+                <p class="docs-card-blurb">Build order</p>
+                <span class="docs-card-go">Open →</span>
+              </a>
+              <a class="docs-card" href="tasks.html">
+                <span class="docs-card-kicker">06</span>
+                <h2 class="docs-card-title">Tasks</h2>
+                <p class="docs-card-blurb">Checklist</p>
+                <span class="docs-card-go">Open →</span>
+              </a>
+              <a class="docs-card" href="decisions.html">
+                <span class="docs-card-kicker">07</span>
+                <h2 class="docs-card-title">Decisions</h2>
+                <p class="docs-card-blurb">ADRs</p>
+                <span class="docs-card-go">Open →</span>
+              </a>
+          </div>
+
+        <nav class="docs-pager" aria-label="Adjacent docs">
+          <div class="docs-pager-inner">
+<span></span>              <a class="docs-pager-link next" href="overview.html">
+                <span class="docs-pager-dir">Next</span>
+                <span class="docs-pager-name">Overview</span>
+              </a>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+<footer class="site-footer">
+  <div class="footer-brands">
+      <a href="https://tyneside.software/" class="is-current">SOFTWARE</a>
+      <a href="https://tyneside.cleaning/" class="">CLEANING</a>
+      <a href="https://tyneside.charity/" class="">CHARITY</a>
+      <a href="https://tyneside.group/" class="">GROUP</a>
+      <a href="https://tyneside.technology/" class="">TECH</a>
+      <a href="https://tyneside.games/" class="">GAMES</a>
+      <a href="https://logistics.tyneside.software/" class="">LOGISTICS</a>
+  </div>
+  <p class="legal">
+    Tyneside Software Ltd • Based at <strong>Howden Community Hub</strong>, North Tyneside<br>
+    Company #17326934 • SIC 58290 • Registered office: 10 Abbey Terrace, Newcastle upon Tyne, NE27 0QP<br>
+    <a href="https://wa.me/447411949215" rel="noopener" target="_blank">WhatsApp +44 7411 949215</a>
+    · <a href="mailto:michael@tyneside.software">michael@tyneside.software</a>
+    <span style="opacity:0.85">(email is slower)</span><br>
+    Proudly made on the banks of the Tyne
+  </p>
+  <p class="legal" style="margin-top:0.75rem;opacity:0.7">
+    &copy; Tyneside Software
+ · Part of the Tyneside family  </p>
+</footer>
+</body>
+</html>
