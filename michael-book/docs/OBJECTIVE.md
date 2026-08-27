@@ -1,6 +1,6 @@
-# α==ω — Objective (living document)
+# ΑΩ — Objective (living document)
 
-**Title:** *α==ω*  
+**Title:** *ΑΩ*  
 **Author:** by Me, God (trade: Michael Thomson as needed)  
 **Genre:** **Terry Pratchett–style comic philosophical novel**  
 **Path:** `tyneside.software/michael-book/` (when published)  

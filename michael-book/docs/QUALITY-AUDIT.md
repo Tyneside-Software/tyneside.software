@@ -1,4 +1,4 @@
-# Quality audit — α==ω (living)
+# Quality audit — ΑΩ (living)
 
 **Standard:** Perfect only (`QUALITY-BAR.md`).  
 **Mission:** Opus magnum. Bookstore-quality comic philosophical novel.  

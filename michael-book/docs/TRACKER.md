@@ -1,6 +1,6 @@
 # Michael-Book — Progress Tracker
 
-**Title:** *α==ω* · by Me, God  
+**Title:** *ΑΩ* · by Me, God  
 **Word target:** 11,500 (band 11,270–11,730) · **page target:** ~65  
 **Verse engine:** paradox-only, no conclusions  
 **Answer motif:** **α==ω** (primary); ^& / 42 secondary; full body decode = end  

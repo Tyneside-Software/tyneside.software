@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Build the α==ω web edition from novel/chapters/*.md — Perfect is the only bar."""
+"""Build the ΑΩ web edition from novel/chapters/*.md — Perfect is the only bar."""
 from __future__ import annotations
 
 import html
@@ -110,8 +110,8 @@ def build() -> Path:
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>α==ω — by Me, God</title>
-  <meta name="description" content="α==ω by Me, God. A comic philosophical novel in ninety-nine chapters.">
+  <title>ΑΩ — by Me, God</title>
+  <meta name="description" content="ΑΩ by Me, God. A comic philosophical novel in ninety-nine chapters.">
   <style>
     :root {{
       --bg: #0f1419;
@@ -499,7 +499,7 @@ def build() -> Path:
     <button type="button" class="nav-close" id="nav-close" aria-label="Close chapters">×</button>
     <div class="side-head">
       <div class="brand">tyneside.software · michael-book</div>
-      <h1>α==ω</h1>
+      <h1>ΑΩ</h1>
       <p class="sub">by Me, God</p>
       <div class="epigraph">
         Ninety-nine chapters. Experience exists. No pure outside.
@@ -520,12 +520,12 @@ def build() -> Path:
     <main class="main">
       <header class="hero">
         <div class="badge">by Me, God</div>
-        <h1>α==ω</h1>
+        <h1>ΑΩ</h1>
         <p>From experience exists to a funny old life — both/and all the way down.</p>
       </header>
       {"".join(sections)}
       <footer class="foot">
-        α==ω · by Me, God · ninety-nine chapters · the only kitchen · the dual monogram · the funny old life.
+        ΑΩ · by Me, God · ninety-nine chapters · the only kitchen · the dual monogram · the funny old life.
       </footer>
     </main>
   </div>

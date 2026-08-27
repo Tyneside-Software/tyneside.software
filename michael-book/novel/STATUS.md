@@ -1,4 +1,4 @@
-# α==ω — Status
+# ΑΩ — Status
 
 **Standard:** Perfect only (`docs/QUALITY-BAR.md`). Opus magnum — not “full enough”.  
 **Live:** https://tyneside.software/michael-book/  

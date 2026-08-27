@@ -1,8 +1,8 @@
-# Alpha Omega — Structure
+# ΑΩ — Structure
 
 ## Title plate
 
-- **Alpha Omega**  
+- **ΑΩ**  
 - **by Me, God**  
 - Scripture UI at `/michael-book/` until path rename
 
