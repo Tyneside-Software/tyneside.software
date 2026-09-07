@@ -1554,113 +1554,117 @@
   box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.12), 0 8px 28px rgba(0, 0, 0, 0.35);
 }
 
-/* ========== ACADEMY — ink / paper / early GCSEs ========== */
+/* ========== ACADEMY — ink navy, paper, lamp gold ========== */
 .theme-academy {
   color-scheme: light;
-  --font: "Segoe UI", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
-  --bg: #f6f1e4;
+  --font: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --bg: #f7f3ea;
   --bg-fx:
-    radial-gradient(900px 480px at 8% -10%, rgba(30, 58, 95, 0.1), transparent 55%),
-    radial-gradient(700px 400px at 100% 0%, rgba(202, 138, 4, 0.08), transparent 50%);
-  --text: #1e2937;
-  --muted: #5c6b7a;
-  --heading: #0f172a;
-  --brand: #1e3a5f;
+    radial-gradient(900px 520px at 8% -8%, rgba(201, 162, 39, 0.12), transparent 55%),
+    radial-gradient(720px 420px at 100% 0%, rgba(15, 26, 46, 0.06), transparent 50%);
+  --text: #1c2430;
+  --muted: #5d6b7c;
+  --heading: #0f1a2e;
+  --brand: #0f1a2e;
   --brand-muted: #c9a227;
-  --accent: #1e3a5f;
-  --accent-soft: rgba(30, 58, 95, 0.1);
-  --link: #1d4e89;
-  --link-hover: #0f172a;
-  --label: #b45309;
-  --border: #ddd4c0;
-  --radius: 8px;
-  --radius-sm: 6px;
-  --radius-lg: 12px;
+  --accent: #c9a227;
+  --accent-soft: rgba(201, 162, 39, 0.14);
+  --link: #1e3a5f;
+  --link-hover: #0f1a2e;
+  --label: #a16207;
+  --border: #e0d6c4;
+  --radius: 10px;
+  --radius-sm: 8px;
+  --radius-lg: 16px;
 
-  --nav-bg: rgba(255, 252, 245, 0.94);
-  --nav-border: 1px solid #e4dcc8;
-  --nav-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
-  --nav-blur: blur(10px);
+  --nav-bg: rgba(255, 252, 246, 0.94);
+  --nav-border: 1px solid #e6dcc8;
+  --nav-shadow: 0 4px 22px rgba(15, 26, 46, 0.06);
+  --nav-blur: blur(12px);
   --logo-filter: none;
 
-  --btn-border: 1px solid #1e3a5f;
-  --btn-color: #1e3a5f;
-  --btn-bg: #fff;
-  --btn-bg-hover: #eef3f8;
-  --btn-color-hover: #0f172a;
-  --btn-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
-  --btn-fill-border: 1px solid #1e3a5f;
-  --btn-fill-color: #fff;
-  --btn-fill-bg: #1e3a5f;
-  --btn-fill-bg-hover: #152a45;
-  --btn-fill-color-hover: #fff;
-  --btn-fill-shadow: 0 8px 22px rgba(30, 58, 95, 0.28);
-  --btn-sec-border: 1px solid #c9a227;
-  --btn-sec-color: #1e3a5f;
+  --btn-border: 1px solid #c9b98a;
+  --btn-color: #0f1a2e;
+  --btn-bg: #fffdf8;
+  --btn-bg-hover: #f4ead0;
+  --btn-color-hover: #0f1a2e;
+  --btn-shadow: 0 2px 8px rgba(15, 26, 46, 0.06);
+  --btn-fill-border: 1px solid #b45309;
+  --btn-fill-color: #0f1a2e;
+  --btn-fill-bg: #c9a227;
+  --btn-fill-bg-hover: #dbb43a;
+  --btn-fill-color-hover: #0f1a2e;
+  --btn-fill-shadow: 0 10px 24px rgba(201, 162, 39, 0.32);
+  --btn-sec-border: 1px solid #c9b98a;
+  --btn-sec-color: #0f1a2e;
   --btn-sec-bg: transparent;
-  --btn-sec-bg-hover: #faf6ea;
-  --btn-sec-color-hover: #0f172a;
+  --btn-sec-bg-hover: rgba(201, 162, 39, 0.12);
+  --btn-sec-color-hover: #0f1a2e;
 
-  --hero-bg: linear-gradient(165deg, #fffdf8 0%, #f4ecd6 55%, #e8dcb8 100%);
-  --hero-border: 1px solid #ddd4c0;
-  --hero-text: #1e2937;
-  --hero-kicker: #b45309;
-  --hero-title: #0f172a;
-  --hero-tag: #1e3a5f;
-  --hero-lead: #5c6b7a;
-  --hero-meta: #7a8694;
-  --hero-title-tracking: -0.02em;
+  --hero-bg:
+    radial-gradient(900px 480px at 12% -20%, rgba(201, 162, 39, 0.18), transparent 55%),
+    linear-gradient(165deg, #152238 0%, #0f1a2e 58%, #0c1524 100%);
+  --hero-border: 1px solid #1c2c44;
+  --hero-text: #efe6d4;
+  --hero-kicker: #e4c76b;
+  --hero-title: #fbf6ea;
+  --hero-tag: #e8d9a8;
+  --hero-lead: #c4b8a0;
+  --hero-meta: #9aa6b8;
+  --hero-title-tracking: -0.03em;
 
-  --section-alt-bg: rgba(255, 252, 245, 0.75);
-  --section-alt-border: 1px solid #ddd4c0;
-  --cta-bg: linear-gradient(180deg, #e8eef5, #f6f1e4);
-  --cta-border: 1px solid #c5d0dc;
-  --cta-text: #1e2937;
-  --cta-heading: #0f172a;
-  --cta-muted: #5c6b7a;
+  --section-alt-bg: rgba(255, 252, 246, 0.72);
+  --section-alt-border: 1px solid #e0d6c4;
+  --cta-bg: linear-gradient(180deg, #152238, #0f1a2e);
+  --cta-border: 1px solid #2a3d5c;
+  --cta-text: #efe6d4;
+  --cta-heading: #fbf6ea;
+  --cta-muted: #c4b8a0;
 
   --panel-bg: #fffdf8;
-  --panel-border: 1px solid #ddd4c0;
-  --panel-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
-  --panel-heading: #1e3a5f;
-  --panel-text: #5c6b7a;
-  --panel-active-bg: #f4f7fb;
-  --panel-active-border: 1px solid #1e3a5f;
-  --panel-active-shadow: 0 0 0 1px rgba(30, 58, 95, 0.12), 0 12px 32px rgba(15, 23, 42, 0.08);
-  --panel-active-heading: #0f172a;
+  --panel-border: 1px solid #e0d6c4;
+  --panel-shadow: 0 10px 28px rgba(15, 26, 46, 0.06);
+  --panel-heading: #0f1a2e;
+  --panel-text: #5d6b7c;
+  --panel-active-bg: #fbf6ea;
+  --panel-active-border: 1px solid #c9a227;
+  --panel-active-shadow: 0 0 0 1px rgba(201, 162, 39, 0.18), 0 12px 32px rgba(15, 26, 46, 0.08);
+  --panel-active-heading: #0f1a2e;
   --panel-active-text: #1e3a5f;
 
   --chip-bg: #fffdf8;
-  --chip-border: 1px solid #ddd4c0;
-  --chip-text: #1e2937;
+  --chip-border: 1px solid #e0d6c4;
+  --chip-text: #1c2430;
   --chip-bullet: "✎ ";
 
   --quote-bg: #fffdf8;
-  --quote-border: 1px solid #ddd4c0;
+  --quote-border: 1px solid #e0d6c4;
   --quote-shadow: none;
   --quote-text: #334155;
-  --quote-cite: #b45309;
+  --quote-cite: #a16207;
 
   --step-bg: #fffdf8;
-  --step-border: 1px solid #ddd4c0;
-  --step-n-bg: #e8eef5;
-  --step-n-border: 1px solid #1e3a5f;
-  --step-n-color: #1e3a5f;
+  --step-border: 1px solid #e0d6c4;
+  --step-n-bg: #f4ead0;
+  --step-n-border: 1px solid #c9a227;
+  --step-n-color: #0f1a2e;
 
-  --footer-bg: #ebe4d4;
-  --footer-border: 1px solid #ddd4c0;
-  --footer-text: #7a8694;
-  --footer-link: #5c6b7a;
-  --footer-link-active: #1e3a5f;
-  --footer-link-bg: rgba(30, 58, 95, 0.1);
+  --footer-bg: #0f1a2e;
+  --footer-border: 1px solid #1c2c44;
+  --footer-text: #9aa6b8;
+  --footer-link: #c4b8a0;
+  --footer-link-active: #e4c76b;
+  --footer-link-bg: rgba(201, 162, 39, 0.12);
 }
 
 .theme-academy .panel-m {
   border-color: #c9a227;
+  box-shadow: inset 3px 0 0 #c9a227, 0 10px 28px rgba(15, 26, 46, 0.06);
 }
 .theme-academy .panel-c {
   border-color: #1e3a5f;
-  box-shadow: 0 0 0 1px rgba(30, 58, 95, 0.08), 0 8px 28px rgba(15, 23, 42, 0.06);
+  box-shadow: inset 3px 0 0 #1e3a5f, 0 10px 28px rgba(15, 26, 46, 0.06);
 }
 
 /* ========== CHURCH — candle / stone / multi-faith table ========== */

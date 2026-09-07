@@ -12,7 +12,8 @@ python scripts/build_bible.py
 python -m site_generator software
 ```
 
-Writes `sites/software/static/bible/index.html` and `books/*.html`.
+Writes `sites/software/static/bible/index.html`, `overview.html`, and `books/*.html`.
+Book blurbs live in `sites/software/bible-source/overview.json` (chapter notes later).
 The site generator copies `static/` into `output/software/bible/`.
 Push `site-generator` `main` and CI publishes tyneside.software.
 

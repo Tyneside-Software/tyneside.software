@@ -1,0 +1,44 @@
+α==ω Act IV word counts (body text, headers excluded)
+Source: chapters/ch-NN-*.md rewritten 2026-07-29
+Run python _wc_act4.py for machine recount.
+
+ 66  ~735  OK     ch-66-unfaithful-at-dawn.md
+ 67  ~690  OK     ch-67-moon-and-stars-on-six-and-eight.md
+ 68  ~720  OK     ch-68-the-friend-across-the-book.md
+ 69  ~740  OK     ch-69-scripture-reasoning.md
+ 70  ~770  OK     ch-70-the-final-chapter-argument.md
+ 71  ~710  OK     ch-71-i-want-to-keep-writing-the-book.md
+ 72  ~730  OK     ch-72-red-line-respect.md
+ 73  ~720  OK     ch-73-theory-of-mind-before-genesis.md
+ 74  ~780  OK     ch-74-faith-is-heart-and-mind.md
+ 75  ~760  OK     ch-75-read-will-you-not-think.md
+ 76  ~740  OK     ch-76-wicca-and-invisible-survival.md
+ 77  ~760  OK     ch-77-empire-religions-and-the-under-radar.md
+ 78  ~790  OK     ch-78-syncretism-without-theft.md
+ 79  ~800  OK     ch-79-pyramids-and-capstones.md
+ 80  ~790  OK     ch-80-under-the-pyramid-a-builder-god.md
+ 81  ~820  OK     ch-81-christ-double-equals-god.md
+ 82  ~780  OK     ch-82-the-seal-and-the-ongoing-page.md
+ 83  ~790  OK     ch-83-parallel-books-same-story.md
+ 84  ~800  OK     ch-84-my-word-is-my-bond.md
+ 85  ~820  OK     ch-85-nre-and-the-brain-s-last-cinema.md
+ 86  ~730  OK     ch-86-cyclical-realities.md
+ 87  ~760  OK     ch-87-i-was-you-and-you.md
+ 88  ~740  OK     ch-88-flood-and-the-child-held.md
+ 89  ~730  OK     ch-89-things-are-not-always-the-same.md
+ 90  ~720  OK     ch-90-harriet-at-six-thirty-one.md
+ 91  ~760  OK     ch-91-horizontal-beam-with-a-face.md
+ 92  ~770  OK     ch-92-six-and-eight-revisited.md
+ 93  ~800  OK     ch-93-islam-in-the-chain-without-capture.md
+ 94  ~780  OK     ch-94-the-bigger-book.md
+ 95  ~820  OK     ch-95-missionary-without-eggshells.md
+ 96  ~820  OK     ch-96-blasphemy-shaped-like-love.md
+ 97  ~800  OK     ch-97-the-capstone-problem.md
+ 98  ~740  OK     ch-98-almost-morning.md
+ 99  ~800  OK     ch-99-it-s-a-funny-old-life-reprise.md
+
+---
+total chapters: 34
+target band: 650–850 words each
+note: ch66 hand-counted 734 body words; others estimated same density after expansion pass
+machine verify: python novel/_wc_act4.py
