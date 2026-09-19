@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Squishies · fidget squish</title>
-  <meta name="description" content="Squishies and fidgets from fidget squish. Email katie@tyneside.software to buy.">
+  <title>Reviews · fidget squish</title>
+  <meta name="description" content="Reviews of fidget squish items. Rate out of 5 stars, add a photo and a description.">
   <link rel="icon" href="logo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="shop.css?v=20260919heartbob">
   <script>try{if(localStorage.getItem("fidget-squish-dark")==="1")document.documentElement.classList.add("is-dark")}catch(e){}</script>
@@ -20,19 +20,14 @@
           <span class="shop-by">Katie’s shop</span>
         </span>
       </a>
-      <form class="search" role="search" data-search>
-        <label class="sr-only" for="q">Search squishies</label>
-        <input id="q" type="search" placeholder="Search squishies…" autocomplete="off">
-        <button type="submit">Search</button>
-      </form>
       <nav class="nav" aria-label="Shop">
         <a href="index.html">All</a>
-        <a href="squishies.html" class="is-on" aria-current="page">Squishies</a>
+        <a href="squishies.html">Squishies</a>
         <a href="homemade.html">Homemade</a>
         <a href="mystery.html">Mystery</a>
         <a href="fidgets.html">Fidgets</a>
         <a href="slime.html">Slime</a>
-        <a href="reviews.html">Reviews</a>
+        <a href="reviews.html" class="is-on" aria-current="page">Reviews</a>
         <a href="about.html">About</a>
         <a href="more.html">More</a>
         <a href="admin.html">Admin</a>
@@ -42,20 +37,45 @@
     <div class="rainbow-bar" aria-hidden="true"></div>
   </header>
 
-  <main class="wrap">
+  <main class="wrap" data-reviews>
     <div class="page-head">
-      <h1>Squishies</h1>
-      <p>Slide the photos to get to the video. Price is under the picture. Each card shows whether it is in stock. Email katie@tyneside.software to buy.</p>
+      <h1>Reviews</h1>
+      <p>Rate an item out of 5 stars. You can add a photo and a description.</p>
     </div>
-    <p class="search-empty" data-search-empty>No squishies match that search.</p>
+
+    <form class="review-form" data-review-form>
+      <label>Item
+        <select name="item" data-item-select required>
+          <option value="">Pick an item</option>
+        </select>
+      </label>
+      <fieldset class="star-pick">
+        <legend>Stars out of 5</legend>
+        <div data-star-pick>
+          <button type="button" data-star="1" aria-label="1 star">★</button>
+          <button type="button" data-star="2" aria-label="2 stars">★</button>
+          <button type="button" data-star="3" aria-label="3 stars">★</button>
+          <button type="button" data-star="4" aria-label="4 stars">★</button>
+          <button type="button" data-star="5" aria-label="5 stars">★</button>
+        </div>
+        <input type="hidden" name="stars" value="0" required>
+      </fieldset>
+      <label class="wide">Your review
+        <textarea name="text" rows="4" required placeholder="What did you think?"></textarea>
+      </label>
+      <label class="wide">Photo <span>(optional)</span>
+        <input type="file" name="photo" accept="image/jpeg,image/png,image/webp,image/gif,image/*">
+      </label>
+      <p class="review-status" data-review-status hidden></p>
+      <button type="submit">Post review</button>
+    </form>
 
     <section class="group">
       <div class="group-head">
-        <h2>Squishies</h2>
+        <h2>All reviews</h2>
       </div>
-      <div class="grid" data-products="squishies"></div>
+      <div class="review-list" data-review-list></div>
     </section>
-
   </main>
 
   <footer class="foot">
@@ -67,5 +87,6 @@
     </div>
   </footer>
   <script src="shop.js?v=20260919legal"></script>
+  <script src="reviews.js?v=20260919halfstar"></script>
 </body>
 </html>

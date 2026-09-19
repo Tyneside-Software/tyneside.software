@@ -1,19 +1,51 @@
 (function () {
-  var PRODUCTS = [
-    { group: "squishies", name: "Dumpling", price: "£4", meta: "Glow in the dark mystery dumpling", photos: ["photos/mystery-dumpling.jpeg"], mail: "Order Dumpling" },
-    { group: "squishies", name: "4 pack of mini squishies", price: "Email for price", meta: "Four mini squishies in a pack.", photos: ["photos/4-pack-of-mini-squishies.jpeg"], mail: "Order 4 pack of mini squishies" },
-    { group: "squishies", name: "Santa popit", price: "£5.49", meta: "Red and white popit", photos: ["photos/santa-popit.jpeg"], mail: "Order Santa popit" },
-    { group: "squishies", name: "Popit", price: "£4.99", meta: "Fidget dice popit", photos: ["photos/popit-die.jpeg"], mail: "Order Popit" },
-    { group: "squishies", name: "Fidget spinner", price: "£3.99", meta: "Earth fidget spinner", photos: ["photos/earth-fidget-spinner.jpeg"], mail: "Order Fidget spinner" },
-    { group: "squishies", name: "Cheese", price: "£4.99", meta: "Super slow-rise cheese", photos: ["photos/slowrise-cheese.jpeg"], mail: "Order Cheese" },
-    { group: "homemade", name: "Homemade balloon squishies", price: "50p", meta: "Homemade balloon squishies.", photos: [], mail: "Order homemade balloon squishies" },
-    { group: "homemade", name: "Homemade squishie", price: "£2", meta: "Homemade squishie.", photos: [], mail: "Order homemade squishie" },
-    { group: "homemade", name: "Squishie skin", price: "£1", meta: "Squishie skin.", photos: [], mail: "Order squishie skin" },
-    { group: "slime", name: "Water slime", price: "Email for price", meta: "At some point. Matches the photo.", photos: [], mail: "Order water slime" },
-    { group: "slime", name: "Cloud slime", price: "Email for price", meta: "At some point. Matches the photo.", photos: [], mail: "Order cloud slime" },
-    { group: "slime", name: "Normal slime", price: "Email for price", meta: "A few for sale.", photos: [], mail: "Order normal slime" },
-    { group: "slime", name: "Homemade slime", price: "Email for price", meta: "There might be homemade slimes too.", photos: [], mail: "Order homemade slime" }
-  ];
+  var STORAGE_KEY = "fidget-squish-catalog";
+  var AUTH_KEY = "fidget-squish-admin";
+  var PASSWORD = "cassiethecat";
+  var PRODUCTS = [];
+  var REVIEW_KEY = "fidget-squish-reviews";
+  var REVIEWS = [];
+  var MORE = {
+    group: [
+      { name: "Tyneside Group", meta: "All the Tyneside doors", href: "https://tyneside.group/", img: "more/group.svg" },
+      { name: "Tyneside Software", meta: "Evening project · websites and tools", href: "https://tyneside.software/", img: "more/software.svg" },
+      { name: "Tyneside Cleaning", meta: "Local cleaning in Howden Ward", href: "https://tyneside.cleaning/", img: "more/cleaning.svg" },
+      { name: "Tyneside Charity", meta: "Welcome-home cleans for new parents", href: "https://tyneside.charity/", img: "more/charity.svg" },
+      { name: "Tyneside Technology", meta: "Cheap working computers", href: "https://tyneside.technology/", img: "more/technology.svg" },
+      { name: "Tyneside Games", meta: "Games Lewis built", href: "https://tyneside.games/", img: "more/games.svg" }
+    ],
+    hackathon: [
+      { name: "Tyneside Logistics", meta: "Hackathon home", href: "../index.html", img: "more/logistics.svg" },
+      { name: "Progress", meta: "Catch-up for anyone who’s been away", href: "../progress.html", img: "more/progress.svg" },
+      { name: "Map", meta: "Routes, phones and buses", href: "../app/", img: "more/map.svg" },
+      { name: "Board", meta: "Hackathon kanban", href: "../board.html", img: "more/board.svg" },
+      { name: "To do", meta: "Open cards", href: "../todo.html", img: "more/todo.svg" },
+      { name: "Done", meta: "Finished cards", href: "../done.html", img: "more/done.svg" },
+      { name: "Docs", meta: "Wiki and how it fits together", href: "../docs/", img: "more/docs.svg" },
+      { name: "API test", meta: "Call the live API", href: "../api-test.html", img: "more/api.svg" },
+      { name: "Account", meta: "Register, login, fetch me", href: "../account.html", img: "more/account.svg" },
+      { name: "Onboarding", meta: "Clone, run and git", href: "../onboarding.html", img: "more/onboarding.svg" },
+      { name: "Lewis", meta: "Lewis’s log", href: "../lewis.html", img: "more/lewis.svg" }
+    ]
+  };
+
+  function defaultItems() {
+    return [
+      { id: "dumpling", group: "squishies", name: "Dumpling", price: "£4", meta: "Glow in the dark mystery dumpling", photos: ["photos/mystery-dumpling.jpeg"], stock: 1 },
+      { id: "mini-pack", group: "squishies", name: "4 pack of mini squishies", price: "Email for price", meta: "Four mini squishies in a pack.", photos: ["photos/4-pack-of-mini-squishies.jpeg"], stock: 1 },
+      { id: "santa-popit", group: "squishies", name: "Santa popit", price: "£5.49", meta: "Red and white popit", photos: ["photos/santa-popit.jpeg"], stock: 1 },
+      { id: "popit", group: "squishies", name: "Popit", price: "£4.99", meta: "Fidget dice popit", photos: ["photos/popit-die.jpeg"], stock: 1 },
+      { id: "fidget-spinner", group: "squishies", name: "Fidget spinner", price: "£3.99", meta: "Earth fidget spinner", photos: ["photos/earth-fidget-spinner.jpeg"], stock: 1 },
+      { id: "cheese", group: "squishies", name: "Cheese", price: "£4.99", meta: "Super slow-rise cheese", photos: ["photos/slowrise-cheese.jpeg"], stock: 1 },
+      { id: "balloon-squishies", group: "homemade", name: "Homemade balloon squishies", price: "50p", meta: "Homemade balloon squishies.", photos: [], stock: 1 },
+      { id: "homemade-squishie", group: "homemade", name: "Homemade squishie", price: "£2", meta: "Homemade squishie.", photos: [], stock: 1 },
+      { id: "squishie-skin", group: "homemade", name: "Squishie skin", price: "£1", meta: "Squishie skin.", photos: [], stock: 1 },
+      { id: "water-slime", group: "slime", name: "Water slime", price: "Email for price", meta: "At some point. Matches the photo.", photos: [], stock: 1 },
+      { id: "cloud-slime", group: "slime", name: "Cloud slime", price: "Email for price", meta: "At some point. Matches the photo.", photos: [], stock: 1 },
+      { id: "normal-slime", group: "slime", name: "Normal slime", price: "Email for price", meta: "A few for sale.", photos: [], stock: 1 },
+      { id: "homemade-slime", group: "slime", name: "Homemade slime", price: "Email for price", meta: "There might be homemade slimes too.", photos: [], stock: 1 }
+    ];
+  }
 
   function esc(s) {
     return String(s)
@@ -23,13 +55,105 @@
       .replace(/"/g, "&quot;");
   }
 
+  function slug(s) {
+    var t = String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    return t || "item";
+  }
+
+  function newId(name) {
+    return slug(name) + "-" + Date.now().toString(36);
+  }
+
   function assetUrl(src) {
+    if (!src) return src;
+    if (/^(https?:|data:|blob:)/i.test(src)) return src;
     var el = document.querySelector('script[src*="shop.js"]');
     var base = "";
     if (el && el.src) {
       base = el.src.replace(/shop\.js(\?.*)?$/, "");
     }
     return base + src;
+  }
+
+  function stockQty(item) {
+    if (!item) return 0;
+    var raw = item.stock;
+    if (raw == null) raw = item.stockCount;
+    if (raw == null) raw = item.inStock === false ? 0 : 1;
+    var n = parseInt(raw, 10);
+    if (isNaN(n) || n < 0) n = 0;
+    return n;
+  }
+
+  function normalize(item) {
+    var name = (item && item.name) || "Untitled";
+    var photos = item && item.photos;
+    if (typeof photos === "string") {
+      photos = photos.split(/\r?\n|,/).map(function (p) { return p.trim(); });
+    }
+    if (!Array.isArray(photos)) photos = [];
+    photos = photos.map(function (p) { return String(p || "").trim(); }).filter(Boolean);
+    var group = item && item.group;
+    if (group !== "homemade" && group !== "slime" && group !== "mystery" && group !== "fidgets") group = "squishies";
+    return {
+      id: (item && item.id) || newId(name),
+      group: group,
+      name: name,
+      price: (item && item.price) || "Email for price",
+      meta: (item && (item.meta || item.description)) || "",
+      photos: photos,
+      stock: stockQty(item),
+      inStock: stockQty(item) > 0,
+      mail: (item && item.mail) || ("Order " + name)
+    };
+  }
+
+  function readLocal() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return null;
+      var data = JSON.parse(raw);
+      var items = Array.isArray(data) ? data : data && data.items;
+      if (!Array.isArray(items) || !items.length) return null;
+      return items.map(normalize);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function writeLocal(items) {
+    var payload = { items: (items || []).map(normalize) };
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      payload.error = null;
+    } catch (e) {
+      payload.error = "Could not save pictures. Try a smaller photo.";
+    }
+    return payload;
+  }
+
+  function clearLocal() {
+    localStorage.removeItem(STORAGE_KEY);
+  }
+
+  function passwordOk(value) {
+    var typed = String(value || "").trim();
+    return typed === PASSWORD || typed === '"' + PASSWORD;
+  }
+
+  function isAdmin() {
+    try {
+      return sessionStorage.getItem(AUTH_KEY) === "1";
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function setAdmin(on) {
+    try {
+      if (on) sessionStorage.setItem(AUTH_KEY, "1");
+      else sessionStorage.removeItem(AUTH_KEY);
+    } catch (e) {}
   }
 
   function query() {
@@ -67,15 +191,99 @@
     return '<div class="gallery" data-gallery><div class="slides">' + slides.join("") + "</div>" + nav + "</div>";
   }
 
-  function cardHtml(p) {
-    var mail = "mailto:katie@tyneside.software?subject=" + encodeURIComponent(p.mail);
+  function stockHtml(p) {
+    if (p.inStock) {
+      var n = p.stock;
+      var label = n === 1 ? "1 in stock" : n + " in stock";
+      return '<p class="stock is-in">' + label + "</p>";
+    }
+    return '<p class="stock is-out">Out of stock</p>';
+  }
+
+  function readReviews() {
+    try {
+      var raw = localStorage.getItem(REVIEW_KEY);
+      if (!raw) return [];
+      var data = JSON.parse(raw);
+      return Array.isArray(data) ? data : (data && data.reviews) || [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function writeReviews(list) {
+    REVIEWS = list || [];
+    try {
+      localStorage.setItem(REVIEW_KEY, JSON.stringify(REVIEWS));
+    } catch (e) {
+      return "Could not save the review. Try a smaller photo.";
+    }
+    return null;
+  }
+
+  function reviewsFor(id) {
+    return REVIEWS.filter(function (r) { return r.itemId === id; });
+  }
+
+  function starChars(n) {
+    var s = "";
+    var rounded = Math.round(Number(n) || 0);
+    for (var i = 1; i <= 5; i++) s += i <= rounded ? "★" : "☆";
+    return s;
+  }
+
+  function starRowHtml(n, label) {
+    var score = Math.max(0, Math.min(5, Number(n) || 0));
+    var pct = (score / 5) * 100;
+    var aria = label || (score.toFixed(1) + " out of 5");
     return (
-      '<article class="product" data-name="' + esc(p.name) + '">' +
+      '<span class="star-row" aria-label="' + esc(aria) + '">' +
+        '<span class="star-back">★★★★★</span>' +
+        '<span class="star-fill" style="width:' + pct.toFixed(2) + '%">★★★★★</span>' +
+      "</span>"
+    );
+  }
+
+  function reviewStats(p) {
+    var list = reviewsFor(p.id);
+    var sum = 0;
+    list.forEach(function (r) { sum += Number(r.stars) || 0; });
+    var avg = list.length ? sum / list.length : 0;
+    return { list: list, avg: avg, count: list.length };
+  }
+
+  function reviewSummaryHtml(p) {
+    var stats = reviewStats(p);
+    var countLabel = stats.count === 1 ? "1 review" : stats.count + " reviews";
+    return (
+      '<p class="stars">' +
+        starRowHtml(stats.avg, stats.avg.toFixed(1) + " out of 5") +
+        '<span class="star-avg"> ' + stats.avg.toFixed(1) + " out of 5 · " + countLabel + "</span>" +
+      "</p>"
+    );
+  }
+
+  function burstHtml() {
+    var bits = "";
+    for (var i = 0; i < 10; i++) bits += "<span></span>";
+    return '<div class="burst" aria-hidden="true">' + bits + "</div>";
+  }
+
+  function cardHtml(p) {
+    var mail = "mailto:katie@tyneside.software?subject=" + encodeURIComponent(p.mail || ("Order " + p.name));
+    var buy = p.inStock
+      ? '<a class="buy" href="' + mail + '">Email to buy</a>'
+      : '<span class="buy is-off">Out of stock</span>';
+    return (
+      '<article class="product is-clickable' + (p.inStock ? " is-in" : " is-out") + '" data-id="' + esc(p.id) + '" data-name="' + esc(p.name) + '">' +
+        (p.inStock ? burstHtml() : "") +
         galleryHtml(p) +
         '<p class="price">' + esc(p.price) + "</p>" +
+        stockHtml(p) +
         "<h2>" + esc(p.name) + "</h2>" +
         '<p class="meta">' + esc(p.meta) + "</p>" +
-        '<a class="buy" href="' + mail + '">Email to buy</a>' +
+        reviewSummaryHtml(p) +
+        buy +
       "</article>"
     );
   }
@@ -100,6 +308,12 @@
     }
     for (var d = 0; d < dots.length; d++) {
       dots[d].classList.toggle("is-on", d === i);
+    }
+    var wrap = gallery.closest("[data-pdp-gallery]") || gallery.parentElement;
+    if (wrap) {
+      wrap.querySelectorAll("[data-thumb]").forEach(function (thumb, t) {
+        thumb.classList.toggle("is-on", t === i);
+      });
     }
   }
 
@@ -141,6 +355,171 @@
         if (next) next.hidden = true;
       }
     });
+    (root || document).querySelectorAll("[data-thumbs]").forEach(function (thumbs) {
+      if (thumbs.dataset.bound) return;
+      thumbs.dataset.bound = "1";
+      var wrap = thumbs.closest("[data-pdp-gallery]") || thumbs.parentElement;
+      var gallery = wrap && wrap.querySelector("[data-gallery]");
+      if (!gallery) return;
+      thumbs.querySelectorAll("[data-thumb]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var i = Number(btn.dataset.thumb);
+          show(gallery, i);
+          thumbs.querySelectorAll("[data-thumb]").forEach(function (b) {
+            b.classList.toggle("is-on", b === btn);
+          });
+        });
+      });
+    });
+  }
+
+  function bindProductLinks(root) {
+    (root || document).querySelectorAll(".product.is-clickable").forEach(function (el) {
+      if (el.dataset.linkBound) return;
+      el.dataset.linkBound = "1";
+      el.addEventListener("click", function (e) {
+        if (e.target.closest("a, button, label, input, textarea, select")) return;
+        var id = el.dataset.id;
+        if (id) location.href = "product.html?id=" + encodeURIComponent(id);
+      });
+    });
+  }
+
+  function productUrl(id) {
+    return new URL("product.html?id=" + encodeURIComponent(id), location.href).href;
+  }
+
+  function reviewEntryHtml(r) {
+    var photo = r.photo ? '<img class="review-photo" src="' + esc(r.photo) + '" alt="">' : "";
+    return (
+      '<article class="review-card">' +
+        photo +
+        "<div>" +
+          '<p class="stars">' + starRowHtml(r.stars, r.stars + " out of 5") + " " + esc(r.stars) + " / 5</p>" +
+          '<p class="meta">' + esc(r.text) + "</p>" +
+        "</div>" +
+      "</article>"
+    );
+  }
+
+  function thumbsHtml(p) {
+    var photos = p.photos || [];
+    if (photos.length < 2) return "";
+    return (
+      '<div class="thumbs" data-thumbs>' +
+        photos.map(function (src, i) {
+          return (
+            '<button type="button" class="thumb' + (i === 0 ? " is-on" : "") + '" data-thumb="' + i + '" aria-label="Photo ' + (i + 1) + '">' +
+              '<img src="' + esc(assetUrl(src)) + '" alt="">' +
+            "</button>"
+          );
+        }).join("") +
+      "</div>"
+    );
+  }
+
+  function suggestedItems(current) {
+    var same = PRODUCTS.filter(function (p) { return p.id !== current.id && p.group === current.group; });
+    var other = PRODUCTS.filter(function (p) { return p.id !== current.id && p.group !== current.group; });
+    return same.concat(other).slice(0, 6);
+  }
+
+  function renderProductPage() {
+    var view = document.querySelector("[data-product-page]");
+    if (!view) return;
+    var id = "";
+    try { id = new URLSearchParams(location.search).get("id") || ""; } catch (e) {}
+    var item = null;
+    PRODUCTS.forEach(function (p) { if (p.id === id) item = p; });
+    var missing = view.querySelector("[data-product-missing]");
+    var body = view.querySelector("[data-product-view]");
+    if (!item) {
+      if (missing) missing.hidden = false;
+      if (body) body.hidden = true;
+      return;
+    }
+    if (missing) missing.hidden = true;
+    if (body) body.hidden = false;
+    document.title = item.name + " · fidget squish";
+    var gallery = view.querySelector("[data-pdp-gallery]");
+    var info = view.querySelector("[data-pdp-info]");
+    var reviewsEl = view.querySelector("[data-pdp-reviews]");
+    var suggestEl = view.querySelector("[data-suggested]");
+    var stats = reviewStats(item);
+    var mail = "mailto:katie@tyneside.software?subject=" + encodeURIComponent(item.mail || ("Order " + item.name));
+    var buy = item.inStock
+      ? '<a class="buy" href="' + mail + '">Email to buy</a>'
+      : '<span class="buy is-off">Out of stock</span>';
+    if (gallery) {
+      gallery.innerHTML = galleryHtml(item) + thumbsHtml(item);
+      bindGalleries(gallery);
+    }
+    if (info) {
+      info.innerHTML =
+        "<h1>" + esc(item.name) + "</h1>" +
+        reviewSummaryHtml(item) +
+        '<p class="price">' + esc(item.price) + "</p>" +
+        stockHtml(item) +
+        '<p class="meta">' + esc(item.meta) + "</p>" +
+        '<div class="pdp-actions">' + buy +
+          '<button type="button" class="share-btn" data-share>Share</button>' +
+          '<a class="write-review" href="reviews.html?item=' + encodeURIComponent(item.id) + '">Write a review</a>' +
+        "</div>";
+      var shareBtn = info.querySelector("[data-share]");
+      if (shareBtn) {
+        shareBtn.addEventListener("click", function () {
+          var url = productUrl(item.id);
+          var payload = { title: item.name + " · fidget squish", text: item.meta || item.name, url: url };
+          if (navigator.share) {
+            navigator.share(payload).catch(function () {});
+            return;
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(function () {
+              shareBtn.textContent = "Link copied";
+              setTimeout(function () { shareBtn.textContent = "Share"; }, 1600);
+            });
+            return;
+          }
+          window.prompt("Copy this link", url);
+        });
+      }
+    }
+    if (reviewsEl) {
+      if (!stats.list.length) {
+        reviewsEl.innerHTML = '<p class="review-empty">No reviews yet. <a href="reviews.html?item=' + encodeURIComponent(item.id) + '">Write the first one</a>.</p>';
+      } else {
+        reviewsEl.innerHTML = stats.list.map(reviewEntryHtml).join("");
+      }
+    }
+    if (suggestEl) {
+      var ideas = suggestedItems(item);
+      suggestEl.innerHTML = ideas.map(cardHtml).join("");
+      bindGalleries(suggestEl);
+      bindProductLinks(suggestEl);
+    }
+  }
+
+  function moreCardHtml(p) {
+    return (
+      '<a class="product more-card" href="' + esc(p.href) + '">' +
+        '<div class="gallery"><div class="slides"><div class="slide is-on">' +
+          '<img src="' + esc(assetUrl(p.img)) + '" alt="' + esc(p.name) + '">' +
+        "</div></div></div>" +
+        "<h2>" + esc(p.name) + "</h2>" +
+        '<p class="meta">' + esc(p.meta) + "</p>" +
+      "</a>"
+    );
+  }
+
+  function moreItems(key) {
+    if (key === "all") return MORE.group.concat(MORE.hackathon);
+    return MORE[key] || [];
+  }
+
+  function matchesMore(p, q) {
+    if (!q) return true;
+    return (p.name + " " + p.meta).toLowerCase().indexOf(q) !== -1;
   }
 
   function render() {
@@ -153,6 +532,16 @@
       });
       el.innerHTML = items.map(cardHtml).join("");
       bindGalleries(el);
+      bindProductLinks(el);
+      shown += items.length;
+      var section = el.closest(".group");
+      if (section) section.hidden = items.length === 0;
+    });
+    document.querySelectorAll("[data-more]").forEach(function (el) {
+      var items = moreItems(el.dataset.more).filter(function (p) {
+        return matchesMore(p, q);
+      });
+      el.innerHTML = items.map(moreCardHtml).join("");
       shown += items.length;
       var section = el.closest(".group");
       if (section) section.hidden = items.length === 0;
@@ -174,6 +563,162 @@
     }
   }
 
-  bindSearch();
-  render();
+  function fetchStock(done) {
+    fetch(assetUrl("stock.json"), { cache: "no-store" })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+      .then(function (data) {
+        var items = Array.isArray(data) ? data : data && data.items;
+        if (!Array.isArray(items) || !items.length) {
+          done(null);
+          return;
+        }
+        done(items.map(normalize));
+      })
+      .catch(function () { done(null); });
+  }
+
+  function loadCatalog(done) {
+    var local = readLocal();
+    if (local) {
+      PRODUCTS = local;
+      if (done) done(PRODUCTS);
+      return;
+    }
+    fetchStock(function (items) {
+      PRODUCTS = items && items.length ? items : defaultItems();
+      if (done) done(PRODUCTS);
+    });
+  }
+
+  function refresh(next) {
+    if (next) PRODUCTS = next.map(normalize);
+    render();
+  }
+
+  window.FidgetSquish = {
+    STORAGE_KEY: STORAGE_KEY,
+    defaultItems: defaultItems,
+    normalize: normalize,
+    readLocal: readLocal,
+    writeLocal: writeLocal,
+    clearLocal: clearLocal,
+    passwordOk: passwordOk,
+    isAdmin: isAdmin,
+    setAdmin: setAdmin,
+    loadCatalog: loadCatalog,
+    fetchStock: fetchStock,
+    refresh: refresh,
+    esc: esc,
+    assetUrl: assetUrl,
+    newId: newId,
+    getProducts: function () { return PRODUCTS; },
+    readReviews: readReviews,
+    writeReviews: writeReviews,
+    reviewsFor: reviewsFor,
+    starChars: starChars,
+    starRowHtml: starRowHtml
+  };
+
+  var DARK_KEY = "fidget-squish-dark";
+
+  function isDark() {
+    try {
+      return localStorage.getItem(DARK_KEY) === "1";
+    } catch (e) {
+      return document.documentElement.classList.contains("is-dark");
+    }
+  }
+
+  function applyDark(on) {
+    document.documentElement.classList.toggle("is-dark", on);
+    if (document.body) document.body.classList.toggle("is-dark", on);
+    try {
+      if (on) localStorage.setItem(DARK_KEY, "1");
+      else localStorage.removeItem(DARK_KEY);
+    } catch (e) {}
+    var btn = document.querySelector("[data-mode-toggle]");
+    if (btn) {
+      btn.classList.toggle("is-on", on);
+      btn.textContent = on ? "Light mode" : "Dark mode";
+      btn.setAttribute("aria-pressed", on ? "true" : "false");
+      btn.title = on ? "Turn light mode on" : "Turn dark mode on";
+    }
+  }
+
+  function bindLegal() {
+    if (document.querySelector("[data-legal]")) return;
+    var foot = document.querySelector(".foot");
+    var block = document.createElement("section");
+    block.className = "policies";
+    block.setAttribute("data-legal", "");
+    block.innerHTML =
+      "<h2>Terms &amp; conditions</h2>" +
+      "<ul>" +
+        "<li>This is Katie’s fidget squish shop. Email katie@tyneside.software to buy.</li>" +
+        "<li>Prices are shown on each item. How many are in stock can change.</li>" +
+        "<li>Orders are agreed by email. Payment and how you get the item will be set out in that email.</li>" +
+        "<li>Homemade items are handmade, so they may look a bit different from the photos.</li>" +
+        "<li>If something is wrong with an order, email us and we will help.</li>" +
+        "<li>Reviews are written by customers. Photos in reviews belong to the person who posted them.</li>" +
+        "<li>This site is provided as-is for browsing and ordering by email. We may update items, prices and these terms at any time.</li>" +
+      "</ul>" +
+      '<p class="lewis-here">lewis was here</p>';
+    if (foot) {
+      var inner = foot.querySelector(".inner");
+      if (inner) inner.insertAdjacentElement("afterend", block);
+      else foot.appendChild(block);
+    } else {
+      document.body.appendChild(block);
+    }
+  }
+
+  function bindModeToggle() {
+    applyDark(isDark());
+    if (document.querySelector("[data-mode-toggle]")) return;
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "mode-toggle";
+    btn.setAttribute("data-mode-toggle", "");
+    btn.textContent = "Dark mode";
+    btn.addEventListener("click", function () {
+      applyDark(!document.documentElement.classList.contains("is-dark"));
+    });
+    document.body.appendChild(btn);
+    applyDark(isDark());
+  }
+
+  if (!document.body.hasAttribute("data-admin-page")) {
+    setAdmin(false);
+  }
+
+  bindModeToggle();
+  bindLegal();
+  REVIEWS = readReviews();
+
+  if (document.querySelector("[data-product-page]")) {
+    PRODUCTS = readLocal() || defaultItems();
+    renderProductPage();
+    if (!readLocal()) {
+      fetchStock(function (items) {
+        if (items && items.length) {
+          PRODUCTS = items;
+          renderProductPage();
+        }
+      });
+    }
+  }
+
+  if (document.querySelector("[data-products]") || document.querySelector("[data-more]") || document.querySelector("[data-reviews]")) {
+    PRODUCTS = readLocal() || defaultItems();
+    bindSearch();
+    render();
+    if (document.querySelector("[data-products]") && !readLocal()) {
+      fetchStock(function (items) {
+        if (items && items.length) {
+          PRODUCTS = items;
+          render();
+        }
+      });
+    }
+  }
 })();
